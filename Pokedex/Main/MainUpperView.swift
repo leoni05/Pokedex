@@ -75,6 +75,11 @@ class MainUpperView: UIView {
     
     private let lenseView = LenseView()
     
+    private let dotViewSize: CGFloat = 12.0
+    private let redDotView = UIView()
+    private let yellowDotView = UIView()
+    private let greenDotView = UIView()
+    
     // MARK: - Life Cycle
     
     required init?(coder: NSCoder) {
@@ -90,11 +95,32 @@ class MainUpperView: UIView {
     private func commonInit() {
         self.isOpaque = false
         addSubview(lenseView)
+        
+        redDotView.layer.cornerRadius = dotViewSize/2.0
+        redDotView.backgroundColor = UIColor.init(red: 0.863, green: 0.039, blue: 0.176, alpha: 1.0)
+        redDotView.layer.borderColor = UIColor.wineRed.cgColor
+        redDotView.layer.borderWidth = 1.0
+        addSubview(redDotView)
+        
+        yellowDotView.layer.cornerRadius = dotViewSize/2.0
+        yellowDotView.backgroundColor = UIColor.init(red: 0.984, green: 0.902, blue: 0.247, alpha: 1.0)
+        yellowDotView.layer.borderColor = UIColor.wineRed.cgColor
+        yellowDotView.layer.borderWidth = 1.0
+        addSubview(yellowDotView)
+        
+        greenDotView.layer.cornerRadius = dotViewSize/2.0
+        greenDotView.backgroundColor = UIColor.init(red: 0.576, green: 0.851, blue: 0.631, alpha: 1.0)
+        greenDotView.layer.borderColor = UIColor.wineRed.cgColor
+        greenDotView.layer.borderWidth = 1.0
+        addSubview(greenDotView)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         lenseView.pin.top(12).left(16).size(48)
+        redDotView.pin.top(12).left(74).size(dotViewSize)
+        yellowDotView.pin.top(12).left(94).size(dotViewSize)
+        greenDotView.pin.top(12).left(114).size(dotViewSize)
     }
     
     override func draw(_ rect: CGRect) {
