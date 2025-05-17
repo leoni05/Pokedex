@@ -8,12 +8,72 @@
 import Foundation
 import UIKit
 
+class LenseView: UIView {
+    
+    // MARK: - Properties
+    
+    private let outerCircleRadius: CGFloat = 23.0
+    private let innerCircleRadius: CGFloat = 19.0
+    private let shadowCircleRadius: CGFloat = 16.0
+    private let eraseShadowCircleRadius: CGFloat = 9.5
+    private let highlightCircleRadius: CGFloat = 4.0
+    
+    // MARK: - Life Cycle
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        self.isOpaque = false
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let outerCircle = UIBezierPath(arcCenter: CGPoint(x: rect.midX, y: rect.midY), radius: outerCircleRadius,
+                                       startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        UIColor.init(red: 0.867, green: 0.898, blue: 0.871, alpha: 1.0).setFill()
+        outerCircle.fill()
+        UIColor.wineRed.setStroke()
+        outerCircle.stroke()
+        
+        let innerCircle = UIBezierPath(arcCenter: CGPoint(x: rect.midX, y: rect.midY), radius: innerCircleRadius,
+                                       startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        UIColor.init(red: 0.160, green: 0.655, blue: 0.980, alpha: 1.0).setFill()
+        innerCircle.fill()
+        UIColor.wineRed.setStroke()
+        innerCircle.stroke()
+        
+        let shadowCircle = UIBezierPath(arcCenter: CGPoint(x: rect.midX+1.6, y: rect.midY+1.6), radius: shadowCircleRadius,
+                                       startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        UIColor.init(red: 0.106, green: 0.408, blue: 0.631, alpha: 1.0).setFill()
+        shadowCircle.fill()
+        
+        let eraseShadowCircle = UIBezierPath(arcCenter: CGPoint(x: rect.midX-3.5, y:rect.midY-3.5), radius: eraseShadowCircleRadius,
+                                             startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        UIColor.init(red: 0.160, green: 0.655, blue: 0.980, alpha: 1.0).setFill()
+        eraseShadowCircle.fill()
+        
+        let highlightCircle = UIBezierPath(arcCenter: CGPoint(x: rect.midX-7.0, y: rect.midY-7.0), radius: highlightCircleRadius,
+                                       startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        UIColor.init(red: 0.639, green: 0.847, blue: 0.980, alpha: 1.0).setFill()
+        highlightCircle.fill()
+    }
+}
+
 class MainUpperView: UIView {
     
     // MARK: - Properties
     
     private let leftSegXDiff: CGFloat = 190.0
     private let diagonalXDiff: CGFloat = 30.0
+    
+    private let lenseView = LenseView()
     
     // MARK: - Life Cycle
     
@@ -29,11 +89,12 @@ class MainUpperView: UIView {
     
     private func commonInit() {
         self.isOpaque = false
+        addSubview(lenseView)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    
+        lenseView.pin.top(12).left(16).size(48)
     }
     
     override func draw(_ rect: CGRect) {
