@@ -13,6 +13,7 @@ class MainViewController: UIViewController {
     // MARK: - Properties
 
     private let mainUpperView = MainUpperView()
+    private let mainTabBarView = MainTabBarView()
     
     // MARK: - Life Cycle
     
@@ -21,12 +22,15 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.view.addSubview(mainUpperView)
+        self.view.addSubview(mainTabBarView)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         mainUpperView.pin.top(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
+            .height(72)
+        mainTabBarView.pin.bottom(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
             .height(72)
     }
 
