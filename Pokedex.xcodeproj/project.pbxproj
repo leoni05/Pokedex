@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		014BEAA952A8BE8DDE4883B6 /* Pods_Pokedex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8960FD0A088EB974954734FC /* Pods_Pokedex.framework */; };
+		D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C4676C2DD8322C0011B152 /* MainUpperView.swift */; };
 		D0C7FCC02DC52B2E00A0F05D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7FCB62DC52B2E00A0F05D /* AppDelegate.swift */; };
 		D0C7FCC12DC52B2E00A0F05D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7FCBD2DC52B2E00A0F05D /* SceneDelegate.swift */; };
 		D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */; };
@@ -19,6 +20,7 @@
 		002A1B87B7A7F4A3AAB3DF4C /* Pods-Pokedex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pokedex.release.xcconfig"; path = "Target Support Files/Pods-Pokedex/Pods-Pokedex.release.xcconfig"; sourceTree = "<group>"; };
 		8960FD0A088EB974954734FC /* Pods_Pokedex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pokedex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		945BBC6BE49D33A0F4869A1C /* Pods-Pokedex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pokedex.debug.xcconfig"; path = "Target Support Files/Pods-Pokedex/Pods-Pokedex.debug.xcconfig"; sourceTree = "<group>"; };
+		D0C4676C2DD8322C0011B152 /* MainUpperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUpperView.swift; sourceTree = "<group>"; };
 		D0C7FC7E2DC528F100A0F05D /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C7FCB62DC52B2E00A0F05D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0C7FCB72DC52B2E00A0F05D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */,
+				D0C4676C2DD8322C0011B152 /* MainUpperView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			files = (
 				D0C7FCC02DC52B2E00A0F05D /* AppDelegate.swift in Sources */,
 				D0C7FCC12DC52B2E00A0F05D /* SceneDelegate.swift in Sources */,
+				D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */,
 				D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
