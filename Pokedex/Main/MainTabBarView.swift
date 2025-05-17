@@ -6,13 +6,20 @@
 //
 
 import Foundation
+import PinLayout
 import UIKit
 
 class MainTabBarView: UIView {
     
     // MARK: - Properties
     
-    
+    private let btnWidth: CGFloat = 60.0
+    private let containerView = UIView()
+    private let pokedexTabButton = MainTabButton(imageName: "TabPokedex", labelString: "도감")
+    private let galleryTabButton = MainTabButton(imageName: "TabGallery", labelString: "갤러리")
+    private let pokeBallTabButton = UIButton()
+    private let cardTabButton = MainTabButton(imageName: "TabCard", labelString: "트레이너")
+    private let settingTabButton = MainTabButton(imageName: "TabSetting", labelString: "설정")
     
     // MARK: - Life Cycle
     
@@ -28,6 +35,27 @@ class MainTabBarView: UIView {
     
     private func commonInit() {
         self.backgroundColor = .white
+        pokeBallTabButton.setImage(UIImage(named: "TabPokeBall"), for: .normal)
+        
+        addSubview(containerView)
+        
+        containerView.addSubview(pokedexTabButton)
+        containerView.addSubview(galleryTabButton)
+        containerView.addSubview(pokeBallTabButton)
+        containerView.addSubview(cardTabButton)
+        containerView.addSubview(settingTabButton)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let spacing = (frame.width-(btnWidth*5)) / 10.0
+    
+        containerView.pin.top(2).horizontally().bottom()
+        pokeBallTabButton.pin.vertically().hCenter().width(btnWidth)
+        galleryTabButton.pin.before(of: pokeBallTabButton).vertically().width(btnWidth).marginRight(2 * spacing)
+        pokedexTabButton.pin.before(of: galleryTabButton).vertically().width(btnWidth).marginRight(2 * spacing)
+        cardTabButton.pin.after(of: pokeBallTabButton).vertically().width(btnWidth).marginLeft(2 * spacing)
+        settingTabButton.pin.after(of: cardTabButton).vertically().width(btnWidth).marginLeft(2 * spacing)
     }
     
     override func draw(_ rect: CGRect) {
