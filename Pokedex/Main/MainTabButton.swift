@@ -46,7 +46,7 @@ class MainTabButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         btnImageView.pin.top().left().size(24)
-        btnLabel.pin.below(of: btnImageView, aligned: .center).marginTop(3).sizeToFit()
+        btnLabel.pin.below(of: btnImageView, aligned: .center).marginTop(4).sizeToFit()
         containerView.pin.center().wrapContent()
     }
     
