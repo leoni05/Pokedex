@@ -29,7 +29,7 @@ class MainTabButton: UIButton {
         
         btnLabel.text = labelString
         btnLabel.textColor = .wineRed
-        btnLabel.font = .systemFont(ofSize: 14, weight: .heavy)
+        btnLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
         
         btnImageView.image = UIImage(named: imageName)
         btnImageView.contentMode = .scaleAspectFit

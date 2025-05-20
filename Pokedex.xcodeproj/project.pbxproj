@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		014BEAA952A8BE8DDE4883B6 /* Pods_Pokedex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8960FD0A088EB974954734FC /* Pods_Pokedex.framework */; };
+		D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */; };
+		D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */; };
+		D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */; };
 		D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C4676C2DD8322C0011B152 /* MainUpperView.swift */; };
 		D0C4676F2DD8C2AF0011B152 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */; };
 		D0C467712DD8D16F0011B152 /* MainTabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C467702DD8D16F0011B152 /* MainTabButton.swift */; };
@@ -22,6 +25,9 @@
 		002A1B87B7A7F4A3AAB3DF4C /* Pods-Pokedex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pokedex.release.xcconfig"; path = "Target Support Files/Pods-Pokedex/Pods-Pokedex.release.xcconfig"; sourceTree = "<group>"; };
 		8960FD0A088EB974954734FC /* Pods_Pokedex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pokedex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		945BBC6BE49D33A0F4869A1C /* Pods-Pokedex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pokedex.debug.xcconfig"; path = "Target Support Files/Pods-Pokedex/Pods-Pokedex.debug.xcconfig"; sourceTree = "<group>"; };
+		D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Galmuri11.ttf; sourceTree = "<group>"; };
+		D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Bold.ttf"; sourceTree = "<group>"; };
+		D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Condensed.ttf"; sourceTree = "<group>"; };
 		D0C4676C2DD8322C0011B152 /* MainUpperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUpperView.swift; sourceTree = "<group>"; };
 		D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		D0C467702DD8D16F0011B152 /* MainTabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabButton.swift; sourceTree = "<group>"; };
@@ -54,6 +60,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D046F8C42DDCCAD7000E1A65 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */,
+				D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */,
+				D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		D0C7FC752DC528F100A0F05D = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +91,7 @@
 		D0C7FCBF2DC52B2E00A0F05D /* Pokedex */ = {
 			isa = PBXGroup;
 			children = (
+				D046F8C42DDCCAD7000E1A65 /* Font */,
 				D0F3579A2DC5DB460025C59F /* Main */,
 				D0C7FCB62DC52B2E00A0F05D /* AppDelegate.swift */,
 				D0C7FCB72DC52B2E00A0F05D /* Assets.xcassets */,
@@ -166,6 +183,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0C7FCC32DC52B2E00A0F05D /* Assets.xcassets in Resources */,
+				D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */,
+				D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */,
+				D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */,
 				D0C7FCC52DC52B2E00A0F05D /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
