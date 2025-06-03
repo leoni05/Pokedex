@@ -105,8 +105,8 @@
 		D0F3579A2DC5DB460025C59F /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */,
 				D0C4676C2DD8322C0011B152 /* MainUpperView.swift */,
+				D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */,
 				D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */,
 				D0C467702DD8D16F0011B152 /* MainTabButton.swift */,
 			);
