@@ -15,11 +15,11 @@ class MainTabBarView: UIView {
     
     private let btnWidth: CGFloat = 60.0
     private let containerView = UIView()
-    private let pokedexTabButton = MainTabButton(imageName: "TabPokedex", labelString: "도감")
-    private let galleryTabButton = MainTabButton(imageName: "TabGallery", labelString: "갤러리")
-    private let cameraTabButton = MainTabButton(imageName: "TabCamera", labelString: "추가")
-    private let cardTabButton = MainTabButton(imageName: "TabCard", labelString: "트레이너")
-    private let settingTabButton = MainTabButton(imageName: "TabSetting", labelString: "설정")
+    private let pokedexTabButton = MainTabButton(tabButtonType: .pokedex, labelString: "도감")
+    private let galleryTabButton = MainTabButton(tabButtonType: .gallery, labelString: "갤러리")
+    private let cameraTabButton = MainTabButton(tabButtonType: .camera, labelString: "추가")
+    private let cardTabButton = MainTabButton(tabButtonType: .card, labelString: "트레이너")
+    private let settingTabButton = MainTabButton(tabButtonType: .setting, labelString: "설정")
     private let pokeBallTabButton = UIButton()
     
     // MARK: - Life Cycle
@@ -36,7 +36,7 @@ class MainTabBarView: UIView {
     
     private func commonInit() {
         self.backgroundColor = .white
-        pokeBallTabButton.setImage(UIImage(named: "TabPokeBall"), for: .normal)
+        pokeBallTabButton.setImage(UIImage(named: "tab.pokeball"), for: .normal)
         
         addSubview(containerView)
         

@@ -13,6 +13,7 @@ class MainTabButton: UIButton {
     
     // MARK: - Properties
     
+    var tabButtonType: TabButtonType? = nil
     private let containerView = UIView()
     private let btnImageView = UIImageView()
     private let btnLabel = UILabel()
@@ -24,14 +25,15 @@ class MainTabButton: UIButton {
         commonInit()
     }
     
-    init(imageName: String, labelString: String) {
+    init(tabButtonType: TabButtonType, labelString: String) {
         super.init(frame: .zero)
         
         btnLabel.text = labelString
         btnLabel.textColor = .wineRed
         btnLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
         
-        btnImageView.image = UIImage(named: imageName)
+        self.tabButtonType = tabButtonType
+        btnImageView.image = UIImage(named: tabButtonType.rawValue)
         btnImageView.contentMode = .scaleAspectFit
         
         commonInit()
