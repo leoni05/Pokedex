@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "pokemon_logo.png",
+      "filename" : "pokemonlogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "pokemonlogo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "pokemonlogo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
