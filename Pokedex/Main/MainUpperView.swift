@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import PinLayout
 
 class LenseView: UIView {
     
@@ -70,8 +71,8 @@ class MainUpperView: UIView {
     
     // MARK: - Properties
     
-    private let leftSegXDiff: CGFloat = 190.0
-    private let diagonalXDiff: CGFloat = 30.0
+    private let leftSegXDiff: CGFloat = 160.0
+    private let diagonalXDiff: CGFloat = 23.0
     
     private let lenseView = LenseView()
     
