@@ -9,10 +9,15 @@ import Foundation
 import PinLayout
 import UIKit
 
+protocol MainTabBarViewDelegate: AnyObject {
+    func touchUpInsideButton(type: TabButtonType?)
+}
+
 class MainTabBarView: UIView {
     
     // MARK: - Properties
     
+    weak var delegate: MainTabBarViewDelegate?
     private let btnWidth: CGFloat = 60.0
     private let containerView = UIView()
     private let pokedexTabButton = MainTabButton(tabButtonType: .pokedex, labelString: "도감")
@@ -40,10 +45,19 @@ class MainTabBarView: UIView {
         
         addSubview(containerView)
         
+        pokedexTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
         containerView.addSubview(pokedexTabButton)
+        
+        galleryTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
         containerView.addSubview(galleryTabButton)
+        
+        cameraTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
         containerView.addSubview(cameraTabButton)
+        
+        cardTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
         containerView.addSubview(cardTabButton)
+        
+        settingTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
         containerView.addSubview(settingTabButton)
         
         pokeBallTabButton.alpha = 0.0
@@ -74,4 +88,12 @@ class MainTabBarView: UIView {
         path.stroke()
     }
     
+}
+
+// MARK: - Private Extensions
+
+private extension MainTabBarView {
+    @objc func touchUpInsideButton(_ sender: MainTabButton) {
+        delegate?.touchUpInsideButton(type: sender.tabButtonType)
+    }
 }

@@ -40,6 +40,7 @@ class MainTabButton: UIButton {
     }
     
     private func commonInit() {
+        containerView.isUserInteractionEnabled = false
         addSubview(containerView)
         containerView.addSubview(btnImageView)
         containerView.addSubview(btnLabel)

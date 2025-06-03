@@ -22,6 +22,8 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.view.addSubview(mainUpperView)
+        
+        mainTabBarView.delegate = self
         self.view.addSubview(mainTabBarView)
     }
 
@@ -36,3 +38,10 @@ class MainViewController: UIViewController {
 
 }
 
+// MARK: - MainTabBarViewDelegate
+
+extension MainViewController: MainTabBarViewDelegate {
+    func touchUpInsideButton(type: TabButtonType?) {
+        print("touch up inside \(String(describing: type))")
+    }
+}
