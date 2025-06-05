@@ -31,6 +31,13 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        presentingTab = .pokedex
+        if let vc = tabVCDict[presentingTab] {
+            self.addChild(vc)
+            self.view.addSubview(vc.view)
+            vc.view.didMoveToSuperview()
+        }
+        
         self.view.addSubview(mainUpperView)
         
         mainTabBarView.delegate = self
@@ -44,6 +51,10 @@ class MainViewController: UIViewController {
             .height(72)
         mainTabBarView.pin.bottom(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
             .height(72)
+        if let vc = tabVCDict[presentingTab] {
+            vc.view.pin.below(of: mainUpperView).above(of: mainTabBarView)
+                .horizontally(self.view.pin.safeArea).marginTop(-MainUpperView.topInset)
+        }
     }
 
 }
@@ -59,14 +70,13 @@ private extension MainViewController {
             vc.willMove(toParent: nil)
             vc.view.removeFromSuperview()
             vc.removeFromParent()
-            presentingTab = nil
         }
-        if let vc = tabVCDict[type] {
+        presentingTab = type
+        if let vc = tabVCDict[presentingTab] {
             self.addChild(vc)
             vc.view.frame = .zero
             self.view.insertSubview(vc.view, at: 0)
             vc.view.didMoveToSuperview()
-            presentingTab = type
             vc.view.pin.below(of: mainUpperView).above(of: mainTabBarView)
                 .horizontally(self.view.pin.safeArea).marginTop(-MainUpperView.topInset)
         }
