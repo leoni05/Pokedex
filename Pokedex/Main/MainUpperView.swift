@@ -71,8 +71,9 @@ class MainUpperView: UIView {
     
     // MARK: - Properties
     
+    static let topInset: CGFloat = 23.0
     private let leftSegXDiff: CGFloat = 160.0
-    private let diagonalXDiff: CGFloat = 23.0
+    private let diagonalXDiff: CGFloat = MainUpperView.topInset
     
     private let lenseView = LenseView()
     
