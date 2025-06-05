@@ -54,3 +54,14 @@ class MainTabButton: UIButton {
     }
     
 }
+
+// MARK: - Extensions
+
+extension MainTabButton {
+    func setStatus(activated: Bool) {
+        if let tabType = tabType, tabType != .camera {
+            let imageName = tabType.rawValue + (activated ? ".fill" : "")
+            btnImageView.image = UIImage(named: imageName)
+        }
+    }
+}

@@ -37,6 +37,7 @@ class MainViewController: UIViewController {
             self.view.addSubview(vc.view)
             vc.view.didMoveToSuperview()
         }
+        mainTabBarView.setButtonStatus(tabType: presentingTab, activated: true)
         
         self.view.addSubview(mainUpperView)
         
@@ -71,6 +72,7 @@ private extension MainViewController {
             vc.view.removeFromSuperview()
             vc.removeFromParent()
         }
+        mainTabBarView.setButtonStatus(tabType: presentingTab, activated: false)
         presentingTab = type
         if let vc = tabVCDict[presentingTab] {
             self.addChild(vc)
@@ -80,6 +82,7 @@ private extension MainViewController {
             vc.view.pin.below(of: mainUpperView).above(of: mainTabBarView)
                 .horizontally(self.view.pin.safeArea).marginTop(-MainUpperView.topInset)
         }
+        mainTabBarView.setButtonStatus(tabType: presentingTab, activated: true)
     }
 }
 

@@ -26,7 +26,7 @@ class MainTabBarView: UIView {
     private let cardTabButton = MainTabButton(tabType: .card, labelString: "트레이너")
     private let settingTabButton = MainTabButton(tabType: .setting, labelString: "설정")
     private let pokeBallTabButton = UIButton()
-    private var tabButtonDict: [TabType : MainTabButton] = [:]
+    private var tabButtonDict: [TabType? : MainTabButton] = [:]
     
     // MARK: - Life Cycle
     
@@ -93,5 +93,13 @@ class MainTabBarView: UIView {
 private extension MainTabBarView {
     @objc func touchUpInsideButton(_ sender: MainTabButton) {
         delegate?.touchUpInsideButton(type: sender.tabType)
+    }
+}
+
+// MARK: - Extensions
+
+extension MainTabBarView {
+    func setButtonStatus(tabType: TabType?, activated: Bool) {
+        tabButtonDict[tabType]?.setStatus(activated: activated)
     }
 }
