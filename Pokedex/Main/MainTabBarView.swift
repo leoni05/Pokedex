@@ -26,6 +26,7 @@ class MainTabBarView: UIView {
     private let cardTabButton = MainTabButton(tabType: .card, labelString: "트레이너")
     private let settingTabButton = MainTabButton(tabType: .setting, labelString: "설정")
     private let pokeBallTabButton = UIButton()
+    private var tabButtonDict: [TabType : MainTabButton] = [:]
     
     // MARK: - Life Cycle
     
@@ -45,20 +46,17 @@ class MainTabBarView: UIView {
         
         addSubview(containerView)
         
-        pokedexTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
-        containerView.addSubview(pokedexTabButton)
-        
-        galleryTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
-        containerView.addSubview(galleryTabButton)
-        
-        cameraTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
-        containerView.addSubview(cameraTabButton)
-        
-        cardTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
-        containerView.addSubview(cardTabButton)
-        
-        settingTabButton.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
-        containerView.addSubview(settingTabButton)
+        tabButtonDict = [
+            TabType.pokedex : pokedexTabButton,
+            TabType.gallery : galleryTabButton,
+            TabType.camera : cameraTabButton,
+            TabType.card : cardTabButton,
+            TabType.setting : settingTabButton
+        ]
+        for (_, button) in tabButtonDict {
+            button.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
+            containerView.addSubview(button)
+        }
         
         pokeBallTabButton.alpha = 0.0
         pokeBallTabButton.isHidden = true
