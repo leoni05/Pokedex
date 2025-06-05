@@ -13,7 +13,7 @@
 		D02241982DEF05DD003F68D1 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02241972DEF05DD003F68D1 /* CameraViewController.swift */; };
 		D022419A2DEF05F2003F68D1 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02241992DEF05F2003F68D1 /* CardViewController.swift */; };
 		D022419C2DEF0610003F68D1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022419B2DEF0610003F68D1 /* SettingViewController.swift */; };
-		D022419F2DEF33AE003F68D1 /* TabButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022419E2DEF33AE003F68D1 /* TabButtonType.swift */; };
+		D022419F2DEF33AE003F68D1 /* TabType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D022419E2DEF33AE003F68D1 /* TabType.swift */; };
 		D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */; };
 		D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */; };
 		D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */; };
@@ -36,7 +36,7 @@
 		D02241972DEF05DD003F68D1 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		D02241992DEF05F2003F68D1 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		D022419B2DEF0610003F68D1 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		D022419E2DEF33AE003F68D1 /* TabButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButtonType.swift; sourceTree = "<group>"; };
+		D022419E2DEF33AE003F68D1 /* TabType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabType.swift; sourceTree = "<group>"; };
 		D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Galmuri11.ttf; sourceTree = "<group>"; };
 		D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Bold.ttf"; sourceTree = "<group>"; };
 		D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Condensed.ttf"; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 				D0C4676C2DD8322C0011B152 /* MainUpperView.swift */,
 				D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */,
 				D0C467702DD8D16F0011B152 /* MainTabButton.swift */,
-				D022419E2DEF33AE003F68D1 /* TabButtonType.swift */,
+				D022419E2DEF33AE003F68D1 /* TabType.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -306,7 +306,7 @@
 				D02241962DEF05C3003F68D1 /* GalleryViewController.swift in Sources */,
 				D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */,
 				D02241942DEF0575003F68D1 /* PokedexViewController.swift in Sources */,
-				D022419F2DEF33AE003F68D1 /* TabButtonType.swift in Sources */,
+				D022419F2DEF33AE003F68D1 /* TabType.swift in Sources */,
 				D022419A2DEF05F2003F68D1 /* CardViewController.swift in Sources */,
 				D02241982DEF05DD003F68D1 /* CameraViewController.swift in Sources */,
 			);

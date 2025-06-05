@@ -41,7 +41,7 @@ class MainViewController: UIViewController {
 // MARK: - MainTabBarViewDelegate
 
 extension MainViewController: MainTabBarViewDelegate {
-    func touchUpInsideButton(type: TabButtonType?) {
+    func touchUpInsideButton(type: TabType?) {
         print("touch up inside \(String(describing: type))")
     }
 }

@@ -10,7 +10,7 @@ import PinLayout
 import UIKit
 
 protocol MainTabBarViewDelegate: AnyObject {
-    func touchUpInsideButton(type: TabButtonType?)
+    func touchUpInsideButton(type: TabType?)
 }
 
 class MainTabBarView: UIView {
@@ -20,11 +20,11 @@ class MainTabBarView: UIView {
     weak var delegate: MainTabBarViewDelegate?
     private let btnWidth: CGFloat = 60.0
     private let containerView = UIView()
-    private let pokedexTabButton = MainTabButton(tabButtonType: .pokedex, labelString: "도감")
-    private let galleryTabButton = MainTabButton(tabButtonType: .gallery, labelString: "갤러리")
-    private let cameraTabButton = MainTabButton(tabButtonType: .camera, labelString: "추가")
-    private let cardTabButton = MainTabButton(tabButtonType: .card, labelString: "트레이너")
-    private let settingTabButton = MainTabButton(tabButtonType: .setting, labelString: "설정")
+    private let pokedexTabButton = MainTabButton(tabType: .pokedex, labelString: "도감")
+    private let galleryTabButton = MainTabButton(tabType: .gallery, labelString: "갤러리")
+    private let cameraTabButton = MainTabButton(tabType: .camera, labelString: "추가")
+    private let cardTabButton = MainTabButton(tabType: .card, labelString: "트레이너")
+    private let settingTabButton = MainTabButton(tabType: .setting, labelString: "설정")
     private let pokeBallTabButton = UIButton()
     
     // MARK: - Life Cycle
@@ -94,6 +94,6 @@ class MainTabBarView: UIView {
 
 private extension MainTabBarView {
     @objc func touchUpInsideButton(_ sender: MainTabButton) {
-        delegate?.touchUpInsideButton(type: sender.tabButtonType)
+        delegate?.touchUpInsideButton(type: sender.tabType)
     }
 }
