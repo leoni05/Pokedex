@@ -59,7 +59,7 @@ class MainTabButton: UIButton {
 
 extension MainTabButton {
     func setStatus(activated: Bool) {
-        if let tabType = tabType, tabType != .camera {
+        if let tabType = tabType {
             let imageName = tabType.rawValue + (activated ? ".fill" : "")
             btnImageView.image = UIImage(named: imageName)
         }

@@ -22,7 +22,6 @@ class MainTabBarView: UIView {
     private let containerView = UIView()
     private let pokedexTabButton = MainTabButton(tabType: .pokedex, labelString: "도감")
     private let galleryTabButton = MainTabButton(tabType: .gallery, labelString: "갤러리")
-    private let cameraTabButton = MainTabButton(tabType: .camera, labelString: "추가")
     private let cardTabButton = MainTabButton(tabType: .card, labelString: "트레이너")
     private let settingTabButton = MainTabButton(tabType: .setting, labelString: "설정")
     private let pokeBallTabButton = UIButton()
@@ -49,7 +48,6 @@ class MainTabBarView: UIView {
         tabButtonDict = [
             TabType.pokedex : pokedexTabButton,
             TabType.gallery : galleryTabButton,
-            TabType.camera : cameraTabButton,
             TabType.card : cardTabButton,
             TabType.setting : settingTabButton
         ]
@@ -57,9 +55,6 @@ class MainTabBarView: UIView {
             button.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
             containerView.addSubview(button)
         }
-        
-        pokeBallTabButton.alpha = 0.0
-        pokeBallTabButton.isHidden = true
         containerView.addSubview(pokeBallTabButton)
     }
     
@@ -68,12 +63,11 @@ class MainTabBarView: UIView {
         let spacing = (frame.width-(btnWidth*5)) / 10.0
     
         containerView.pin.top(2).horizontally().bottom()
-        cameraTabButton.pin.vertically().hCenter().width(btnWidth)
-        pokeBallTabButton.pin.vertically().hCenter().width(btnWidth)
+        pokeBallTabButton.pin.center().size(btnWidth)
         
-        galleryTabButton.pin.before(of: cameraTabButton).vertically().width(btnWidth).marginRight(2 * spacing)
+        galleryTabButton.pin.before(of: pokeBallTabButton).vertically().width(btnWidth).marginRight(2 * spacing)
         pokedexTabButton.pin.before(of: galleryTabButton).vertically().width(btnWidth).marginRight(2 * spacing)
-        cardTabButton.pin.after(of: cameraTabButton).vertically().width(btnWidth).marginLeft(2 * spacing)
+        cardTabButton.pin.after(of: pokeBallTabButton).vertically().width(btnWidth).marginLeft(2 * spacing)
         settingTabButton.pin.after(of: cardTabButton).vertically().width(btnWidth).marginLeft(2 * spacing)
     }
     
