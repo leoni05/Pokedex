@@ -79,8 +79,6 @@ private extension MainViewController {
             vc.view.frame = .zero
             self.view.insertSubview(vc.view, at: 0)
             vc.view.didMoveToSuperview()
-            vc.view.pin.below(of: mainUpperView).above(of: mainTabBarView)
-                .horizontally(self.view.pin.safeArea).marginTop(-MainUpperView.topInset)
         }
         mainTabBarView.setButtonStatus(tabType: presentingTab, activated: true)
     }
