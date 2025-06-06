@@ -47,6 +47,14 @@ class PokeballButton: UIButton {
 extension PokeballButton {
     func setStatus(activated: Bool) {
         let imageName = pokeballImageName + (activated ? ".fill" : "")
-        btnImageView.image = UIImage(named: imageName)
+        UIView.transition(with: btnImageView, duration: 0.6, options: .transitionCrossDissolve) {
+            self.btnImageView.image = UIImage(named: imageName)
+        }
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = Double.pi * 4
+        rotationAnimation.duration = 0.6
+        rotationAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        btnImageView.layer.add(rotationAnimation, forKey: nil)
     }
 }
