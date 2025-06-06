@@ -24,7 +24,7 @@ class MainTabBarView: UIView {
     private let galleryTabButton = MainTabButton(tabType: .gallery, labelString: "갤러리")
     private let cardTabButton = MainTabButton(tabType: .card, labelString: "트레이너")
     private let settingTabButton = MainTabButton(tabType: .setting, labelString: "설정")
-    private let pokeBallTabButton = UIButton()
+    private let pokeBallTabButton = PokeballButton()
     private var tabButtonDict: [TabType? : MainTabButton] = [:]
     
     // MARK: - Life Cycle
@@ -41,10 +41,8 @@ class MainTabBarView: UIView {
     
     private func commonInit() {
         self.backgroundColor = .white
-        pokeBallTabButton.setImage(UIImage(named: "tab.pokeball"), for: .normal)
         
         addSubview(containerView)
-        
         tabButtonDict = [
             TabType.pokedex : pokedexTabButton,
             TabType.gallery : galleryTabButton,
@@ -55,6 +53,7 @@ class MainTabBarView: UIView {
             button.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
             containerView.addSubview(button)
         }
+        pokeBallTabButton.addTarget(self, action: #selector(touchUpInsidePokeball(_:)), for: .touchUpInside)
         containerView.addSubview(pokeBallTabButton)
     }
     
@@ -88,12 +87,21 @@ private extension MainTabBarView {
     @objc func touchUpInsideButton(_ sender: MainTabButton) {
         delegate?.touchUpInsideButton(type: sender.tabType)
     }
+    
+    @objc func touchUpInsidePokeball(_ sender: PokeballButton) {
+        delegate?.touchUpInsideButton(type: sender.tabType)
+    }
 }
 
 // MARK: - Extensions
 
 extension MainTabBarView {
     func setButtonStatus(tabType: TabType?, activated: Bool) {
-        tabButtonDict[tabType]?.setStatus(activated: activated)
+        if tabType == .camera {
+            pokeBallTabButton.setStatus(activated: activated)
+        }
+        else {
+            tabButtonDict[tabType]?.setStatus(activated: activated)
+        }
     }
 }
