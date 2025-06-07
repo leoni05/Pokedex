@@ -64,9 +64,6 @@ class MainViewController: UIViewController {
 
 private extension MainViewController {
     func changeTab(type: TabType?) {
-        if canChangeTab == false {
-            return
-        }
         if let vc = tabVCDict[presentingTab] {
             vc.willMove(toParent: nil)
             vc.view.removeFromSuperview()
@@ -88,6 +85,8 @@ private extension MainViewController {
 
 extension MainViewController: MainTabBarViewDelegate {
     func touchUpInsideButton(type: TabType?) {
-        changeTab(type: type)
+        if canChangeTab && type != presentingTab {
+            changeTab(type: type)
+        }
     }
 }

@@ -15,7 +15,9 @@ class PokeballButton: UIButton {
     
     let tabType: TabType? = .camera
     private let pokeballImageName = "tab.pokeball"
+    private let containerView = UIView()
     private let btnImageView = UIImageView()
+    private let btnFillImageView = UIImageView()
     
     // MARK: - Life Cycle
     
@@ -30,14 +32,24 @@ class PokeballButton: UIButton {
     }
     
     private func commonInit() {
+        containerView.isUserInteractionEnabled = false
+        addSubview(containerView)
+        
         btnImageView.image = UIImage(named: pokeballImageName)
         btnImageView.contentMode = .scaleAspectFit
-        addSubview(btnImageView)
+        containerView.addSubview(btnImageView)
+        
+        btnFillImageView.image = UIImage(named: pokeballImageName + ".fill")
+        btnFillImageView.contentMode = .scaleAspectFit
+        btnFillImageView.alpha = 0.0
+        containerView.addSubview(btnFillImageView)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        containerView.pin.all()
         btnImageView.pin.all()
+        btnFillImageView.pin.all()
     }
     
 }
@@ -46,15 +58,16 @@ class PokeballButton: UIButton {
 
 extension PokeballButton {
     func setStatus(activated: Bool) {
-        let imageName = pokeballImageName + (activated ? ".fill" : "")
-        UIView.transition(with: btnImageView, duration: 0.6, options: .transitionCrossDissolve) {
-            self.btnImageView.image = UIImage(named: imageName)
-        }
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotationAnimation.fromValue = 0.0
         rotationAnimation.toValue = Double.pi * 4
         rotationAnimation.duration = 0.6
         rotationAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        btnImageView.layer.add(rotationAnimation, forKey: nil)
+        containerView.layer.add(rotationAnimation, forKey: nil)
+        
+        UIView.animate(withDuration: 0.6) {
+            self.btnImageView.alpha = (activated ? 0.0 : 1.0)
+            self.btnFillImageView.alpha = (activated ? 1.0 : 0.0)
+        }
     }
 }
