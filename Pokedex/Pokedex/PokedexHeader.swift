@@ -40,6 +40,6 @@ class PokedexHeader: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         pokedexNameLabel.pin.bottom().horizontally(16).sizeToFit()
-        progressLabel.pin.above(of: pokedexNameLabel, aligned: .left).marginBottom(5).sizeToFit()
+        progressLabel.pin.above(of: pokedexNameLabel, aligned: .left).marginBottom(8).sizeToFit()
     }
 }

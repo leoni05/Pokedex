@@ -41,7 +41,7 @@ private extension PokedexViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = itemSpacing
         layout.minimumInteritemSpacing = itemSpacing
-        layout.headerReferenceSize = CGSize(width: 0.0, height: 64.0 + MainUpperView.topInset)
+        layout.headerReferenceSize = CGSize(width: 0.0, height: 68.0 + MainUpperView.topInset)
         layout.sectionInset = UIEdgeInsets(top: 24.0, left: horizontalInset,
                                            bottom: 16.0, right: horizontalInset)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -58,7 +58,8 @@ private extension PokedexViewController {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension PokedexViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.frame.width - horizontalInset*2 - itemSpacing) / 2.0
         return CGSize(width: width, height: itemHeight)
     }
@@ -79,11 +80,11 @@ extension PokedexViewController: UICollectionViewDataSource {
         return reusableCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                               withReuseIdentifier: PokedexHeader.reuseIdentifier,
-                                                                               for: indexPath)
+            let reusableView = collectionView
+                .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PokedexHeader.reuseIdentifier, for: indexPath)
             if let header = reusableView as? PokedexHeader {
                 
             }
