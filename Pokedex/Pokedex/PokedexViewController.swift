@@ -41,12 +41,15 @@ private extension PokedexViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = itemSpacing
         layout.minimumInteritemSpacing = itemSpacing
+        layout.headerReferenceSize = CGSize(width: 0.0, height: 64.0 + MainUpperView.topInset)
         layout.sectionInset = UIEdgeInsets(top: 24.0, left: horizontalInset,
                                            bottom: 16.0, right: horizontalInset)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PokedexCell.self, forCellWithReuseIdentifier: PokedexCell.reuseIdentifier)
+        collectionView.register(PokedexHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: PokedexHeader.reuseIdentifier)
         self.view.addSubview(collectionView)
         self.collectionView = collectionView
     }
@@ -74,5 +77,18 @@ extension PokedexViewController: UICollectionViewDataSource {
             
         }
         return reusableCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: PokedexHeader.reuseIdentifier,
+                                                                               for: indexPath)
+            if let header = reusableView as? PokedexHeader {
+                
+            }
+            return reusableView
+        }
+        return UICollectionReusableView()
     }
 }
