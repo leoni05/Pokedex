@@ -26,6 +26,7 @@
 		D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */; };
 		D0C7FCC32DC52B2E00A0F05D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0C7FCB72DC52B2E00A0F05D /* Assets.xcassets */; };
 		D0C7FCC52DC52B2E00A0F05D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C7FCBA2DC52B2E00A0F05D /* LaunchScreen.storyboard */; };
+		D0D238A82DF40D47003662D1 /* PokedexCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D238A72DF40D47003662D1 /* PokedexCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		D0C7FCB92DC52B2E00A0F05D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0C7FCBD2DC52B2E00A0F05D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D0C7FCBE2DC52B2E00A0F05D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D0D238A72DF40D47003662D1 /* PokedexCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				D02241932DEF0575003F68D1 /* PokedexViewController.swift */,
+				D0D238A72DF40D47003662D1 /* PokedexCell.swift */,
 			);
 			path = Pokedex;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 			files = (
 				D0C4676F2DD8C2AF0011B152 /* MainTabBarView.swift in Sources */,
 				D022419C2DEF0610003F68D1 /* SettingViewController.swift in Sources */,
+				D0D238A82DF40D47003662D1 /* PokedexCell.swift in Sources */,
 				D0C7FCC02DC52B2E00A0F05D /* AppDelegate.swift in Sources */,
 				D0C7FCC12DC52B2E00A0F05D /* SceneDelegate.swift in Sources */,
 				D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */,

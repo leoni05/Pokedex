@@ -13,24 +13,66 @@ class PokedexViewController: UIViewController {
     
     // MARK: - Properties
 
-    private let label = UILabel()
+    private let horizontalInset = 16.0
+    private let itemSpacing = 12.0
+    private let itemHeight: CGFloat = 253.0
+    private var collectionView: UICollectionView? = nil
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
-        label.text = "PokedexViewController"
-        label.textColor = .wineRed
-        label.font = UIFont(name: "Galmuri11-Bold", size: 14)
-        self.view.addSubview(label)
+        setCollectionView()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        label.pin.center().sizeToFit()
+        collectionView?.pin.all()
     }
     
+}
+
+// MARK: - Private Extensions
+
+private extension PokedexViewController {
+    func setCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = itemSpacing
+        layout.minimumInteritemSpacing = itemSpacing
+        layout.sectionInset = UIEdgeInsets(top: 24.0, left: horizontalInset,
+                                           bottom: 16.0, right: horizontalInset)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(PokedexCell.self, forCellWithReuseIdentifier: PokedexCell.reuseIdentifier)
+        self.view.addSubview(collectionView)
+        self.collectionView = collectionView
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension PokedexViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (collectionView.frame.width - horizontalInset*2 - itemSpacing) / 2.0
+        return CGSize(width: width, height: itemHeight)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension PokedexViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 11
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
+        if let cell = reusableCell as? PokedexCell {
+            
+        }
+        return reusableCell
+    }
 }
