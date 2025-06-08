@@ -25,11 +25,13 @@ class PokedexHeader: UICollectionReusableView {
         progressLabel.text = "도감 완성률 12%"
         progressLabel.textColor = .wineRed
         progressLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
+        progressLabel.numberOfLines = 1
         self.addSubview(progressLabel)
         
         pokedexNameLabel.text = "신오 지방 도감"
         pokedexNameLabel.textColor = .wineRed
         pokedexNameLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        pokedexNameLabel.numberOfLines = 1
         self.addSubview(pokedexNameLabel)
     }
     
@@ -39,7 +41,7 @@ class PokedexHeader: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        pokedexNameLabel.pin.bottom().horizontally(16).sizeToFit()
-        progressLabel.pin.above(of: pokedexNameLabel, aligned: .left).marginBottom(8).sizeToFit()
+        pokedexNameLabel.pin.bottom().horizontally(16).sizeToFit(.width)
+        progressLabel.pin.above(of: pokedexNameLabel, aligned: .left).right(16).marginBottom(8).sizeToFit(.width)
     }
 }
