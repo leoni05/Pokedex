@@ -81,6 +81,7 @@ class MainUpperView: UIView {
     private let redDotView = UIView()
     private let yellowDotView = UIView()
     private let greenDotView = UIView()
+    private var viewPath = UIBezierPath()
     
     // MARK: - Life Cycle
     
@@ -148,6 +149,7 @@ class MainUpperView: UIView {
         path1.close()
         UIColor.white.set()
         path1.fill()
+        viewPath = path1
         
         let path2 = UIBezierPath()
         path2.lineWidth = 2
@@ -160,6 +162,10 @@ class MainUpperView: UIView {
         path2.addLine(to: p6)
         UIColor.wineRed.set()
         path2.stroke()
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return viewPath.contains(point)
     }
     
 }
