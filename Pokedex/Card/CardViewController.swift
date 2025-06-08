@@ -15,6 +15,7 @@ class CardViewController: UIViewController {
 
     private let titleLabel = UILabel()
     private let trainerImage = UIImageView()
+    
     private let infoView = UIView()
     private let nameLabel = UILabel()
     private let nameBottomLineView = UIView()
@@ -24,6 +25,12 @@ class CardViewController: UIViewController {
     private let scoreValueLabel = UILabel()
     private let levelLabel = UILabel()
     private let levelValueLabel = UILabel()
+    
+    private let selectionCount = 6
+    private let selectedIndex: Array<Int> = [0, 1, 2, 84, 35, 32]
+    private let selectionContainerView = UIView()
+    private var selectionViews: Array<UIView> = []
+    private var selectionImageViews: Array<UIImageView> = []
     
     // MARK: - Life Cycle
     
@@ -93,6 +100,25 @@ class CardViewController: UIViewController {
         levelValueLabel.textAlignment = .right
         levelValueLabel.numberOfLines = 1
         infoView.addSubview(levelValueLabel)
+        
+        self.view.addSubview(selectionContainerView)
+        
+        for idx in 0..<selectionCount {
+            let view = UIView()
+            view.layer.cornerRadius = 4.0
+            view.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+            view.layer.borderWidth = 1.0
+            selectionContainerView.addSubview(view)
+            selectionViews.append(view)
+            
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            if idx < selectedIndex.count {
+                imageView.image = UIImage(named: "Pokedex" + String(format: "%03d", selectedIndex[idx]))
+            }
+            view.addSubview(imageView)
+            selectionImageViews.append(imageView)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -110,6 +136,20 @@ class CardViewController: UIViewController {
         scoreValueLabel.pin.after(of: scoreLabel, aligned: .bottom).right().marginLeft(8).sizeToFit(.width)
         levelLabel.pin.above(of: scoreLabel, aligned: .left).marginBottom(12).sizeToFit()
         levelValueLabel.pin.after(of: levelLabel, aligned: .bottom).right().marginLeft(8).sizeToFit(.width)
+        
+        selectionContainerView.pin.below(of: infoView).horizontally(16).marginTop(24)
+        let pokemonSize = (selectionContainerView.frame.width - (8.0*2))/3.0
+        selectionViews[0].pin.top().left().size(pokemonSize)
+        selectionViews[1].pin.top().hCenter().size(pokemonSize)
+        selectionViews[2].pin.top().right().size(pokemonSize)
+        selectionViews[3].pin.below(of: selectionViews[0], aligned: .left).marginTop(8).size(pokemonSize)
+        selectionViews[4].pin.below(of: selectionViews[1], aligned: .center).marginTop(8).size(pokemonSize)
+        selectionViews[5].pin.below(of: selectionViews[2], aligned: .right).marginTop(8).size(pokemonSize)
+        selectionContainerView.pin.below(of: infoView).hCenter().marginTop(24).wrapContent()
+        
+        for idx in 0..<selectionImageViews.count {
+            selectionImageViews[idx].pin.all(12)
+        }
     }
     
 }
