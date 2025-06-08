@@ -58,14 +58,16 @@ class PokeballButton: UIButton {
 
 extension PokeballButton {
     func setStatus(activated: Bool) {
+        let animDuration = 0.5
+        
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotationAnimation.fromValue = 0.0
         rotationAnimation.toValue = Double.pi * 4
-        rotationAnimation.duration = 0.6
+        rotationAnimation.duration = animDuration
         rotationAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         containerView.layer.add(rotationAnimation, forKey: nil)
         
-        UIView.animate(withDuration: 0.6) {
+        UIView.animate(withDuration: animDuration) {
             self.btnImageView.alpha = (activated ? 0.0 : 1.0)
             self.btnFillImageView.alpha = (activated ? 1.0 : 0.0)
         }
