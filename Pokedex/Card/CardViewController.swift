@@ -13,6 +13,7 @@ class CardViewController: UIViewController {
     
     // MARK: - Properties
 
+    private let scrollView = UIScrollView()
     private let titleLabel = UILabel()
     private let trainerImage = UIImageView()
     
@@ -38,6 +39,8 @@ class CardViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        self.view.addSubview(scrollView)
+        
         titleLabel.text = "TRAINER CARD"
         titleLabel.textColor = .wineRed
         titleLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
@@ -45,16 +48,16 @@ class CardViewController: UIViewController {
         titleLabel.layer.borderWidth = 1.0
         titleLabel.layer.cornerRadius = 4.0
         titleLabel.textAlignment = .center
-        self.view.addSubview(titleLabel)
+        scrollView.addSubview(titleLabel)
         
         trainerImage.image = UIImage(named: "TrainerCard19")
         trainerImage.contentMode = .scaleAspectFill
         trainerImage.layer.cornerRadius = 4.0
         trainerImage.layer.borderWidth = 1.0
         trainerImage.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-        self.view.addSubview(trainerImage)
+        scrollView.addSubview(trainerImage)
         
-        self.view.addSubview(infoView)
+        scrollView.addSubview(infoView)
         
         nameLabel.text = "이름: 빛나"
         nameLabel.textColor = .wineRed
@@ -101,7 +104,7 @@ class CardViewController: UIViewController {
         levelValueLabel.numberOfLines = 1
         infoView.addSubview(levelValueLabel)
         
-        self.view.addSubview(selectionContainerView)
+        scrollView.addSubview(selectionContainerView)
         
         for idx in 0..<selectionCount {
             let view = UIView()
@@ -124,6 +127,7 @@ class CardViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        scrollView.pin.all()
         titleLabel.pin.top(16 + MainUpperView.topInset).left(16).width(128).height(27)
         trainerImage.pin.below(of: titleLabel).right(16).width(112).height(120).marginTop(24)
         
@@ -150,6 +154,9 @@ class CardViewController: UIViewController {
         for idx in 0..<selectionImageViews.count {
             selectionImageViews[idx].pin.all(12)
         }
+        
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width,
+                                        height: selectionContainerView.frame.maxY + 16)
     }
     
 }
