@@ -69,13 +69,13 @@ extension PokedexViewController: UICollectionViewDelegateFlowLayout {
 
 extension PokedexViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 11
+        return Pokedex.shared.pokemons.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
         if let cell = reusableCell as? PokedexCell {
-            
+            cell.setPokemonInfo(index: indexPath.row)
         }
         return reusableCell
     }
