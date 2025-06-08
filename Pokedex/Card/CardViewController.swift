@@ -33,6 +33,12 @@ class CardViewController: UIViewController {
     private var selectionViews: Array<UIView> = []
     private var selectionImageViews: Array<UIImageView> = []
     
+    private var badgesLabel = UILabel()
+    private let badgeCount = 8
+    private let badgeContainerView = UIView()
+    private var badgeViews: Array<UIView> = []
+    private var badgeImageViews: Array<UIImageView> = []
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -122,6 +128,29 @@ class CardViewController: UIViewController {
             view.addSubview(imageView)
             selectionImageViews.append(imageView)
         }
+        
+        badgesLabel.text = "BADGES"
+        badgesLabel.textColor = .wineRed
+        badgesLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
+        badgesLabel.numberOfLines = 1
+        scrollView.addSubview(badgesLabel)
+        
+        scrollView.addSubview(badgeContainerView)
+        
+        for idx in 0..<badgeCount {
+            let view = UIView()
+            view.layer.cornerRadius = 4.0
+            view.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+            view.layer.borderWidth = 1.0
+            badgeContainerView.addSubview(view)
+            badgeViews.append(view)
+            
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = UIImage(named: "Badge\(idx)")
+            view.addSubview(imageView)
+            badgeImageViews.append(imageView)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -155,8 +184,25 @@ class CardViewController: UIViewController {
             selectionImageViews[idx].pin.all(12)
         }
         
+        badgesLabel.pin.below(of: selectionContainerView).horizontally(16).marginTop(32).sizeToFit(.width)
+        badgeContainerView.pin.below(of: badgesLabel).horizontally(16).marginTop(12)
+        let badgeSize = (badgeContainerView.frame.width - (8.0*3))/4.0
+        badgeViews[0].pin.top().left().size(badgeSize)
+        badgeViews[1].pin.after(of: badgeViews[0], aligned: .top).marginLeft(8).size(badgeSize)
+        badgeViews[3].pin.top().right().size(badgeSize)
+        badgeViews[2].pin.before(of: badgeViews[3], aligned: .top).marginRight(8).size(badgeSize)
+        badgeViews[4].pin.below(of: badgeViews[0], aligned: .left).marginTop(8).size(badgeSize)
+        badgeViews[5].pin.below(of: badgeViews[1], aligned: .left).marginTop(8).size(badgeSize)
+        badgeViews[6].pin.below(of: badgeViews[2], aligned: .left).marginTop(8).size(badgeSize)
+        badgeViews[7].pin.below(of: badgeViews[3], aligned: .left).marginTop(8).size(badgeSize)
+        badgeContainerView.pin.below(of: badgesLabel).hCenter().marginTop(12).wrapContent()
+        
+        for idx in 0..<badgeImageViews.count {
+            badgeImageViews[idx].pin.all(12)
+        }
+        
         scrollView.contentSize = CGSize(width: scrollView.bounds.width,
-                                        height: selectionContainerView.frame.maxY + 16)
+                                        height: badgeContainerView.frame.maxY + 24)
     }
     
 }
