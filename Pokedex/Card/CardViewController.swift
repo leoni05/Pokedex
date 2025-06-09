@@ -198,7 +198,7 @@ class CardViewController: UIViewController {
         badgeContainerView.pin.below(of: badgesLabel).hCenter().marginTop(12).wrapContent()
         
         for idx in 0..<badgeImageViews.count {
-            badgeImageViews[idx].pin.all(12)
+            badgeImageViews[idx].pin.center().size(52)
         }
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width,
