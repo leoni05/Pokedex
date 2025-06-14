@@ -85,7 +85,12 @@ private extension MainViewController {
 
 extension MainViewController: MainTabBarViewDelegate {
     func touchUpInsideButton(type: TabType?) {
-        if canChangeTab && type != presentingTab {
+        if type == .camera && presentingTab == .camera {
+            if let vc = tabVCDict[TabType.camera] as? CameraViewController {
+                vc.takePicture()
+            }
+        }
+        else if canChangeTab && type != presentingTab {
             changeTab(type: type)
         }
     }
