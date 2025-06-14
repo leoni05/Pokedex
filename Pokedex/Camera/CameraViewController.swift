@@ -21,6 +21,11 @@ class CameraViewController: UIViewController {
     private var previewLayer: AVCaptureVideoPreviewLayer? = nil
     private var videoOutput: AVCaptureVideoDataOutput? = nil
     private var needToTakePicture = false
+
+    private let loadingView = UIView()
+    private let loadingContainerView = UIView()
+    private let loadingLabel = UILabel()
+    private let loadingImageView = UIImageView()
     
     // MARK: - Life Cycle
     
@@ -28,12 +33,33 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         self.view.addSubview(cameraView)
+        
+        loadingView.backgroundColor = .white
+        self.view.addSubview(loadingView)
+        
+        loadingView.addSubview(loadingContainerView)
+        
+        loadingImageView.image = UIImage(named: "pokeball.loading")
+        loadingImageView.contentMode = .scaleAspectFit
+        loadingContainerView.addSubview(loadingImageView)
+        
+        loadingLabel.textColor = .wineRed
+        loadingLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
+        loadingLabel.text = "LOADING"
+        loadingContainerView.addSubview(loadingLabel)
+        
+        setLoadingView(visible: true)
+        
         setCamera()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         cameraView.pin.all()
+        loadingView.pin.all()
+        loadingImageView.pin.top().left().size(60)
+        loadingLabel.pin.below(of: loadingImageView, aligned: .center).marginTop(6).sizeToFit()
+        loadingContainerView.pin.center().wrapContent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,6 +79,9 @@ class CameraViewController: UIViewController {
 
 private extension CameraViewController {
     func setCamera() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNotification(_:)), name: AVCaptureSession.didStartRunningNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNotification(_:)), name: AVCaptureSession.didStopRunningNotification, object: nil)
+        
         DispatchQueue.global(qos: .userInitiated).async {
             let captureSession = AVCaptureSession()
             captureSession.beginConfiguration()
@@ -91,6 +120,42 @@ private extension CameraViewController {
             captureSession.commitConfiguration()
             captureSession.startRunning()
             self.captureSession = captureSession
+        }
+    }
+    
+    @objc func didReceiveNotification(_ notification: Notification) {
+        if notification.name == AVCaptureSession.didStartRunningNotification {
+            setLoadingView(visible: false)
+        }
+        if notification.name == AVCaptureSession.didStopRunningNotification {
+            setLoadingView(visible: true)
+        }
+    }
+    
+    func setLoadingView(visible: Bool) {
+        DispatchQueue.main.async {
+            if visible {
+                self.loadingView.isHidden = false
+                self.loadingView.alpha = 1.0
+                
+                let kAnimationKey = "rotation"
+                if self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
+                    let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                    rotationAnimation.fromValue = 0.0
+                    rotationAnimation.toValue = Double.pi * 2
+                    rotationAnimation.duration = 1.0
+                    rotationAnimation.repeatCount = .infinity
+                    self.loadingImageView.layer.add(rotationAnimation, forKey: kAnimationKey)
+                }
+            }
+            else {
+                UIView.animate(withDuration: 0.7, animations: {
+                    self.loadingView.alpha = 0.0
+                }, completion: { _ in
+                    self.loadingView.isHidden = true
+                    self.loadingImageView.layer.removeAllAnimations()
+                })
+            }
         }
     }
 }
