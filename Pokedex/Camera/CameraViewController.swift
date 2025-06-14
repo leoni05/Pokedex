@@ -21,6 +21,13 @@ class CameraViewController: UIViewController {
     private var previewLayer: AVCaptureVideoPreviewLayer? = nil
     private var videoOutput: AVCaptureVideoDataOutput? = nil
     private var needToTakePicture = false
+    
+    private let hudContainerView = UIView()
+    private let centerHUDImageView = UIImageView()
+    private let leftTopHUDImageView = UIImageView()
+    private let rightTopHUDImageView = UIImageView()
+    private let leftBottomHUDImageView = UIImageView()
+    private let rightBottomHUDImageView = UIImageView()
 
     private let loadingView = UIView()
     private let loadingContainerView = UIView()
@@ -33,6 +40,28 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         self.view.addSubview(cameraView)
+        
+        self.view.addSubview(hudContainerView)
+        
+        centerHUDImageView.image = UIImage(named: "camera.center")
+        centerHUDImageView.contentMode = .scaleAspectFit
+        hudContainerView.addSubview(centerHUDImageView)
+        
+        leftTopHUDImageView.image = UIImage(named: "camera.left.top")
+        leftTopHUDImageView.contentMode = .scaleAspectFit
+        hudContainerView.addSubview(leftTopHUDImageView)
+        
+        rightTopHUDImageView.image = UIImage(named: "camera.right.top")
+        rightTopHUDImageView.contentMode = .scaleAspectFit
+        hudContainerView.addSubview(rightTopHUDImageView)
+        
+        leftBottomHUDImageView.image = UIImage(named: "camera.left.bottom")
+        leftBottomHUDImageView.contentMode = .scaleAspectFit
+        hudContainerView.addSubview(leftBottomHUDImageView)
+        
+        rightBottomHUDImageView.image = UIImage(named: "camera.right.bottom")
+        rightBottomHUDImageView.contentMode = .scaleAspectFit
+        hudContainerView.addSubview(rightBottomHUDImageView)
         
         loadingView.backgroundColor = .white
         self.view.addSubview(loadingView)
@@ -56,6 +85,14 @@ class CameraViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         cameraView.pin.all()
+        
+        hudContainerView.pin.horizontally().bottom().top(MainUpperView.topInset)
+        centerHUDImageView.pin.center().width(92).height(52)
+        leftTopHUDImageView.pin.left(16).top(16).size(50)
+        rightTopHUDImageView.pin.right(16).top(16).size(50)
+        leftBottomHUDImageView.pin.left(16).bottom(16).size(50)
+        rightBottomHUDImageView.pin.right(16).bottom(16).size(50)
+        
         loadingView.pin.all()
         loadingImageView.pin.top().left().size(60)
         loadingLabel.pin.below(of: loadingImageView, aligned: .center).marginTop(6).sizeToFit()
