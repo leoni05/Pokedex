@@ -97,7 +97,7 @@ private extension MainTabBarView {
 
 extension MainTabBarView {
     func setButtonStatus(tabType: TabType?, activated: Bool) {
-        if tabType == .camera {
+        if tabType == .gotcha {
             pokeBallTabButton.setStatus(activated: activated)
         }
         else {

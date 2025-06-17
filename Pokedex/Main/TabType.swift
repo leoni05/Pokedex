@@ -10,7 +10,7 @@ import Foundation
 enum TabType: String {
     case pokedex = "tab.pokedex"
     case gallery = "tab.gallery"
-    case camera = "tab.camera"
+    case gotcha = "tab.gotcha"
     case card = "tab.card"
     case setting = "tab.setting"
 }

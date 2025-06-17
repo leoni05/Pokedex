@@ -18,6 +18,7 @@
 		D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */; };
 		D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */; };
 		D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */; };
+		D0B57B262E018C30004BF924 /* GotchaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B57B252E018C30004BF924 /* GotchaViewController.swift */; };
 		D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C4676C2DD8322C0011B152 /* MainUpperView.swift */; };
 		D0C4676F2DD8C2AF0011B152 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */; };
 		D0C467712DD8D16F0011B152 /* MainTabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C467702DD8D16F0011B152 /* MainTabButton.swift */; };
@@ -46,6 +47,7 @@
 		D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Galmuri11.ttf; sourceTree = "<group>"; };
 		D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Bold.ttf"; sourceTree = "<group>"; };
 		D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Condensed.ttf"; sourceTree = "<group>"; };
+		D0B57B252E018C30004BF924 /* GotchaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GotchaViewController.swift; sourceTree = "<group>"; };
 		D0C4676C2DD8322C0011B152 /* MainUpperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUpperView.swift; sourceTree = "<group>"; };
 		D0C4676E2DD8C2AF0011B152 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		D0C467702DD8D16F0011B152 /* MainTabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabButton.swift; sourceTree = "<group>"; };
@@ -100,12 +102,13 @@
 			path = Gallery;
 			sourceTree = "<group>";
 		};
-		D022418E2DEF04CA003F68D1 /* Camera */ = {
+		D022418E2DEF04CA003F68D1 /* Gotcha */ = {
 			isa = PBXGroup;
 			children = (
 				D02241972DEF05DD003F68D1 /* CameraViewController.swift */,
+				D0B57B252E018C30004BF924 /* GotchaViewController.swift */,
 			);
-			path = Camera;
+			path = Gotcha;
 			sourceTree = "<group>";
 		};
 		D022418F2DEF04DD003F68D1 /* Card */ = {
@@ -160,7 +163,7 @@
 				D0F3579A2DC5DB460025C59F /* Main */,
 				D022418C2DEF0499003F68D1 /* Pokedex */,
 				D022418D2DEF04B7003F68D1 /* Gallery */,
-				D022418E2DEF04CA003F68D1 /* Camera */,
+				D022418E2DEF04CA003F68D1 /* Gotcha */,
 				D022418F2DEF04DD003F68D1 /* Card */,
 				D02241902DEF04EC003F68D1 /* Setting */,
 				D0C7FCB62DC52B2E00A0F05D /* AppDelegate.swift */,
@@ -328,6 +331,7 @@
 				D0C4676D2DD8322C0011B152 /* MainUpperView.swift in Sources */,
 				D0C467712DD8D16F0011B152 /* MainTabButton.swift in Sources */,
 				D0D238B12DF44124003662D1 /* PokemonModel.swift in Sources */,
+				D0B57B262E018C30004BF924 /* GotchaViewController.swift in Sources */,
 				D02241962DEF05C3003F68D1 /* GalleryViewController.swift in Sources */,
 				D0D238AF2DF43FE9003662D1 /* Pokedex.swift in Sources */,
 				D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */,

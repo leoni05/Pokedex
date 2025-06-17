@@ -13,7 +13,7 @@ class PokeballButton: UIButton {
     
     // MARK: - Properties
     
-    let tabType: TabType? = .camera
+    let tabType: TabType? = .gotcha
     private let pokeballImageName = "tab.pokeball"
     private let containerView = UIView()
     private let btnImageView = UIImageView()

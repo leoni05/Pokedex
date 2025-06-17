@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     private let tabVCDict: [TabType? : UIViewController] = [
         TabType.pokedex : PokedexViewController(),
         TabType.gallery : GalleryViewController(),
-        TabType.camera : CameraViewController(),
+        TabType.gotcha : GotchaViewController(),
         TabType.card : CardViewController(),
         TabType.setting : SettingViewController()
     ]
@@ -85,8 +85,8 @@ private extension MainViewController {
 
 extension MainViewController: MainTabBarViewDelegate {
     func touchUpInsideButton(type: TabType?) {
-        if type == .camera && presentingTab == .camera {
-            if let vc = tabVCDict[TabType.camera] as? CameraViewController {
+        if type == .gotcha && presentingTab == .gotcha {
+            if let vc = tabVCDict[TabType.gotcha] as? GotchaViewController {
                 vc.takePicture()
             }
         }
