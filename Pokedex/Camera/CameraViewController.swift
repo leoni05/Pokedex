@@ -77,9 +77,7 @@ class CameraViewController: UIViewController {
         loadingLabel.text = "LOADING"
         loadingContainerView.addSubview(loadingLabel)
         
-        setLoadingView(visible: true)
-        
-        setCamera()
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNotification(_:)), name: AVCaptureSession.didStartRunningNotification, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
@@ -99,11 +97,9 @@ class CameraViewController: UIViewController {
         loadingContainerView.pin.center().wrapContent()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.captureSession?.startRunning()
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startCamera()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -115,57 +111,54 @@ class CameraViewController: UIViewController {
 // MARK: - Private Extensions
 
 private extension CameraViewController {
-    func setCamera() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNotification(_:)), name: AVCaptureSession.didStartRunningNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveNotification(_:)), name: AVCaptureSession.didStopRunningNotification, object: nil)
-        
+    func startCamera() {
+        setLoadingView(visible: true)
         DispatchQueue.global(qos: .userInitiated).async {
-            let captureSession = AVCaptureSession()
-            captureSession.beginConfiguration()
-            
-            if captureSession.canSetSessionPreset(.photo) == true {
-                captureSession.sessionPreset = .photo
-            }
-            captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
-            
-            if let backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-                self.backCamera = backCamera
-                if let backCameraDeviceInput = try? AVCaptureDeviceInput(device: backCamera) {
-                    self.backCameraDeviceInput = backCameraDeviceInput
-                    if captureSession.canAddInput(backCameraDeviceInput) {
-                        captureSession.addInput(backCameraDeviceInput)
+            if self.captureSession == nil {
+                let captureSession = AVCaptureSession()
+                captureSession.beginConfiguration()
+                
+                if captureSession.canSetSessionPreset(.photo) == true {
+                    captureSession.sessionPreset = .photo
+                }
+                captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
+                
+                if let backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+                    self.backCamera = backCamera
+                    if let backCameraDeviceInput = try? AVCaptureDeviceInput(device: backCamera) {
+                        self.backCameraDeviceInput = backCameraDeviceInput
+                        if captureSession.canAddInput(backCameraDeviceInput) {
+                            captureSession.addInput(backCameraDeviceInput)
+                        }
                     }
                 }
+                
+                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                previewLayer.videoGravity = .resizeAspectFill
+                self.previewLayer = previewLayer
+                DispatchQueue.main.async {
+                    previewLayer.frame = self.cameraView.frame
+                    self.cameraView.layer.insertSublayer(previewLayer, at: 0)
+                }
+                
+                let videoOutput = AVCaptureVideoDataOutput()
+                let videoQueue = DispatchQueue(label: "videoQueue", qos: .userInteractive)
+                videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
+                if captureSession.canAddOutput(videoOutput) {
+                    captureSession.addOutput(videoOutput)
+                }
+                self.videoOutput = videoOutput
+                
+                captureSession.commitConfiguration()
+                captureSession.startRunning()
+                self.captureSession = captureSession
             }
-            
-            let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            previewLayer.videoGravity = .resizeAspectFill
-            self.previewLayer = previewLayer
-            DispatchQueue.main.async {
-                previewLayer.frame = self.cameraView.frame
-                self.cameraView.layer.insertSublayer(previewLayer, at: 0)
-            }
-            
-            let videoOutput = AVCaptureVideoDataOutput()
-            let videoQueue = DispatchQueue(label: "videoQueue", qos: .userInteractive)
-            videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
-            if captureSession.canAddOutput(videoOutput) {
-                captureSession.addOutput(videoOutput)
-            }
-            self.videoOutput = videoOutput
-
-            captureSession.commitConfiguration()
-            captureSession.startRunning()
-            self.captureSession = captureSession
         }
     }
     
     @objc func didReceiveNotification(_ notification: Notification) {
         if notification.name == AVCaptureSession.didStartRunningNotification {
             setLoadingView(visible: false)
-        }
-        if notification.name == AVCaptureSession.didStopRunningNotification {
-            setLoadingView(visible: true)
         }
     }
     
