@@ -99,7 +99,21 @@ class CameraViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        startCamera()
+        
+        AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] granted in
+            if granted {
+                self?.startCamera()
+            } else {
+                DispatchQueue.main.async {
+                    let alertVC = AlertViewController()
+                    alertVC.alertType = .confirm
+                    alertVC.titleText = "카메라 접근 권한"
+                    alertVC.contentText = "사진 촬영을 위해 카메라 접근 권한이 필요합니다.\n설정 화면으로 이동하시겠습니까?"
+                    alertVC.delegate = self
+                    self?.present(alertVC, animated: true)
+                }
+            }
+        })
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -210,6 +224,18 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             let uiImage = UIImage(ciImage: ciImage)
             needToTakePicture = false
             print("hihi uiImage \(uiImage)")
+        }
+    }
+}
+
+// MARK: - AlertViewControllerDelegate
+
+extension CameraViewController: AlertViewControllerDelegate {
+    func buttonPressed(buttonType: AlertButtonType) {
+        if buttonType == .ok {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
         }
     }
 }

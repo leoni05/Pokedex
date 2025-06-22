@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Pokedex requires access to your phone’s camera.</string>
+	<string>사진 촬영을 위해 카메라 접근 권한이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Galmuri11.ttf</string>
