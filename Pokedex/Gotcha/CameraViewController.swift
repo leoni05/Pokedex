@@ -38,7 +38,7 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = .white
         self.view.addSubview(cameraView)
         
         self.view.addSubview(hudContainerView)
@@ -64,6 +64,7 @@ class CameraViewController: UIViewController {
         hudContainerView.addSubview(rightBottomHUDImageView)
         
         loadingView.backgroundColor = .white
+        loadingView.isHidden = true
         self.view.addSubview(loadingView)
         
         loadingView.addSubview(loadingContainerView)
@@ -111,6 +112,7 @@ class CameraViewController: UIViewController {
                     alertVC.contentText = "사진 촬영을 위해 카메라 접근 권한이 필요합니다.\n설정 화면으로 이동하시겠습니까?"
                     alertVC.delegate = self
                     self?.present(alertVC, animated: true)
+                    self?.setLoadingView(visible: true, text: "NO CAMERA PERMISSION", rotationAnimated: false)
                 }
             }
         })
@@ -126,7 +128,7 @@ class CameraViewController: UIViewController {
 
 private extension CameraViewController {
     func startCamera() {
-        setLoadingView(visible: true)
+        setLoadingView(visible: true, text: "LOADING")
         DispatchQueue.global(qos: .userInitiated).async {
             if self.captureSession == nil {
                 let captureSession = AVCaptureSession()
@@ -176,14 +178,19 @@ private extension CameraViewController {
         }
     }
     
-    func setLoadingView(visible: Bool) {
+    func setLoadingView(visible: Bool, text: String? = nil, rotationAnimated: Bool = true) {
         DispatchQueue.main.async {
+            if let text = text {
+                self.loadingLabel.text = text
+                self.loadingLabel.pin.below(of: self.loadingImageView, aligned: .center).marginTop(6).sizeToFit()
+                self.loadingContainerView.pin.center().wrapContent()
+            }
             if visible {
                 self.loadingView.isHidden = false
                 self.loadingView.alpha = 1.0
                 
                 let kAnimationKey = "rotation"
-                if self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
+                if rotationAnimated && self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
                     let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
                     rotationAnimation.fromValue = 0.0
                     rotationAnimation.toValue = Double.pi * 2
