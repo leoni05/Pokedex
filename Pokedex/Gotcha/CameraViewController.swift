@@ -231,7 +231,9 @@ private extension CameraViewController {
 
 extension CameraViewController {
     func takePicture() {
-        needToTakePicture = true
+        if loadingView.isHidden == true && captureSession?.isRunning == true {
+            needToTakePicture = true
+        }
     }
 }
 
