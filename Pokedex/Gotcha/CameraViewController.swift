@@ -244,6 +244,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         needToTakePicture = false
         self.setLoadingView(visible: true, text: "SCANNING", rotationAnimated: true)
+        self.captureSession?.stopRunning()
         
         if let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             let ciImage = CIImage(cvImageBuffer: cvBuffer)
