@@ -200,6 +200,9 @@ private extension CameraViewController {
                     rotationAnimation.repeatCount = .infinity
                     self.loadingImageView.layer.add(rotationAnimation, forKey: kAnimationKey)
                 }
+                if rotationAnimated == false {
+                    self.loadingImageView.layer.removeAllAnimations()
+                }
             }
             else {
                 UIView.animate(withDuration: 0.7, animations: {
@@ -209,6 +212,17 @@ private extension CameraViewController {
                     self.loadingImageView.layer.removeAllAnimations()
                 })
             }
+        }
+    }
+    
+    func showFileUploadErrorAlert() {
+        DispatchQueue.main.async {
+            let alertVC = AlertViewController()
+            alertVC.delegate = nil
+            alertVC.alertType = .alert
+            alertVC.titleText = "카메라 접근 권한"
+            alertVC.contentText = "사진 업로드 중에 오류가 발생했습니다.\n잠시 후 시도해 주세요."
+            self.present(alertVC, animated: true)
         }
     }
 }
@@ -229,6 +243,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         needToTakePicture = false
+        self.setLoadingView(visible: true, text: "SCANNING", rotationAnimated: true)
+        
         if let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             let ciImage = CIImage(cvImageBuffer: cvBuffer)
             let uiImage = UIImage(ciImage: ciImage)
@@ -237,14 +253,17 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
             let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
             let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
+            
             firebaseReference.putData(imageData, metadata: nil) { metaData, error in
                 if metaData == nil {
-                    // TODO: error 처리
+                    self.showFileUploadErrorAlert()
+                    self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
                     return
                 }
                 firebaseReference.downloadURL { url, error in
                     guard let url = url else {
-                        // TODO: error 처리
+                        self.showFileUploadErrorAlert()
+                        self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
                         return
                     }
                     // TODO: URL 처리
