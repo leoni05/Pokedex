@@ -1,5 +1,14 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,xcode,swift,swiftpackagemanager
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,xcode,swift,swiftpackagemanager
+# Created by https://www.toptal.com/developers/gitignore/api/macos,xcode,swift,swiftpackagemanager,firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,xcode,swift,swiftpackagemanager,firebase
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
 
 ### macOS ###
 # General
@@ -137,4 +146,6 @@ xcuserdata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,xcode,swift,swiftpackagemanager
+# End of https://www.toptal.com/developers/gitignore/api/macos,xcode,swift,swiftpackagemanager,firebase
+
+GoogleService-Info.plist

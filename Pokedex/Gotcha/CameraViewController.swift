@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import PinLayout
 import AVFoundation
+import FirebaseCore
+import FirebaseStorage
 
 class CameraViewController: UIViewController {
     
@@ -226,11 +228,28 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         if needToTakePicture == false {
             return
         }
+        needToTakePicture = false
         if let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             let ciImage = CIImage(cvImageBuffer: cvBuffer)
             let uiImage = UIImage(ciImage: ciImage)
-            needToTakePicture = false
-            print("hihi uiImage \(uiImage)")
+            guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
+                return
+            }
+            let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
+            let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
+            firebaseReference.putData(imageData, metadata: nil) { metaData, error in
+                if metaData == nil {
+                    // TODO: error 처리
+                    return
+                }
+                firebaseReference.downloadURL { url, error in
+                    guard let url = url else {
+                        // TODO: error 처리
+                        return
+                    }
+                    // TODO: URL 처리
+                }
+            }
         }
     }
 }
