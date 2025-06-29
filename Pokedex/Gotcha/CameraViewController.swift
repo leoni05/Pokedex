@@ -225,6 +225,47 @@ private extension CameraViewController {
             self.present(alertVC, animated: true)
         }
     }
+    
+    func processingImageURL(imageURL: URL) {
+        guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist") else { return }
+        guard let dict = NSDictionary(contentsOf: plistURL) else { return }
+        guard let openAIKey = dict["OpenAI"] as? String else { return }
+        guard let apiURL = URL(string: "https://api.openai.com/v1/responses") else { return }
+        
+        var request = URLRequest(url: apiURL)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(openAIKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body: [String: Any] = [
+            "model": "gpt-4.1-mini",
+            "input": [
+                [
+                    "role": "user",
+                    "content": [
+                        [
+                            "type": "input_text",
+                            "text": "Please analyze this image and send me the result text with several numbers separated by commas. First value is the score of this image. The score ranges from 0 to 500. After that, the following are pokedex national numbers of the pokemons in this image without duplication."
+                        ],
+                        [
+                            "type": "input_image",
+                            "image_url": imageURL.absoluteString
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else { return }
+        request.httpBody = jsonData
+        Task {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            guard let result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
+            if result["error"] == nil { return }
+            guard let output = (result["output"] as? [Any])?.first as? [String : Any] else { return }
+            guard let content = (output["content"] as? [Any])?.first as? [String : Any] else { return }
+            guard let resultText = content["text"] as? String else { return }
+            // TODO: - Parsing resultText and showing result
+        }
+    }
 }
 
 // MARK: - Extensions
@@ -269,7 +310,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                         self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
                         return
                     }
-                    // TODO: URL 처리
+                    self.processingImageURL(imageURL: url)
                 }
             }
         }

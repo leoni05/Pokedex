@@ -21,6 +21,7 @@
 		D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */; };
 		D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */; };
 		D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */; };
+		D069A3B92E116E25009D7ACF /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = D069A3B82E116E25009D7ACF /* Keys.plist */; };
 		D0746C592E04527900402D1C /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = D0746C582E04527900402D1C /* PinLayout */; };
 		D0746C5B2E04535A00402D1C /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0746C5A2E04535A00402D1C /* AlertViewController.swift */; };
 		D0746C5F2E0456B000402D1C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0746C5E2E0456B000402D1C /* AlertModel.swift */; };
@@ -51,6 +52,7 @@
 		D046F8C52DDCCAE9000E1A65 /* Galmuri11.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Galmuri11.ttf; sourceTree = "<group>"; };
 		D046F8C72DDCCCA2000E1A65 /* Galmuri11-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Bold.ttf"; sourceTree = "<group>"; };
 		D046F8C82DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Galmuri11-Condensed.ttf"; sourceTree = "<group>"; };
+		D069A3B82E116E25009D7ACF /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		D0746C5A2E04535A00402D1C /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		D0746C5E2E0456B000402D1C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		D0B57B252E018C30004BF924 /* GotchaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GotchaViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		D0C7FCBF2DC52B2E00A0F05D /* Pokedex */ = {
 			isa = PBXGroup;
 			children = (
+				D069A3B82E116E25009D7ACF /* Keys.plist */,
 				D01894B32E0AEE7100D818F8 /* GoogleService-Info.plist */,
 				D046F8C42DDCCAD7000E1A65 /* Font */,
 				D0D238AB2DF43FC6003662D1 /* Common */,
@@ -265,6 +268,7 @@
 				D046F8C92DDCCCA2000E1A65 /* Galmuri11-Bold.ttf in Resources */,
 				D046F8CA2DDCCCA2000E1A65 /* Galmuri11-Condensed.ttf in Resources */,
 				D046F8C62DDCCAE9000E1A65 /* Galmuri11.ttf in Resources */,
+				D069A3B92E116E25009D7ACF /* Keys.plist in Resources */,
 				D0C7FCC52DC52B2E00A0F05D /* LaunchScreen.storyboard in Resources */,
 				D01894B42E0AEE7100D818F8 /* GoogleService-Info.plist in Resources */,
 			);
