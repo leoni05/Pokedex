@@ -180,7 +180,7 @@ private extension CameraViewController {
         }
     }
     
-    func setLoadingView(visible: Bool, text: String? = nil, rotationAnimated: Bool = true) {
+    func setLoadingView(visible: Bool, text: String? = nil, appearAnimated: Bool = false, rotationAnimated: Bool = true) {
         DispatchQueue.main.async {
             if let text = text {
                 self.loadingLabel.text = text
@@ -189,8 +189,14 @@ private extension CameraViewController {
             }
             if visible {
                 self.loadingView.isHidden = false
-                self.loadingView.alpha = 1.0
-                
+                if appearAnimated {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.loadingView.alpha = 1.0
+                    })
+                }
+                else {
+                    self.loadingView.alpha = 1.0
+                }
                 let kAnimationKey = "rotation"
                 if rotationAnimated && self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
                     let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
@@ -286,7 +292,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         needToTakePicture = false
-        self.setLoadingView(visible: true, text: "SCANNING", rotationAnimated: true)
+        self.setLoadingView(visible: true, text: "SCANNING", appearAnimated: true, rotationAnimated: true)
         self.captureSession?.stopRunning()
         
         if let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
