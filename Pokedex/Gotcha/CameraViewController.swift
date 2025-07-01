@@ -295,31 +295,37 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.setLoadingView(visible: true, text: "SCANNING", appearAnimated: true, rotationAnimated: true)
         self.captureSession?.stopRunning()
         
-        if let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-            let ciImage = CIImage(cvImageBuffer: cvBuffer)
-            let uiImage = UIImage(ciImage: ciImage)
-            guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
+        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            self.showFileUploadErrorAlert()
+            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            return
+        }
+        let ciImage = CIImage(cvImageBuffer: cvBuffer)
+        let uiImage = UIImage(ciImage: ciImage)
+        guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
+            self.showFileUploadErrorAlert()
+            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            return
+        }
+        let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
+        let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
+        
+        firebaseReference.putData(imageData, metadata: nil) { metaData, error in
+            if metaData == nil {
+                self.showFileUploadErrorAlert()
+                self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
                 return
             }
-            let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
-            let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
-            
-            firebaseReference.putData(imageData, metadata: nil) { metaData, error in
-                if metaData == nil {
+            firebaseReference.downloadURL { url, error in
+                guard let url = url else {
                     self.showFileUploadErrorAlert()
                     self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
                     return
                 }
-                firebaseReference.downloadURL { url, error in
-                    guard let url = url else {
-                        self.showFileUploadErrorAlert()
-                        self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
-                        return
-                    }
-                    self.processingImageURL(imageURL: url)
-                }
+                self.processingImageURL(imageURL: url)
             }
         }
+        
     }
 }
 
