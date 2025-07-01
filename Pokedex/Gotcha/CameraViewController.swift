@@ -226,7 +226,7 @@ private extension CameraViewController {
             let alertVC = AlertViewController()
             alertVC.delegate = nil
             alertVC.alertType = .alert
-            alertVC.titleText = "카메라 접근 권한"
+            alertVC.titleText = "사진 업로드 오류"
             alertVC.contentText = "사진 업로드 중에 오류가 발생했습니다.\n잠시 후 시도해 주세요."
             self.present(alertVC, animated: true)
         }
