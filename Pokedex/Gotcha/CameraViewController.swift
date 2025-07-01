@@ -233,10 +233,15 @@ private extension CameraViewController {
     }
     
     func processingImageURL(imageURL: URL) {
-        guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist") else { return }
-        guard let dict = NSDictionary(contentsOf: plistURL) else { return }
-        guard let openAIKey = dict["OpenAI"] as? String else { return }
-        guard let apiURL = URL(string: "https://api.openai.com/v1/responses") else { return }
+        guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist"),
+              let dict = NSDictionary(contentsOf: plistURL),
+              let openAIKey = dict["OpenAI"] as? String,
+              let apiURL = URL(string: "https://api.openai.com/v1/responses")
+        else {
+            self.showFileUploadErrorAlert()
+            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            return
+        }
         
         var request = URLRequest(url: apiURL)
         request.httpMethod = "POST"
@@ -260,15 +265,23 @@ private extension CameraViewController {
                 ]
             ]
         ]
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else { return }
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+            self.showFileUploadErrorAlert()
+            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            return
+        }
         request.httpBody = jsonData
         Task {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            guard let result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
-            if result["error"] == nil { return }
-            guard let output = (result["output"] as? [Any])?.first as? [String : Any] else { return }
-            guard let content = (output["content"] as? [Any])?.first as? [String : Any] else { return }
-            guard let resultText = content["text"] as? String else { return }
+            guard let (data, _) = try? await URLSession.shared.data(for: request),
+                  let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let output = (result["output"] as? [Any])?.first as? [String : Any],
+                  let content = (output["content"] as? [Any])?.first as? [String : Any],
+                  let resultText = content["text"] as? String
+            else {
+                self.showFileUploadErrorAlert()
+                self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+                return
+            }
             // TODO: - Parsing resultText and showing result
         }
     }
