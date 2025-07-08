@@ -77,4 +77,5 @@ struct PokemonModel {
     let weight: String
     let category: String
     let desc: String
+    let engName: String
 }
