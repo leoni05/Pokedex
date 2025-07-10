@@ -114,7 +114,7 @@ class CameraViewController: UIViewController {
                     alertVC.contentText = "사진 촬영을 위해 카메라 접근 권한이 필요합니다.\n설정 화면으로 이동하시겠습니까?"
                     alertVC.delegate = self
                     self?.present(alertVC, animated: true)
-                    self?.setLoadingView(visible: true, text: "NO CAMERA PERMISSION", rotationAnimated: false)
+                    self?.showGuideView(text: "NO CAMERA PERMISSION")
                 }
             }
         })
@@ -130,7 +130,7 @@ class CameraViewController: UIViewController {
 
 private extension CameraViewController {
     func startCamera() {
-        setLoadingView(visible: true, text: "LOADING")
+        showSpinningGuideView(text: "LOADING")
         DispatchQueue.global(qos: .userInitiated).async {
             if self.captureSession == nil {
                 let captureSession = AVCaptureSession()
@@ -176,49 +176,72 @@ private extension CameraViewController {
     
     @objc func didReceiveNotification(_ notification: Notification) {
         if notification.name == AVCaptureSession.didStartRunningNotification {
-            setLoadingView(visible: false)
+            hideGuideView()
         }
     }
     
-    func setLoadingView(visible: Bool, text: String? = nil, appearAnimated: Bool = false, rotationAnimated: Bool = true) {
+    func hideGuideView() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.7, animations: {
+                self.loadingView.alpha = 0.0
+            }, completion: { _ in
+                self.loadingView.isHidden = true
+                self.loadingImageView.layer.removeAllAnimations()
+            })
+        }
+    }
+    
+    func showGuideView(text: String? = nil, appearAnimated: Bool = false) {
         DispatchQueue.main.async {
             if let text = text {
                 self.loadingLabel.text = text
                 self.loadingLabel.pin.below(of: self.loadingImageView, aligned: .center).marginTop(6).sizeToFit()
                 self.loadingContainerView.pin.center().wrapContent()
             }
-            if visible {
-                self.loadingView.isHidden = false
-                if appearAnimated {
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.loadingView.alpha = 1.0
-                    })
-                }
-                else {
+            self.loadingView.isHidden = false
+            if appearAnimated {
+                UIView.animate(withDuration: 0.3, animations: {
                     self.loadingView.alpha = 1.0
-                }
-                let kAnimationKey = "rotation"
-                if rotationAnimated && self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
-                    let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-                    rotationAnimation.fromValue = 0.0
-                    rotationAnimation.toValue = Double.pi * 2
-                    rotationAnimation.duration = 1.0
-                    rotationAnimation.repeatCount = .infinity
-                    self.loadingImageView.layer.add(rotationAnimation, forKey: kAnimationKey)
-                }
-                if rotationAnimated == false {
-                    self.loadingImageView.layer.removeAllAnimations()
-                }
-            }
-            else {
-                UIView.animate(withDuration: 0.7, animations: {
-                    self.loadingView.alpha = 0.0
-                }, completion: { _ in
-                    self.loadingView.isHidden = true
-                    self.loadingImageView.layer.removeAllAnimations()
                 })
             }
+            else {
+                self.loadingView.alpha = 1.0
+            }
+            self.loadingImageView.layer.removeAllAnimations()
         }
+
+    }
+    
+    func showSpinningGuideView(text: String? = nil, appearAnimated: Bool = false) {
+        DispatchQueue.main.async {
+            if let text = text {
+                self.loadingLabel.text = text
+                self.loadingLabel.pin.below(of: self.loadingImageView, aligned: .center).marginTop(6).sizeToFit()
+                self.loadingContainerView.pin.center().wrapContent()
+            }
+            self.loadingView.isHidden = false
+            if appearAnimated {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.loadingView.alpha = 1.0
+                })
+            }
+            else {
+                self.loadingView.alpha = 1.0
+            }
+            let kAnimationKey = "rotation"
+            if self.loadingImageView.layer.animation(forKey: kAnimationKey) == nil {
+                let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                rotationAnimation.fromValue = 0.0
+                rotationAnimation.toValue = Double.pi * 2
+                rotationAnimation.duration = 1.0
+                rotationAnimation.repeatCount = .infinity
+                self.loadingImageView.layer.add(rotationAnimation, forKey: kAnimationKey)
+            }
+        }
+    }
+    
+    func showCapturingGuideView(text: String? = nil, appearAnimated: Bool = false) {
+        
     }
     
     func showFileUploadErrorAlert() {
@@ -239,7 +262,7 @@ private extension CameraViewController {
               let apiURL = URL(string: "https://api.openai.com/v1/responses")
         else {
             self.showFileUploadErrorAlert()
-            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            self.showGuideView(text: "ERROR")
             return
         }
         
@@ -267,7 +290,7 @@ private extension CameraViewController {
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
             self.showFileUploadErrorAlert()
-            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            self.showGuideView(text: "ERROR")
             return
         }
         request.httpBody = jsonData
@@ -279,7 +302,7 @@ private extension CameraViewController {
                   let resultText = content["text"] as? String
             else {
                 self.showFileUploadErrorAlert()
-                self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+                self.showGuideView(text: "ERROR")
                 return
             }
             // TODO: - Parsing resultText and showing result
@@ -306,19 +329,20 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         needToTakePicture = false
-        self.setLoadingView(visible: true, text: "SCANNING", appearAnimated: true, rotationAnimated: true)
+        self.showSpinningGuideView(text: "SCANNING", appearAnimated: true)
+        
         self.captureSession?.stopRunning()
         
         guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             self.showFileUploadErrorAlert()
-            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            self.showGuideView(text: "ERROR")
             return
         }
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
         let uiImage = UIImage(ciImage: ciImage)
         guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
             self.showFileUploadErrorAlert()
-            self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+            self.showGuideView(text: "ERROR")
             return
         }
         let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
@@ -327,13 +351,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         firebaseReference.putData(imageData, metadata: nil) { metaData, error in
             if metaData == nil {
                 self.showFileUploadErrorAlert()
-                self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+                self.showGuideView(text: "ERROR")
                 return
             }
             firebaseReference.downloadURL { url, error in
                 guard let url = url else {
                     self.showFileUploadErrorAlert()
-                    self.setLoadingView(visible: true, text: "ERROR", rotationAnimated: false)
+                    self.showGuideView(text: "ERROR")
                     return
                 }
                 self.processingImageURL(imageURL: url)
