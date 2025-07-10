@@ -266,8 +266,52 @@ private extension CameraViewController {
     @objc func shakePokeball(_ timer: Timer) {
         if self.resultText != nil {
             timer.invalidate()
+            return
         }
-        //TODO: - shake animation
+        
+        self.loadingImageView.layer.removeAllAnimations()
+        let initX = loadingImageView.center.x
+        let diffX: CGFloat = 6.0
+        let ballRadius: CGFloat = 24.0
+        let diffAngle: CGFloat = diffX / ballRadius
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            CATransaction.begin()
+            let positionXAnim2 = CABasicAnimation(keyPath: "position.x")
+            positionXAnim2.fromValue = initX
+            positionXAnim2.toValue = initX + diffX
+            
+            let rotationAnim2 = CABasicAnimation(keyPath: "transform.rotation")
+            rotationAnim2.fromValue = 0.0
+            rotationAnim2.toValue = diffAngle
+            
+            let animGroup2 = CAAnimationGroup()
+            animGroup2.animations = [positionXAnim2, rotationAnim2]
+            animGroup2.duration = 0.08
+            animGroup2.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            animGroup2.autoreverses = true
+            
+            self.loadingImageView.layer.add(animGroup2, forKey: "animGroup")
+            CATransaction.commit()
+        })
+        
+        let positionXAnim1 = CABasicAnimation(keyPath: "position.x")
+        positionXAnim1.fromValue = initX
+        positionXAnim1.toValue = initX - diffX
+        
+        let rotationAnim1 = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnim1.fromValue = 0.0
+        rotationAnim1.toValue = -diffAngle
+        
+        let animGroup1 = CAAnimationGroup()
+        animGroup1.animations = [positionXAnim1, rotationAnim1]
+        animGroup1.duration = 0.08
+        animGroup1.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        animGroup1.autoreverses = true
+        
+        self.loadingImageView.layer.add(animGroup1, forKey: "animGroup")
+        CATransaction.commit()
     }
     
     func showFileUploadErrorAlert() {
