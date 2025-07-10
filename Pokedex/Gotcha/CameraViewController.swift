@@ -136,8 +136,8 @@ private extension CameraViewController {
                 let captureSession = AVCaptureSession()
                 captureSession.beginConfiguration()
                 
-                if captureSession.canSetSessionPreset(.photo) == true {
-                    captureSession.sessionPreset = .photo
+                if captureSession.canSetSessionPreset(.high) == true {
+                    captureSession.sessionPreset = .high
                 }
                 captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
                 
@@ -283,6 +283,7 @@ private extension CameraViewController {
                 return
             }
             // TODO: - Parsing resultText and showing result
+            print("hihi resultText \(resultText)")
         }
     }
 }
