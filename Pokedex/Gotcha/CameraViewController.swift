@@ -36,6 +36,8 @@ class CameraViewController: UIViewController {
     private let loadingLabel = UILabel()
     private let loadingImageView = UIImageView()
     
+    private var resultText: String? = nil
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -241,7 +243,31 @@ private extension CameraViewController {
     }
     
     func showCapturingGuideView(text: String? = nil, appearAnimated: Bool = false) {
-        
+        DispatchQueue.main.async {
+            if let text = text {
+                self.loadingLabel.text = text
+                self.loadingLabel.pin.below(of: self.loadingImageView, aligned: .center).marginTop(6).sizeToFit()
+                self.loadingContainerView.pin.center().wrapContent()
+            }
+            self.loadingView.isHidden = false
+            if appearAnimated {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.loadingView.alpha = 1.0
+                })
+            }
+            else {
+                self.loadingView.alpha = 1.0
+            }
+            Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.shakePokeball(_:)),
+                                 userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func shakePokeball(_ timer: Timer) {
+        if self.resultText != nil {
+            timer.invalidate()
+        }
+        //TODO: - shake animation
     }
     
     func showFileUploadErrorAlert() {
@@ -299,14 +325,16 @@ private extension CameraViewController {
                   let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let output = (result["output"] as? [Any])?.first as? [String : Any],
                   let content = (output["content"] as? [Any])?.first as? [String : Any],
-                  let resultText = content["text"] as? String
+                  let responseText = content["text"] as? String
             else {
                 self.showFileUploadErrorAlert()
                 self.showGuideView(text: "ERROR")
                 return
             }
-            // TODO: - Parsing resultText and showing result
-            print("hihi resultText \(resultText)")
+            var resultText = responseText
+            resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
+            resultText = resultText.uppercased()
+            self.resultText = resultText
         }
     }
 }
@@ -329,7 +357,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         needToTakePicture = false
-        self.showSpinningGuideView(text: "SCANNING", appearAnimated: true)
+        self.showCapturingGuideView(text: "SCANNING", appearAnimated: true)
         
         self.captureSession?.stopRunning()
         
