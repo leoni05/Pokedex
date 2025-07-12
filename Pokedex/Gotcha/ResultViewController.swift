@@ -23,6 +23,7 @@ class ResultViewController: UIViewController {
     private var pokemonImageView = UIImageView()
     private var prevButton = UIButton()
     private var nextButton = UIButton()
+    private var selectedIndex: Int = 0
     
     // MARK: - Life Cycle
 
@@ -52,12 +53,18 @@ class ResultViewController: UIViewController {
         prevButton.setTitle("◀ PREV", for: .normal)
         prevButton.setTitleColor(.wineRed, for: .normal)
         prevButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        prevButton.addTarget(self, action: #selector(prevButtonPressed(_:)), for: .touchUpInside)
         containerView.addSubview(prevButton)
         
         nextButton.setTitle("NEXT ▶", for: .normal)
         nextButton.setTitleColor(.wineRed, for: .normal)
         nextButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        nextButton.addTarget(self, action: #selector(nextButtonPressed(_:)), for: .touchUpInside)
         containerView.addSubview(nextButton)
+        
+        if resultPokemons.count >= 1 {
+            showPokemon(index: selectedIndex)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -89,5 +96,36 @@ extension ResultViewController {
                 }
             }
         }
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension ResultViewController {
+    func showPokemon(index: Int) {
+        if index == 0 { prevButton.isHidden = true }
+        else { prevButton.isHidden = false }
+        
+        pokemonImageView.alpha = 0.0
+        if let pokemon = Pokedex.shared.getPokemon(engName: resultPokemons[index]) {
+            numberLabel.text = "No. \(String(format: "%04d", pokemon.pokedexNumber))"
+            nameLabel.text = pokemon.name
+            pokemonImageView.image = UIImage(named: "Pokedex\(String(format: "%03d", pokemon.pokedexNumber-1))")
+            UIView.animate(withDuration: 0.4, animations: {
+                self.pokemonImageView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func prevButtonPressed(_ sender: UIButton) {
+        if selectedIndex == 0 { return }
+        selectedIndex -= 1
+        showPokemon(index: selectedIndex)
+    }
+    
+    @objc func nextButtonPressed(_ sender: UIButton) {
+        if selectedIndex+1 >= resultPokemons.count { return }
+        selectedIndex += 1
+        showPokemon(index: selectedIndex)
     }
 }
