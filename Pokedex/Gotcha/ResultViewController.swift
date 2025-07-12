@@ -84,7 +84,9 @@ extension ResultViewController {
             resultScore = Int(resultArray[0]) ?? 0
             resultPokemons = []
             for idx in 1..<resultArray.count {
-                resultPokemons.append(resultArray[idx])
+                if Pokedex.shared.getPokemon(engName: resultArray[idx]) != nil {
+                    resultPokemons.append(resultArray[idx])
+                }
             }
         }
     }

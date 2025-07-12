@@ -13,6 +13,7 @@ class Pokedex {
     
     static let shared = Pokedex()
     var pokemons = Array<PokemonModel>()
+    private var pokemonMapper = Dictionary<String, Int>()
 
     // MARK: - Life Cycle
     
@@ -281,6 +282,21 @@ class Pokedex {
             PokemonModel(name: "빠모트", type: [.electric, .fighting], height: "0.4m", weight: "6.5kg", category: "쥐포켓몬",
                          desc: "무리가 공격을 받으면 전격을 날리는 격투기로 먼저 싸움을 걸고 적을 쓰러뜨린다.", engName: "Pawmo")
         ]
+        
+        for idx in 0..<pokemons.count {
+            pokemons[idx].pokedexNumber = idx+1
+            pokemonMapper[pokemons[idx].engName.uppercased()] = idx
+        }
     }
-    
+}
+
+// MARK: - Extensions
+
+extension Pokedex {
+    func getPokemon(engName: String) -> PokemonModel? {
+        if let idx = pokemonMapper[engName] {
+            return pokemons[idx]
+        }
+        return nil
+    }
 }

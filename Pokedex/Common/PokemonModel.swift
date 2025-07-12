@@ -78,4 +78,5 @@ struct PokemonModel {
     let category: String
     let desc: String
     let engName: String
+    var pokedexNumber: Int = 0
 }
