@@ -36,6 +36,8 @@ class CameraViewController: UIViewController {
     private let loadingLabel = UILabel()
     private let loadingImageView = UIImageView()
     
+    private let starLabels: Array<UILabel> = [UILabel(), UILabel(), UILabel()]
+    
     private var resultText: String? = nil
     
     // MARK: - Life Cycle
@@ -70,6 +72,18 @@ class CameraViewController: UIViewController {
         loadingView.backgroundColor = .white
         loadingView.isHidden = true
         self.view.addSubview(loadingView)
+        
+        starLabels[0].font = UIFont(name: "Galmuri11-Bold", size: 19)
+        starLabels[1].font = UIFont(name: "Galmuri11-Bold", size: 25)
+        starLabels[2].font = UIFont(name: "Galmuri11-Bold", size: 22)
+        for idx in 0..<starLabels.count {
+            starLabels[idx].text = "★"
+            starLabels[idx].textColor = .wineRed
+            starLabels[idx].sizeToFit()
+            starLabels[idx].isHidden = true
+            starLabels[idx].alpha = 0.0
+            loadingView.addSubview(starLabels[idx])
+        }
         
         loadingView.addSubview(loadingContainerView)
         
@@ -266,6 +280,34 @@ private extension CameraViewController {
     @objc func shakePokeball(_ timer: Timer) {
         if self.resultText != nil {
             timer.invalidate()
+            for idx in 0..<starLabels.count {
+                starLabels[idx].pin.center(to: loadingImageView.anchor.center)
+                starLabels[idx].alpha = 0.0
+                starLabels[idx].isHidden = false
+            }
+            starLabels[0].transform = CGAffineTransform(rotationAngle: -6.0)
+            starLabels[1].transform = CGAffineTransform(rotationAngle: -1.5)
+            starLabels[2].transform = CGAffineTransform(rotationAngle: 4.4)
+            
+            UIView.animate(withDuration: 0.8, delay: 0.0, animations: {
+                self.starLabels[0].pin.above(of: self.loadingImageView, aligned: .center).marginRight(30)
+                self.starLabels[1].pin.above(of: self.loadingImageView, aligned: .center).marginBottom(5)
+                self.starLabels[2].pin.above(of: self.loadingImageView, aligned: .center).marginLeft(30)
+                for idx in 0..<self.starLabels.count {
+                    self.starLabels[idx].transform = .identity
+                }
+            })
+            UIView.animate(withDuration: 0.3, delay: 0.3, animations: {
+                for idx in 0..<self.starLabels.count {
+                    self.starLabels[idx].alpha = 1.0
+                }
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
+                    for idx in 0..<self.starLabels.count {
+                        self.starLabels[idx].alpha = 0.0
+                    }
+                })
+            })
             return
         }
         
