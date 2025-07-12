@@ -121,8 +121,12 @@ private extension GotchaViewController {
 // MARK: - CameraViewControllerDelegate
 
 extension GotchaViewController: CameraViewControllerDelegate {
-    func captureFinished(resultText: String) {
+    func captureFinished(cameraVC: CameraViewController, resultText: String) {
         print("GotchaViewController received: \(resultText)")
+        if cameraVC != presentingVC {
+            print("Skipped: \(resultText)")
+            return
+        }
         self.resultText = resultText
         showResultVC()
     }

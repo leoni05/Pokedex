@@ -13,7 +13,7 @@ import FirebaseCore
 import FirebaseStorage
 
 protocol CameraViewControllerDelegate: AnyObject {
-    func captureFinished(resultText: String)
+    func captureFinished(cameraVC: CameraViewController, resultText: String)
 }
 
 class CameraViewController: UIViewController {
@@ -316,7 +316,7 @@ private extension CameraViewController {
                     }
                 }, completion: { _ in
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                        self.delegate?.captureFinished(resultText: self.resultText ?? "")
+                        self.delegate?.captureFinished(cameraVC: self, resultText: self.resultText ?? "")
                     }
                 })
             })
