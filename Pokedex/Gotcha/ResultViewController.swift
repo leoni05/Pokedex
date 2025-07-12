@@ -15,6 +15,7 @@ class ResultViewController: UIViewController {
     
     private var resultScore: Int = 0
     private var resultPokemons: Array<String> = []
+    private var pokemonSet: Set<String> = []
     
     private var containerView = UIView()
     private var titleLabel = UILabel()
@@ -90,9 +91,13 @@ extension ResultViewController {
         if resultArray.count > 0 {
             resultScore = Int(resultArray[0]) ?? 0
             resultPokemons = []
+            pokemonSet = []
+            
             for idx in 1..<resultArray.count {
-                if Pokedex.shared.getPokemon(engName: resultArray[idx]) != nil {
+                if Pokedex.shared.getPokemon(engName: resultArray[idx]) != nil
+                    && pokemonSet.contains(resultArray[idx]) == false {
                     resultPokemons.append(resultArray[idx])
+                    pokemonSet.insert(resultArray[idx])
                 }
             }
         }
