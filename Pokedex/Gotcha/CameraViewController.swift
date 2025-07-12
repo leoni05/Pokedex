@@ -46,6 +46,10 @@ class CameraViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    deinit {
+        print("CameraViewController deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white

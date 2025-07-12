@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE2C7E2E223526005E713D /* ResultViewController.swift */; };
 		D01894B42E0AEE7100D818F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D01894B32E0AEE7100D818F8 /* GoogleService-Info.plist */; };
 		D01894B72E0AEFF800D818F8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D01894B62E0AEFF800D818F8 /* FirebaseAuth */; };
 		D01894B92E0AEFF800D818F8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D01894B82E0AEFF800D818F8 /* FirebaseFirestore */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2EAE2C7E2E223526005E713D /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		D01894B32E0AEE7100D818F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D02241932DEF0575003F68D1 /* PokedexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexViewController.swift; sourceTree = "<group>"; };
 		D02241952DEF05C3003F68D1 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				D0B57B252E018C30004BF924 /* GotchaViewController.swift */,
 				D02241972DEF05DD003F68D1 /* CameraViewController.swift */,
+				2EAE2C7E2E223526005E713D /* ResultViewController.swift */,
 			);
 			path = Gotcha;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			files = (
 				D0C4676F2DD8C2AF0011B152 /* MainTabBarView.swift in Sources */,
 				D022419C2DEF0610003F68D1 /* SettingViewController.swift in Sources */,
+				2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */,
 				D0D238A82DF40D47003662D1 /* PokedexCell.swift in Sources */,
 				D0C7FCC02DC52B2E00A0F05D /* AppDelegate.swift in Sources */,
 				D0746C5B2E04535A00402D1C /* AlertViewController.swift in Sources */,

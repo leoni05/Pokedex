@@ -15,6 +15,8 @@ class GotchaViewController: UIViewController {
     // MARK: - Properties
     
     private var presentingVC: UIViewController? = nil
+    private var resultScore: Int = 0
+    private var resultPokemons: Array<String> = []
     
     // MARK: - Life Cycle
     
@@ -96,6 +98,24 @@ private extension GotchaViewController {
         }
         presentingVC = nil
     }
+    
+    func showResultVC() {
+        if presentingVC is CameraViewController {
+            UIView.animate(withDuration: 0.4, animations: {
+                self.presentingVC?.view.alpha = 0.0
+            }, completion: { _ in
+                self.removeCameraVC()
+                let resultVC = ResultViewController()
+                self.presentingVC = resultVC
+                if let vc = self.presentingVC {
+                    self.addChild(vc)
+                    vc.view.frame = .zero
+                    self.view.insertSubview(vc.view, at: 0)
+                    vc.view.didMoveToSuperview()
+                }
+            })
+        }
+    }
 }
 
 // MARK: - CameraViewControllerDelegate
@@ -103,5 +123,15 @@ private extension GotchaViewController {
 extension GotchaViewController: CameraViewControllerDelegate {
     func captureFinished(resultText: String) {
         print("GotchaViewController received: \(resultText)")
+        
+        let resultArray = resultText.components(separatedBy: ",")
+        if resultArray.count > 0 {
+            resultScore = Int(resultArray[0]) ?? 0
+            resultPokemons = []
+            for idx in 1..<resultArray.count {
+                resultPokemons.append(resultArray[idx])
+            }
+        }
+        showResultVC()
     }
 }
