@@ -77,7 +77,9 @@ private extension GotchaViewController {
     }
     
     func addCameraVC() {
-        presentingVC = CameraViewController()
+        let cameraVC = CameraViewController()
+        cameraVC.delegate = self
+        presentingVC = cameraVC
         if let vc = presentingVC {
             self.addChild(vc)
             vc.view.frame = .zero
@@ -93,5 +95,13 @@ private extension GotchaViewController {
             vc.removeFromParent()
         }
         presentingVC = nil
+    }
+}
+
+// MARK: - CameraViewControllerDelegate
+
+extension GotchaViewController: CameraViewControllerDelegate {
+    func captureFinished(resultText: String) {
+        print("GotchaViewController received: \(resultText)")
     }
 }

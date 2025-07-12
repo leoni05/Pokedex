@@ -12,6 +12,10 @@ import AVFoundation
 import FirebaseCore
 import FirebaseStorage
 
+protocol CameraViewControllerDelegate: AnyObject {
+    func captureFinished(resultText: String)
+}
+
 class CameraViewController: UIViewController {
     
     // MARK: - Properties
@@ -37,8 +41,8 @@ class CameraViewController: UIViewController {
     private let loadingImageView = UIImageView()
     
     private let starLabels: Array<UILabel> = [UILabel(), UILabel(), UILabel()]
-    
     private var resultText: String? = nil
+    weak var delegate: CameraViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -305,6 +309,10 @@ private extension CameraViewController {
                 UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
                     for idx in 0..<self.starLabels.count {
                         self.starLabels[idx].alpha = 0.0
+                    }
+                }, completion: { _ in
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                        self.delegate?.captureFinished(resultText: self.resultText ?? "")
                     }
                 })
             })
