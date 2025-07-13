@@ -455,7 +455,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         needToTakePicture = false
-        self.showCapturingGuideView(text: "SCANNING", appearAnimated: true)
+        self.showCapturingGuideView(text: "지우는 몬스터볼을 썼다!", appearAnimated: true)
         
         self.captureSession?.stopRunning()
         

@@ -56,7 +56,7 @@ class CardViewController: UIViewController {
         titleLabel.textAlignment = .center
         scrollView.addSubview(titleLabel)
         
-        trainerImage.image = UIImage(named: "TrainerCard19")
+        trainerImage.image = UIImage(named: "TrainerCard18")
         trainerImage.contentMode = .scaleAspectFill
         trainerImage.layer.cornerRadius = 4.0
         trainerImage.layer.borderWidth = 1.0
@@ -65,7 +65,7 @@ class CardViewController: UIViewController {
         
         scrollView.addSubview(infoView)
         
-        nameLabel.text = "이름: 빛나"
+        nameLabel.text = "이름: 지우"
         nameLabel.textColor = .wineRed
         nameLabel.font = UIFont(name: "Galmuri11-Regular", size: 14)
         nameLabel.numberOfLines = 1
