@@ -80,4 +80,5 @@ struct PokemonModel {
     let engName: String
     var pokedexNumber: Int = 0
     var capturedDate: String = "미포획"
+    var selected: Bool = false
 }

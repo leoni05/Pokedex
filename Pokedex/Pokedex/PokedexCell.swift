@@ -98,7 +98,7 @@ class PokedexCell: UICollectionViewCell {
 extension PokedexCell {
     func setPokemonInfo(index: Int) {
         pokedexIndex = index
-        pokeballImageView.image = UIImage(named: pokeballImageName + ".fill")
+        pokeballImageView.image = UIImage(named: pokeballImageName + (Pokedex.shared.pokemons[index].selected ? ".fill" : ""))
         pokemonImageView.image = UIImage(named: "Pokedex" + String(format: "%03d", index))
         captureDateLabel.text = Pokedex.shared.pokemons[index].capturedDate
         
