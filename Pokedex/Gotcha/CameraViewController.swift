@@ -43,6 +43,7 @@ class CameraViewController: UIViewController {
     private let starLabels: Array<UILabel> = [UILabel(), UILabel(), UILabel()]
     private var resultText: String? = nil
     weak var delegate: CameraViewControllerDelegate? = nil
+    private var timerForShaking: Timer? = nil
     
     // MARK: - Life Cycle
     
@@ -210,6 +211,8 @@ private extension CameraViewController {
                 self.loadingView.alpha = 0.0
             }, completion: { _ in
                 self.loadingView.isHidden = true
+                self.timerForShaking?.invalidate()
+                self.timerForShaking = nil
                 self.loadingImageView.layer.removeAllAnimations()
             })
         }
@@ -231,9 +234,10 @@ private extension CameraViewController {
             else {
                 self.loadingView.alpha = 1.0
             }
+            self.timerForShaking?.invalidate()
+            self.timerForShaking = nil
             self.loadingImageView.layer.removeAllAnimations()
         }
-
     }
     
     func showSpinningGuideView(text: String? = nil, appearAnimated: Bool = false) {
@@ -280,14 +284,16 @@ private extension CameraViewController {
             else {
                 self.loadingView.alpha = 1.0
             }
-            Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.shakePokeball(_:)),
-                                 userInfo: nil, repeats: true)
+            self.timerForShaking = Timer.scheduledTimer(timeInterval: 1.0, target: self,
+                                                        selector: #selector(self.shakePokeball(_:)),
+                                                        userInfo: nil, repeats: true)
         }
     }
     
     @objc func shakePokeball(_ timer: Timer) {
         if self.resultText != nil {
             timer.invalidate()
+            timerForShaking = nil
             for idx in 0..<starLabels.count {
                 starLabels[idx].pin.center(to: loadingImageView.anchor.center)
                 starLabels[idx].alpha = 0.0
@@ -386,7 +392,7 @@ private extension CameraViewController {
               let apiURL = URL(string: "https://api.openai.com/v1/responses")
         else {
             self.showFileUploadErrorAlert()
-            self.showGuideView(text: "ERROR")
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
             return
         }
         
@@ -414,7 +420,7 @@ private extension CameraViewController {
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
             self.showFileUploadErrorAlert()
-            self.showGuideView(text: "ERROR")
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
             return
         }
         request.httpBody = jsonData
@@ -426,7 +432,7 @@ private extension CameraViewController {
                   let responseText = content["text"] as? String
             else {
                 self.showFileUploadErrorAlert()
-                self.showGuideView(text: "ERROR")
+                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
                 return
             }
             var resultText = responseText
@@ -461,14 +467,14 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             self.showFileUploadErrorAlert()
-            self.showGuideView(text: "ERROR")
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
             return
         }
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
         let uiImage = UIImage(ciImage: ciImage)
         guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
             self.showFileUploadErrorAlert()
-            self.showGuideView(text: "ERROR")
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
             return
         }
         let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
@@ -477,13 +483,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         firebaseReference.putData(imageData, metadata: nil) { metaData, error in
             if metaData == nil {
                 self.showFileUploadErrorAlert()
-                self.showGuideView(text: "ERROR")
+                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
                 return
             }
             firebaseReference.downloadURL { url, error in
                 guard let url = url else {
                     self.showFileUploadErrorAlert()
-                    self.showGuideView(text: "ERROR")
+                    self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
                     return
                 }
                 self.processingImageURL(imageURL: url)
