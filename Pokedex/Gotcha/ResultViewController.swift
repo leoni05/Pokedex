@@ -26,6 +26,10 @@ class ResultViewController: UIViewController {
     private var nextButton = UIButton()
     private var selectedIndex: Int = 0
     
+    private var failContainerView = UIView()
+    private var failImageView = UIImageView()
+    private var failLabel = UILabel()
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -63,8 +67,32 @@ class ResultViewController: UIViewController {
         nextButton.addTarget(self, action: #selector(nextButtonPressed(_:)), for: .touchUpInside)
         containerView.addSubview(nextButton)
         
+        self.view.addSubview(failContainerView)
+        
+        failImageView.image = UIImage(named: "pachirisu")
+        failImageView.contentMode = .scaleAspectFill
+        failImageView.layer.borderWidth = 1.0
+        failImageView.layer.borderColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0).cgColor
+        failImageView.layer.cornerRadius = 25.0
+        failImageView.layer.masksToBounds = true
+        failContainerView.addSubview(failImageView)
+        
+        failLabel.textColor = .wineRed
+        failLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
+        failLabel.text = "포켓몬을 찾지 못 했어요 ㅠ.ㅠ\n다시 시도해 볼까요?"
+        failLabel.numberOfLines = 0
+        failLabel.textAlignment = .center
+        failContainerView.addSubview(failLabel)
+        
+        containerView.isHidden = true
+        failContainerView.isHidden = true
+        
         if resultPokemons.count >= 1 {
+            containerView.isHidden = false
             showPokemon(index: selectedIndex)
+        }
+        else {
+            failContainerView.isHidden = false
         }
     }
     
@@ -79,6 +107,10 @@ class ResultViewController: UIViewController {
         prevButton.pin.bottom(40).left(16).sizeToFit()
         nextButton.pin.bottom(40).right(16).sizeToFit()
         pokemonImageView.pin.center().size(250)
+        
+        failImageView.pin.top().left().size(100)
+        failLabel.pin.below(of: failImageView, aligned: .center).marginTop(12).sizeToFit()
+        failContainerView.pin.center().wrapContent()
     }
     
 }
