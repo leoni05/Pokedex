@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol ResultViewControllerDelegate: AnyObject {
+    func resultOkButtonPressed()
+}
+
 class ResultViewController: UIViewController {
     
     // MARK: - Properties
@@ -29,6 +33,9 @@ class ResultViewController: UIViewController {
     private var failContainerView = UIView()
     private var failImageView = UIImageView()
     private var failLabel = UILabel()
+    
+    private var okButton = UIButton()
+    weak var delegate: ResultViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
 
@@ -84,6 +91,15 @@ class ResultViewController: UIViewController {
         failLabel.textAlignment = .center
         failContainerView.addSubview(failLabel)
         
+        okButton.layer.borderWidth = 2.0
+        okButton.layer.borderColor = UIColor.wineRed.cgColor
+        okButton.setTitle("확인", for: .normal)
+        okButton.setTitleColor(.wineRed, for: .normal)
+        okButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        okButton.addTarget(self, action: #selector(okButtonPressed(_:)), for: .touchUpInside)
+        self.view.addSubview(okButton)
+        
+        okButton.isHidden = true
         containerView.isHidden = true
         failContainerView.isHidden = true
         
@@ -93,6 +109,7 @@ class ResultViewController: UIViewController {
         }
         else {
             failContainerView.isHidden = false
+            okButton.isHidden = false
         }
     }
     
@@ -111,6 +128,8 @@ class ResultViewController: UIViewController {
         failImageView.pin.top().left().size(100)
         failLabel.pin.below(of: failImageView, aligned: .center).marginTop(12).sizeToFit()
         failContainerView.pin.center().wrapContent()
+        
+        okButton.pin.bottom(16).right(16).width(68).height(52)
     }
     
 }
@@ -164,5 +183,9 @@ private extension ResultViewController {
         if selectedIndex+1 >= resultPokemons.count { return }
         selectedIndex += 1
         showPokemon(index: selectedIndex)
+    }
+    
+    @objc func okButtonPressed(_ sender: UIButton) {
+        delegate?.resultOkButtonPressed()
     }
 }

@@ -45,7 +45,7 @@ class GotchaViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if presentingVC is CameraViewController {
-            removeCameraVC()
+            removePresentingVC()
         }
     }
     
@@ -72,7 +72,7 @@ private extension GotchaViewController {
         }
         if notification.name == UIApplication.didEnterBackgroundNotification {
             if presentingVC is CameraViewController {
-                removeCameraVC()
+                removePresentingVC()
             }
         }
     }
@@ -89,7 +89,7 @@ private extension GotchaViewController {
         }
     }
     
-    func removeCameraVC() {
+    func removePresentingVC() {
         if let vc = presentingVC {
             vc.willMove(toParent: nil)
             vc.view.removeFromSuperview()
@@ -103,8 +103,9 @@ private extension GotchaViewController {
             UIView.animate(withDuration: 0.4, animations: {
                 self.presentingVC?.view.alpha = 0.0
             }, completion: { _ in
-                self.removeCameraVC()
+                self.removePresentingVC()
                 let resultVC = ResultViewController()
+                resultVC.delegate = self
                 resultVC.setResult(resultText: self.resultText)
                 self.presentingVC = resultVC
                 if let vc = self.presentingVC {
@@ -129,5 +130,14 @@ extension GotchaViewController: CameraViewControllerDelegate {
         }
         self.resultText = resultText
         showResultVC()
+    }
+}
+
+// MARK: - CameraViewControllerDelegate
+
+extension GotchaViewController: ResultViewControllerDelegate {
+    func resultOkButtonPressed() {
+        removePresentingVC()
+        addCameraVC()
     }
 }
