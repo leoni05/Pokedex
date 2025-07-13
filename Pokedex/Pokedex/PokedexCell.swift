@@ -45,7 +45,7 @@ class PokedexCell: UICollectionViewCell {
         captureDateLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
         captureDateLabel.font = .systemFont(ofSize: 12.0, weight: .regular)
         captureDateLabel.numberOfLines = 1
-        captureDateLabel.text = "2025/01/01"
+        captureDateLabel.text = "미포획"
         containerView.addSubview(captureDateLabel)
         
         typeLabel1.layer.cornerRadius = 4.0
@@ -100,7 +100,7 @@ extension PokedexCell {
         pokedexIndex = index
         pokeballImageView.image = UIImage(named: pokeballImageName + ".fill")
         pokemonImageView.image = UIImage(named: "Pokedex" + String(format: "%03d", index))
-        captureDateLabel.text = "2025/06/08"
+        captureDateLabel.text = Pokedex.shared.pokemons[index].capturedDate
         
         typeLabel1.isHidden = true
         typeLabel2.isHidden = true
