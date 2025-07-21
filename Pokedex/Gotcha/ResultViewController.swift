@@ -34,6 +34,16 @@ class ResultViewController: UIViewController {
     private var failImageView = UIImageView()
     private var failLabel = UILabel()
     
+    private var summaryScrollView = UIScrollView()
+    private var summaryTitleLabel = UILabel()
+    private var summaryStarsLabel = UILabel()
+    private var summaryXpLabel = UILabel()
+    private var summaryLevelLabel = UILabel()
+    private var summaryXpBarView = UIView()
+    private var summaryCapturedPokemonsLabel = UILabel()
+    private var summaryPokemonsWrapper = UIView()
+    private var summaryCapturedPokemonViews: Array<UIView> = []
+    
     private var okButton = UIButton()
     weak var delegate: ResultViewControllerDelegate? = nil
     
@@ -91,8 +101,49 @@ class ResultViewController: UIViewController {
         failLabel.textAlignment = .center
         failContainerView.addSubview(failLabel)
         
+        self.view.addSubview(summaryScrollView)
+        
+        summaryTitleLabel.textColor = .wineRed
+        summaryTitleLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        summaryTitleLabel.text = "획득 경험치"
+        summaryScrollView.addSubview(summaryTitleLabel)
+        
+        summaryStarsLabel.textColor = .wineRed
+        summaryStarsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
+        summaryStarsLabel.text = "★★★☆☆"
+        summaryScrollView.addSubview(summaryStarsLabel)
+        
+        summaryXpLabel.textColor = .wineRed
+        summaryXpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        summaryXpLabel.text = "450xp"
+        summaryXpLabel.textAlignment = .right
+        summaryScrollView.addSubview(summaryXpLabel)
+        
+        summaryLevelLabel.textColor = .wineRed
+        summaryLevelLabel.font = UIFont(name: "Galmuri11-Bold", size: 16)
+        summaryLevelLabel.text = "Lv 5"
+        summaryScrollView.addSubview(summaryLevelLabel)
+        
+        summaryXpBarView.backgroundColor = .wineRed
+        summaryScrollView.addSubview(summaryXpBarView)
+        
+        summaryCapturedPokemonsLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        summaryCapturedPokemonsLabel.font = .systemFont(ofSize: 16.0, weight: .regular)
+        summaryCapturedPokemonsLabel.text = "잡은 포켓몬"
+        summaryScrollView.addSubview(summaryCapturedPokemonsLabel)
+        
+        summaryScrollView.addSubview(summaryPokemonsWrapper)
+        
+        for idx in 0..<resultPokemons.count {
+            let view = UIView()
+            view.backgroundColor = .wineRed
+            summaryCapturedPokemonViews.append(view)
+            summaryPokemonsWrapper.addSubview(view)
+        }
+        
         okButton.layer.borderWidth = 2.0
         okButton.layer.borderColor = UIColor.wineRed.cgColor
+        okButton.backgroundColor = .white
         okButton.setTitle("확인", for: .normal)
         okButton.setTitleColor(.wineRed, for: .normal)
         okButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
@@ -102,6 +153,7 @@ class ResultViewController: UIViewController {
         okButton.isHidden = true
         containerView.isHidden = true
         failContainerView.isHidden = true
+        summaryScrollView.isHidden = true
         
         if resultPokemons.count >= 1 {
             containerView.isHidden = false
@@ -128,6 +180,27 @@ class ResultViewController: UIViewController {
         failImageView.pin.top().left().size(100)
         failLabel.pin.below(of: failImageView, aligned: .center).marginTop(12).sizeToFit()
         failContainerView.pin.center().wrapContent()
+        
+        summaryScrollView.pin.all()
+        summaryTitleLabel.pin.top(MainUpperView.topInset + 16).horizontally(16).sizeToFit(.width)
+        summaryStarsLabel.pin.below(of: summaryTitleLabel, aligned: .left).marginTop(8).sizeToFit()
+        summaryXpLabel.pin.after(of: summaryStarsLabel, aligned: .center).right(16).marginLeft(8).sizeToFit(.width)
+        summaryLevelLabel.pin.below(of: summaryStarsLabel).horizontally(16).marginTop(24).sizeToFit(.width)
+        summaryXpBarView.pin.below(of: summaryLevelLabel).horizontally(16).marginTop(4).height(21)
+        summaryCapturedPokemonsLabel.pin.below(of: summaryXpBarView).marginTop(40).horizontally(16).sizeToFit(.width)
+        summaryPokemonsWrapper.pin.below(of: summaryCapturedPokemonsLabel).horizontally(16).marginTop(12)
+        for idx in 0..<summaryCapturedPokemonViews.count {
+            let view = summaryCapturedPokemonViews[idx]
+            let gap: CGFloat = 12.0
+            let width: CGFloat = (summaryPokemonsWrapper.frame.width-gap)/2.0
+            let height: CGFloat = 201.0
+            let x: CGFloat = ((idx%2==0) ? 0.0 : width+gap)
+            let y = CGFloat(idx/2) * (height+gap)
+            view.pin.left(x).top(y).width(width).height(height)
+        }
+        summaryPokemonsWrapper.pin.below(of: summaryCapturedPokemonsLabel).hCenter().wrapContent().marginTop(12)
+        summaryScrollView.contentSize = CGSize(width: summaryScrollView.bounds.width,
+                                               height: summaryPokemonsWrapper.frame.maxY + 16)
         
         okButton.pin.bottom(16).right(16).width(68).height(52)
     }
@@ -173,6 +246,12 @@ private extension ResultViewController {
         }
     }
     
+    func showSummary() {
+        containerView.isHidden = true
+        summaryScrollView.isHidden = false
+        okButton.isHidden = false
+    }
+    
     @objc func prevButtonPressed(_ sender: UIButton) {
         if selectedIndex == 0 { return }
         selectedIndex -= 1
@@ -180,7 +259,10 @@ private extension ResultViewController {
     }
     
     @objc func nextButtonPressed(_ sender: UIButton) {
-        if selectedIndex+1 >= resultPokemons.count { return }
+        if selectedIndex+1 >= resultPokemons.count {
+            showSummary()
+            return
+        }
         selectedIndex += 1
         showPokemon(index: selectedIndex)
     }
