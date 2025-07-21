@@ -42,7 +42,7 @@ class ResultViewController: UIViewController {
     private var summaryXpBarView = SummaryXpBarView()
     private var summaryCapturedPokemonsLabel = UILabel()
     private var summaryPokemonsWrapper = UIView()
-    private var summaryCapturedPokemonViews: Array<UIView> = []
+    private var summaryCapturedPokemonViews: Array<CapturedPokemonView> = []
     
     private var okButton = UIButton()
     weak var delegate: ResultViewControllerDelegate? = nil
@@ -134,8 +134,8 @@ class ResultViewController: UIViewController {
         summaryScrollView.addSubview(summaryPokemonsWrapper)
         
         for idx in 0..<resultPokemons.count {
-            let view = UIView()
-            view.backgroundColor = .wineRed
+            let view = CapturedPokemonView()
+            view.setPokemonInfo(engName: resultPokemons[idx])
             summaryCapturedPokemonViews.append(view)
             summaryPokemonsWrapper.addSubview(view)
         }
