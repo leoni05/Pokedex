@@ -23,6 +23,7 @@ class SummaryXpBarView: UIView {
     
     override func draw(_ rect: CGRect) {
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
+        if rect.height < 18 || rect.width < 24 { return }
         
         ctx.setFillColor(red: 80.0/255.0, green: 104.0/255.0, blue: 88/255.0, alpha: 1.0)
         ctx.fill(CGRect(x: 8, y: 0, width: rect.width-16, height: 3))
