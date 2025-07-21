@@ -39,7 +39,7 @@ class ResultViewController: UIViewController {
     private var summaryStarsLabel = UILabel()
     private var summaryXpLabel = UILabel()
     private var summaryLevelLabel = UILabel()
-    private var summaryXpBarView = UIView()
+    private var summaryXpBarView = SummaryXpBarView()
     private var summaryCapturedPokemonsLabel = UILabel()
     private var summaryPokemonsWrapper = UIView()
     private var summaryCapturedPokemonViews: Array<UIView> = []
@@ -124,7 +124,6 @@ class ResultViewController: UIViewController {
         summaryLevelLabel.text = "Lv 5"
         summaryScrollView.addSubview(summaryLevelLabel)
         
-        summaryXpBarView.backgroundColor = .wineRed
         summaryScrollView.addSubview(summaryXpBarView)
         
         summaryCapturedPokemonsLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
