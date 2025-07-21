@@ -197,7 +197,7 @@ class ResultViewController: UIViewController {
             let y = CGFloat(idx/2) * (height+gap)
             view.pin.left(x).top(y).width(width).height(height)
         }
-        summaryPokemonsWrapper.pin.below(of: summaryCapturedPokemonsLabel).hCenter().wrapContent().marginTop(12)
+        summaryPokemonsWrapper.pin.below(of: summaryCapturedPokemonsLabel).left(16).wrapContent().marginTop(12)
         summaryScrollView.contentSize = CGSize(width: summaryScrollView.bounds.width,
                                                height: summaryPokemonsWrapper.frame.maxY + 16)
         
