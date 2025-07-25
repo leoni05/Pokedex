@@ -20,6 +20,7 @@ class CardInfoEditViewController: UIViewController {
     private let imageViewsContainer = UIView()
     private var trainerImageViews: Array<UIImageView> = []
     private let trainerImageCount = 24
+    private var selectedImageIdx: Int? = nil
     
     private let okButton = UIButton()
     
@@ -63,6 +64,12 @@ class CardInfoEditViewController: UIViewController {
             imageView.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
             imageView.layer.borderWidth = 1.0
             imageView.layer.masksToBounds = true
+            
+            imageView.tag = idx
+            imageView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewPressed(_:)))
+            imageView.addGestureRecognizer(tapGesture)
+            
             trainerImageViews.append(imageView)
             imageViewsContainer.addSubview(imageView)
         }
@@ -107,6 +114,19 @@ class CardInfoEditViewController: UIViewController {
 private extension CardInfoEditViewController {
     @objc func okButtonPressed(_ sender: UIButton) {
         
+    }
+    
+    @objc func imageViewPressed(_ sender: UITapGestureRecognizer) {
+        if let idx = sender.view?.tag {
+            if idx == selectedImageIdx { return }
+            
+            if let selectedImageIdx = selectedImageIdx {
+                trainerImageViews[selectedImageIdx].layer.borderColor = CGColor(
+                    red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+            }
+            trainerImageViews[idx].layer.borderColor = UIColor.wineRed.cgColor
+            selectedImageIdx = idx
+        }
     }
 }
 
