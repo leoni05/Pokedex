@@ -35,6 +35,17 @@ class CardInfoEditViewController: UIViewController {
         cardInfoLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
         scrollView.addSubview(cardInfoLabel)
         
+        nameTextField.placeholder = "이름 입력"
+        nameTextField.textColor = .wineRed
+        nameTextField.font = UIFont(name: "Galmuri11-Regular", size: 14)
+        nameTextField.borderStyle = .roundedRect
+        nameTextField.layer.cornerRadius = 4.0
+        nameTextField.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+        nameTextField.layer.borderWidth = 1.0
+        nameTextField.layer.masksToBounds = true
+        nameTextField.clearButtonMode = .always
+        nameTextField.returnKeyType = .done
+        nameTextField.delegate = self
         scrollView.addSubview(nameTextField)
         
         imageLabel.text = "대표 이미지 설정"
@@ -96,5 +107,14 @@ class CardInfoEditViewController: UIViewController {
 private extension CardInfoEditViewController {
     @objc func okButtonPressed(_ sender: UIButton) {
         
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension CardInfoEditViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
