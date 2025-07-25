@@ -47,9 +47,10 @@ class MainTabBarView: UIView {
             TabType.pokedex : pokedexTabButton,
             TabType.gallery : galleryTabButton,
             TabType.card : cardTabButton,
+            TabType.cardInfoEdit : cardTabButton,
             TabType.setting : settingTabButton
         ]
-        for (_, button) in tabButtonDict {
+        for button in [pokedexTabButton, galleryTabButton, cardTabButton, settingTabButton] {
             button.addTarget(self, action: #selector(touchUpInsideButton(_:)), for: .touchUpInside)
             containerView.addSubview(button)
         }

@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
         TabType.gallery : GalleryViewController(),
         TabType.gotcha : GotchaViewController(),
         TabType.card : CardViewController(),
+        TabType.cardInfoEdit : CardInfoEditViewController(),
         TabType.setting : SettingViewController()
     ]
     
@@ -31,7 +32,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
-        presentingTab = .pokedex
+        if UserDefaults.standard.string(forKey: "userId") == nil {
+            presentingTab = .cardInfoEdit
+        }
+        else {
+            presentingTab = .pokedex
+        }
         if let vc = tabVCDict[presentingTab] {
             self.addChild(vc)
             self.view.addSubview(vc.view)
@@ -85,6 +91,8 @@ private extension MainViewController {
 
 extension MainViewController: MainTabBarViewDelegate {
     func touchUpInsideButton(type: TabType?) {
+        if presentingTab == .cardInfoEdit { return }
+        
         if type == .gotcha && presentingTab == .gotcha {
             if let vc = tabVCDict[TabType.gotcha] as? GotchaViewController {
                 vc.takePicture()

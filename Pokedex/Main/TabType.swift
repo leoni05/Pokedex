@@ -12,5 +12,6 @@ enum TabType: String {
     case gallery = "tab.gallery"
     case gotcha = "tab.gotcha"
     case card = "tab.card"
+    case cardInfoEdit = "tab.cardInfoEdit"
     case setting = "tab.setting"
 }
