@@ -437,7 +437,7 @@ private extension CameraViewController {
         }
     }
     
-    func processingImageURL(imageURL: URL) {
+    func processingImageURL(imageURL: URL, imageName: String) {
         guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist"),
               let dict = NSDictionary(contentsOf: plistURL),
               let openAIKey = dict["OpenAI"] as? String,
@@ -490,7 +490,9 @@ private extension CameraViewController {
             var resultText = responseText
             resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
             resultText = resultText.uppercased()
-            self.resultText = resultText
+            CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, resultString: resultText) {
+                self.resultText = resultText
+            }
         }
     }
 }
@@ -534,7 +536,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName) {
             uploadImageToFirebase(imageData: imageData, imageName: imageName) { url in
-                self.processingImageURL(imageURL: url)
+                self.processingImageURL(imageURL: url, imageName: imageName)
             }
         }
     }
