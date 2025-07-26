@@ -385,6 +385,23 @@ private extension CameraViewController {
         }
     }
     
+    func createThumbnailData(imageData: Data, maxPixelSize: CGFloat) -> Data? {
+        let imageSourceOptions = [
+            kCGImageSourceShouldCache: false ] as CFDictionary
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixelSize ] as CFDictionary
+        
+        guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, imageSourceOptions),
+              let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        let resultImage = UIImage(cgImage: downsampledImage)
+        return resultImage.jpegData(compressionQuality: 1.0)
+    }
+        
     func saveImageToDirectory(imageData: Data, imageName: String, completion: () -> Void) {
         guard let documentsDirectory = FileManager.default.urls(
             for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -505,7 +522,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
         let uiImage = UIImage(ciImage: ciImage)
-        guard let imageData = uiImage.jpegData(compressionQuality: 1.0) else {
+        guard let imageData = uiImage.jpegData(compressionQuality: 1.0),
+              let thumbnailData = createThumbnailData(imageData: imageData, maxPixelSize: 200.0) else {
             self.showFileUploadErrorAlert()
             self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
             return
