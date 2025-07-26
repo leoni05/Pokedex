@@ -136,7 +136,7 @@ private extension CardInfoEditViewController {
             self.present(alertVC, animated: true)
             return
         }
-        UserDefaults.standard.set(nameTextField.text, forKey: "userId")
+        UserDefaults.standard.set(nameTextField.text, forKey: "userName")
         UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")
         delegate?.cardEditOkButtonPressed()
     }

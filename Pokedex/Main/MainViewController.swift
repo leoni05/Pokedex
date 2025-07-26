@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         (tabVCDict[.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
         
-        if UserDefaults.standard.string(forKey: "userId") == nil {
+        if UserDefaults.standard.string(forKey: "userName") == nil {
             presentingTab = .cardInfoEdit
         }
         else {

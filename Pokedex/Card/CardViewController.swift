@@ -205,4 +205,12 @@ class CardViewController: UIViewController {
                                         height: badgeContainerView.frame.maxY + 24)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let userName = UserDefaults.standard.string(forKey: "userName") ?? ""
+        let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
+        nameLabel.text = userName
+        trainerImage.image = UIImage(named: "TrainerImage" + String(format: "%02d", trainerImageIdx))
+    }
 }
