@@ -16,6 +16,7 @@ class GalleryViewController: UIViewController {
     private let inset = 16.0
     private let itemSpacing = 4.0
     private var collectionView: UICollectionView? = nil
+    private var photos: [Photo] = []
     
     // MARK: - Life Cycle
     
@@ -28,6 +29,12 @@ class GalleryViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView?.pin.all()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        photos = CoreDataManager.shared.getPhotos()
+        collectionView?.reloadData()
     }
     
 }
@@ -65,13 +72,20 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
 
 extension GalleryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCell.reuseIdentifier, for: indexPath)
-        if let cell = reusableCell as? GalleryCell {
-            cell.setImage(image: UIImage(named: "TrainerImage23"))
+        guard let cell = reusableCell as? GalleryCell,
+              let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+              let imageName = photos[indexPath.row].name else {
+            return reusableCell
+        }
+        
+        let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
+        if FileManager.default.fileExists(atPath: thumbnailFileUrl.path) {
+            cell.setImage(image: UIImage(contentsOfFile: thumbnailFileUrl.path))
         }
         return reusableCell
     }
