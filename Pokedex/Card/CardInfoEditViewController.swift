@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol CardInfoEditViewControllerDelegate: AnyObject {
+    func cardEditOkButtonPressed()
+}
+
 class CardInfoEditViewController: UIViewController {
     
     // MARK: - Properties
@@ -21,8 +25,9 @@ class CardInfoEditViewController: UIViewController {
     private var trainerImageViews: Array<UIImageView> = []
     private let trainerImageCount = 24
     private var selectedImageIdx: Int? = nil
-    
     private let okButton = UIButton()
+    
+    weak var delegate: CardInfoEditViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -113,7 +118,27 @@ class CardInfoEditViewController: UIViewController {
 
 private extension CardInfoEditViewController {
     @objc func okButtonPressed(_ sender: UIButton) {
-        
+        if (nameTextField.text?.count ?? 0) == 0 {
+            let alertVC = AlertViewController()
+            alertVC.delegate = nil
+            alertVC.alertType = .alert
+            alertVC.titleText = "트레이너 정보 입력"
+            alertVC.contentText = "트레이너 이름을 입력해 주세요."
+            self.present(alertVC, animated: true)
+            return
+        }
+        if selectedImageIdx == nil {
+            let alertVC = AlertViewController()
+            alertVC.delegate = nil
+            alertVC.alertType = .alert
+            alertVC.titleText = "대표 이미지 설정"
+            alertVC.contentText = "트레이너 대표 이미지를 설정해 주세요."
+            self.present(alertVC, animated: true)
+            return
+        }
+        UserDefaults.standard.set(nameTextField.text, forKey: "userId")
+        UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")
+        delegate?.cardEditOkButtonPressed()
     }
     
     @objc func imageViewPressed(_ sender: UITapGestureRecognizer) {
