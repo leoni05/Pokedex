@@ -385,6 +385,39 @@ private extension CameraViewController {
         }
     }
     
+    func saveImageToDirectory(imageData: Data, imageName: String, completion: () -> Void) {
+        guard let documentsDirectory = FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileUrl = documentsDirectory.appendingPathComponent(imageName, conformingTo: .jpeg)
+        do {
+            try imageData.write(to: fileUrl)
+            completion()
+        } catch {
+            print("Failed to save image data: \(error)")
+            self.showFileUploadErrorAlert()
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+        }
+    }
+    
+    func uploadImageToFirebase(imageData: Data, imageName: String, completion: @escaping (URL) -> Void) {
+        let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
+        firebaseReference.putData(imageData, metadata: nil) { metaData, error in
+            if metaData == nil {
+                self.showFileUploadErrorAlert()
+                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+                return
+            }
+            firebaseReference.downloadURL { url, error in
+                guard let url = url else {
+                    self.showFileUploadErrorAlert()
+                    self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+                    return
+                }
+                completion(url)
+            }
+        }
+    }
+    
     func processingImageURL(imageURL: URL) {
         guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist"),
               let dict = NSDictionary(contentsOf: plistURL),
@@ -478,24 +511,12 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
-        let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
         
-        firebaseReference.putData(imageData, metadata: nil) { metaData, error in
-            if metaData == nil {
-                self.showFileUploadErrorAlert()
-                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-                return
-            }
-            firebaseReference.downloadURL { url, error in
-                guard let url = url else {
-                    self.showFileUploadErrorAlert()
-                    self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-                    return
-                }
+        saveImageToDirectory(imageData: imageData, imageName: imageName) {
+            uploadImageToFirebase(imageData: imageData, imageName: imageName) { url in
                 self.processingImageURL(imageURL: url)
             }
         }
-        
     }
 }
 
