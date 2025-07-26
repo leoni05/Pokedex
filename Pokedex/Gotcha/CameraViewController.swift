@@ -190,6 +190,7 @@ private extension CameraViewController {
                 if captureSession.canAddOutput(videoOutput) {
                     captureSession.addOutput(videoOutput)
                 }
+                videoOutput.connections.first?.videoRotationAngle = 90.0
                 self.videoOutput = videoOutput
                 
                 captureSession.commitConfiguration()
