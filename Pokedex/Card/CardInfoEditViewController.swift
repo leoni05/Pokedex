@@ -27,6 +27,9 @@ class CardInfoEditViewController: UIViewController {
     private var selectedImageIdx: Int? = nil
     private let okButton = UIButton()
     
+    private var initUserName: String? = nil
+    private var initTrainerImageIdx: Int? = nil
+    
     weak var delegate: CardInfoEditViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
@@ -87,13 +90,6 @@ class CardInfoEditViewController: UIViewController {
         okButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
         okButton.addTarget(self, action: #selector(okButtonPressed(_:)), for: .touchUpInside)
         self.view.addSubview(okButton)
-        
-        if let nameString = UserDefaults.standard.string(forKey: "userName") {
-            nameTextField.text = nameString
-        }
-        if UserDefaults.standard.object(forKey: "trainerImageIdx") != nil {
-            changeImageSelection(idx: UserDefaults.standard.integer(forKey: "trainerImageIdx"))
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -119,27 +115,46 @@ class CardInfoEditViewController: UIViewController {
         okButton.pin.bottom(16).right(16).width(68).height(52)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let nameString = UserDefaults.standard.string(forKey: "userName") {
+            initUserName = nameString
+            nameTextField.text = nameString
+        }
+        if UserDefaults.standard.object(forKey: "trainerImageIdx") != nil {
+            let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
+            initTrainerImageIdx = trainerImageIdx
+            changeImageSelection(idx: trainerImageIdx)
+        }
+    }
+    
 }
 
 // MARK: - Private Extensions
 
 private extension CardInfoEditViewController {
     @objc func okButtonPressed(_ sender: UIButton) {
+        let alertVC = AlertViewController()
+        alertVC.alertType = .alert
+        
         if (nameTextField.text?.count ?? 0) == 0 {
-            let alertVC = AlertViewController()
-            alertVC.delegate = nil
-            alertVC.alertType = .alert
             alertVC.titleText = "트레이너 정보 입력"
             alertVC.contentText = "트레이너 이름을 입력해 주세요."
             self.present(alertVC, animated: true)
             return
         }
         if selectedImageIdx == nil {
-            let alertVC = AlertViewController()
-            alertVC.delegate = nil
-            alertVC.alertType = .alert
             alertVC.titleText = "대표 이미지 설정"
             alertVC.contentText = "트레이너 대표 이미지를 설정해 주세요."
+            self.present(alertVC, animated: true)
+            return
+        }
+        if initUserName != nil && initTrainerImageIdx != nil &&
+            (initUserName != nameTextField.text || initTrainerImageIdx != selectedImageIdx) {
+            alertVC.titleText = "트레이너 정보 변경"
+            alertVC.contentText = "변경되었습니다."
+            alertVC.delegate = self
             self.present(alertVC, animated: true)
             return
         }
@@ -179,5 +194,17 @@ extension CardInfoEditViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+// MARK: - AlertViewControllerDelegate
+
+extension CardInfoEditViewController: AlertViewControllerDelegate {
+    func buttonPressed(buttonType: AlertButtonType) {
+        if buttonType == .ok {
+            UserDefaults.standard.set(nameTextField.text, forKey: "userName")
+            UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")
+            delegate?.cardEditOkButtonPressed()
+        }
     }
 }
