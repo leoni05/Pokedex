@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE2C7E2E223526005E713D /* ResultViewController.swift */; };
+		2EC5B8682E346EAE009C42DE /* SettingItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5B8672E346EAE009C42DE /* SettingItemButton.swift */; };
 		2EE528922E31F9D200E01734 /* CardInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE528912E31F9D200E01734 /* CardInfoEditViewController.swift */; };
 		2EF8AF3D2E2E8E300070CEE8 /* SummaryXpBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF8AF3C2E2E8E300070CEE8 /* SummaryXpBarView.swift */; };
 		2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF8AF3E2E2E9C490070CEE8 /* CapturedPokemonView.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		2EAE2C7E2E223526005E713D /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		2EC5B8672E346EAE009C42DE /* SettingItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemButton.swift; sourceTree = "<group>"; };
 		2EE528912E31F9D200E01734 /* CardInfoEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoEditViewController.swift; sourceTree = "<group>"; };
 		2EF8AF3C2E2E8E300070CEE8 /* SummaryXpBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryXpBarView.swift; sourceTree = "<group>"; };
 		2EF8AF3E2E2E9C490070CEE8 /* CapturedPokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedPokemonView.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				D022419B2DEF0610003F68D1 /* SettingViewController.swift */,
+				2EC5B8672E346EAE009C42DE /* SettingItemButton.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				D0D238AF2DF43FE9003662D1 /* Pokedex.swift in Sources */,
 				D0C7FCC22DC52B2E00A0F05D /* MainViewController.swift in Sources */,
 				D02241942DEF0575003F68D1 /* PokedexViewController.swift in Sources */,
+				2EC5B8682E346EAE009C42DE /* SettingItemButton.swift in Sources */,
 				D0D238AA2DF4107B003662D1 /* PokedexHeader.swift in Sources */,
 				D02526C22DF33C7E0028B42A /* PokeballButton.swift in Sources */,
 				D022419F2DEF33AE003F68D1 /* TabType.swift in Sources */,
