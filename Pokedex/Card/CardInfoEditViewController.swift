@@ -165,6 +165,14 @@ private extension CardInfoEditViewController {
     }
 }
 
+// MARK: - Extensions
+
+extension CardInfoEditViewController {
+    func scrollViewScrollToTop() {
+        scrollView.setContentOffset(.zero, animated: false)
+    }
+}
+
 // MARK: - UITextFieldDelegate
 
 extension CardInfoEditViewController: UITextFieldDelegate {

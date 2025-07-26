@@ -76,6 +76,10 @@ private extension MainViewController {
             vc.willMove(toParent: nil)
             vc.view.removeFromSuperview()
             vc.removeFromParent()
+            
+            if presentingTab == .cardInfoEdit {
+                (vc as? CardInfoEditViewController)?.scrollViewScrollToTop()
+            }
         }
         mainTabBarView.setButtonStatus(tabType: presentingTab, activated: false)
         presentingTab = type
