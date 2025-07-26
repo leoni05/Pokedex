@@ -31,7 +31,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        (tabVCDict[.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
+        (tabVCDict[TabType.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
+        (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
         if UserDefaults.standard.string(forKey: "userName") == nil {
             presentingTab = .cardInfoEdit
@@ -110,5 +111,13 @@ extension MainViewController: MainTabBarViewDelegate {
 extension MainViewController: CardInfoEditViewControllerDelegate {
     func cardEditOkButtonPressed() {
         changeTab(type: .pokedex)
+    }
+}
+
+// MARK: - SettingViewControllerDelegate
+
+extension MainViewController: SettingViewControllerDelegate {
+    func cardInfoEditButtonPressed() {
+        changeTab(type: .cardInfoEdit)
     }
 }

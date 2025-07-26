@@ -31,6 +31,8 @@ class SettingItemButton: UIButton {
         btnLabel.textColor = .wineRed
         btnLabel.font = UIFont(name: "Galmuri11-Regular", size: 16)
         containerView.addSubview(btnLabel)
+        
+        containerView.isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {

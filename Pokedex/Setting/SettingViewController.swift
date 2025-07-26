@@ -9,12 +9,18 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol SettingViewControllerDelegate: AnyObject {
+    func cardInfoEditButtonPressed()
+}
+
 class SettingViewController: UIViewController {
     
     // MARK: - Properties
 
     private let titleLabel = UILabel()
     private let cardInfoEditButton = SettingItemButton()
+    
+    weak var delegate: SettingViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -27,6 +33,7 @@ class SettingViewController: UIViewController {
         self.view.addSubview(titleLabel)
         
         cardInfoEditButton.setText(text: "트레이너 이름 & 이미지 변경")
+        cardInfoEditButton.addTarget(self, action: #selector(cardInfoEditButtonPressed(_:)), for: .touchUpInside)
         self.view.addSubview(cardInfoEditButton)
     }
 
@@ -36,4 +43,12 @@ class SettingViewController: UIViewController {
         cardInfoEditButton.pin.below(of: titleLabel).horizontally(16).height(40).marginTop(16)
     }
     
+}
+
+// MARK: - Private Extension
+
+private extension SettingViewController {
+    @objc func cardInfoEditButtonPressed(_ sender: UIButton) {
+        delegate?.cardInfoEditButtonPressed()
+    }
 }
