@@ -402,12 +402,14 @@ private extension CameraViewController {
         return resultImage.jpegData(compressionQuality: 1.0)
     }
         
-    func saveImageToDirectory(imageData: Data, imageName: String, completion: () -> Void) {
+    func saveImageToDirectory(imageData: Data, thumbnailData: Data, imageName: String, completion: () -> Void) {
         guard let documentsDirectory = FileManager.default.urls(
             for: .documentDirectory, in: .userDomainMask).first else { return }
         let fileUrl = documentsDirectory.appendingPathComponent(imageName, conformingTo: .jpeg)
+        let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
         do {
             try imageData.write(to: fileUrl)
+            try thumbnailData.write(to: thumbnailFileUrl)
             completion()
         } catch {
             print("Failed to save image data: \(error)")
@@ -530,7 +532,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
         
-        saveImageToDirectory(imageData: imageData, imageName: imageName) {
+        saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName) {
             uploadImageToFirebase(imageData: imageData, imageName: imageName) { url in
                 self.processingImageURL(imageURL: url)
             }
