@@ -211,6 +211,6 @@ class CardViewController: UIViewController {
         let userName = UserDefaults.standard.string(forKey: "userName") ?? ""
         let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
         nameLabel.text = userName
-        trainerImage.image = UIImage(named: "TrainerImage" + String(format: "%02d", trainerImageIdx))
+        trainerImage.image = UIImage(named: "TrainerCard" + String(format: "%02d", trainerImageIdx))
     }
 }
