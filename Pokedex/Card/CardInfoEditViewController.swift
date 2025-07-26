@@ -87,6 +87,13 @@ class CardInfoEditViewController: UIViewController {
         okButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
         okButton.addTarget(self, action: #selector(okButtonPressed(_:)), for: .touchUpInside)
         self.view.addSubview(okButton)
+        
+        if let nameString = UserDefaults.standard.string(forKey: "userName") {
+            nameTextField.text = nameString
+        }
+        if UserDefaults.standard.object(forKey: "trainerImageIdx") != nil {
+            changeImageSelection(idx: UserDefaults.standard.integer(forKey: "trainerImageIdx"))
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -144,14 +151,17 @@ private extension CardInfoEditViewController {
     @objc func imageViewPressed(_ sender: UITapGestureRecognizer) {
         if let idx = sender.view?.tag {
             if idx == selectedImageIdx { return }
-            
-            if let selectedImageIdx = selectedImageIdx {
-                trainerImageViews[selectedImageIdx].layer.borderColor = CGColor(
-                    red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-            }
-            trainerImageViews[idx].layer.borderColor = UIColor.wineRed.cgColor
-            selectedImageIdx = idx
+            changeImageSelection(idx: idx)
         }
+    }
+    
+    func changeImageSelection(idx: Int) {
+        if let selectedImageIdx = selectedImageIdx {
+            trainerImageViews[selectedImageIdx].layer.borderColor = CGColor(
+                red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+        }
+        trainerImageViews[idx].layer.borderColor = UIColor.wineRed.cgColor
+        selectedImageIdx = idx
     }
 }
 
