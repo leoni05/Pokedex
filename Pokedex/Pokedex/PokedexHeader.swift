@@ -22,13 +22,13 @@ class PokedexHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        progressLabel.text = "도감 완성률 3%"
+        progressLabel.text = "도감 완성률 12%"
         progressLabel.textColor = .wineRed
         progressLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
         progressLabel.numberOfLines = 1
         self.addSubview(progressLabel)
         
-        pokedexNameLabel.text = "신오 지방 도감"
+        pokedexNameLabel.text = "전국 도감"
         pokedexNameLabel.textColor = .wineRed
         pokedexNameLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
         pokedexNameLabel.numberOfLines = 1
