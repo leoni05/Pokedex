@@ -67,6 +67,10 @@ class LenseView: UIView {
     }
 }
 
+protocol MainUpperViewDelegate: AnyObject {
+    func backButtonPressed()
+}
+
 class MainUpperView: UIView {
     
     // MARK: - Properties
@@ -84,6 +88,7 @@ class MainUpperView: UIView {
     private var viewPath = UIBezierPath()
     
     private let backButton = UIButton()
+    weak var delegate: MainUpperViewDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -182,7 +187,7 @@ class MainUpperView: UIView {
 
 private extension MainUpperView {
     @objc func backButtonPressed(_ sender: UIButton) {
-        
+        delegate?.backButtonPressed()
     }
 }
 

@@ -48,6 +48,7 @@ class MainViewController: UIViewController {
         }
         mainTabBarView.setButtonStatus(tabType: presentingTab, activated: true)
         
+        mainUpperView.delegate = self
         self.view.addSubview(mainUpperView)
         
         mainTabBarView.delegate = self
@@ -132,5 +133,15 @@ extension MainViewController: SettingViewControllerDelegate {
 extension MainViewController: PokedexViewControllerDelegate {
     func setBackButton(hidden: Bool) {
         mainUpperView.setBackButton(hidden: hidden)
+    }
+}
+
+// MARK: - MainUpperViewDelegate
+
+extension MainViewController: MainUpperViewDelegate {
+    func backButtonPressed() {
+        if presentingTab == .pokedex {
+            (tabVCDict[TabType.pokedex] as? PokedexViewController)?.popToRootViewController(animated: true)
+        }
     }
 }
