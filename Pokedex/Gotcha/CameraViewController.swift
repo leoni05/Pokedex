@@ -490,7 +490,6 @@ private extension CameraViewController {
             }
             var resultText = responseText
             resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
-            resultText = resultText.uppercased()
             CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, resultString: resultText) {
                 self.resultText = resultText
             }

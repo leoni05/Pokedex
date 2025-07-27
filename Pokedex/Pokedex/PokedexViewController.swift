@@ -95,6 +95,7 @@ extension PokedexViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = PokedexDetailViewController()
         detailVC.delegate = self
+        detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
         self.pushViewController(detailVC, animated: true)
         vcDelegate?.setBackButton(hidden: false)
     }

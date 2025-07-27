@@ -294,7 +294,8 @@ class Pokedex {
 
 extension Pokedex {
     func getPokemon(engName: String) -> PokemonModel? {
-        if let idx = pokemonMapper[engName] {
+        let upperCasedEngName = engName.uppercased()
+        if let idx = pokemonMapper[upperCasedEngName] {
             return pokemons[idx]
         }
         return nil
