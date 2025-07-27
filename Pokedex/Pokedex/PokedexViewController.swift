@@ -9,34 +9,22 @@ import Foundation
 import UIKit
 import PinLayout
 
-class PokedexViewController: UIViewController {
+class PokedexViewController: UINavigationController {
     
     // MARK: - Properties
 
     private let horizontalInset = 16.0
     private let itemSpacing = 12.0
     private let itemHeight: CGFloat = 253.0
-    private var collectionView: UICollectionView? = nil
+    private var collectionVC = UICollectionViewController()
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        setCollectionView()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView?.pin.all()
-    }
-    
-}
-
-// MARK: - Private Extensions
-
-private extension PokedexViewController {
-    func setCollectionView() {
+        self.isNavigationBarHidden = true
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = itemSpacing
@@ -50,9 +38,14 @@ private extension PokedexViewController {
         collectionView.register(PokedexCell.self, forCellWithReuseIdentifier: PokedexCell.reuseIdentifier)
         collectionView.register(PokedexHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: PokedexHeader.reuseIdentifier)
-        self.view.addSubview(collectionView)
-        self.collectionView = collectionView
+        collectionVC.collectionView = collectionView
+        self.pushViewController(collectionVC, animated: false)
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
