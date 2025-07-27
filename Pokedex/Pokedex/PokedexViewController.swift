@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol PokedexViewControllerDelegate: AnyObject {
+    func setBackButton(hidden: Bool)
+}
+
 class PokedexViewController: NavigationController {
     
     // MARK: - Properties
@@ -17,6 +21,8 @@ class PokedexViewController: NavigationController {
     private let itemSpacing = 12.0
     private let itemHeight: CGFloat = 253.0
     private var collectionVC = UICollectionViewController()
+    
+    weak var vcDelegate: PokedexViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -88,6 +94,16 @@ extension PokedexViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = PokedexDetailViewController()
+        detailVC.delegate = self
         self.pushViewController(detailVC, animated: true)
+        vcDelegate?.setBackButton(hidden: false)
+    }
+}
+
+// MARK: - PokedexDetailViewControllerDelegate
+
+extension PokedexViewController: PokedexDetailViewControllerDelegate {
+    func setBackButton(hidden: Bool) {
+        vcDelegate?.setBackButton(hidden: hidden)
     }
 }

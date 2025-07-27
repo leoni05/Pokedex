@@ -9,11 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol PokedexDetailViewControllerDelegate: AnyObject {
+    func setBackButton(hidden: Bool)
+}
+
 class PokedexDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    
+    weak var delegate: PokedexDetailViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
@@ -27,4 +31,9 @@ class PokedexDetailViewController: UIViewController {
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.setBackButton(hidden: true)
+    }
+
 }

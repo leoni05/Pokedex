@@ -83,6 +83,8 @@ class MainUpperView: UIView {
     private let greenDotView = UIView()
     private var viewPath = UIBezierPath()
     
+    private let backButton = UIButton()
+    
     // MARK: - Life Cycle
     
     required init?(coder: NSCoder) {
@@ -116,6 +118,11 @@ class MainUpperView: UIView {
         greenDotView.layer.borderColor = UIColor.wineRed.cgColor
         greenDotView.layer.borderWidth = 1.0
         addSubview(greenDotView)
+        
+        backButton.setImage(UIImage(named: "back"), for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
+        backButton.isHidden = true
+        addSubview(backButton)
     }
     
     override func layoutSubviews() {
@@ -124,6 +131,7 @@ class MainUpperView: UIView {
         redDotView.pin.top(12).left(74).size(dotViewSize)
         yellowDotView.pin.top(12).left(94).size(dotViewSize)
         greenDotView.pin.top(12).left(114).size(dotViewSize)
+        backButton.pin.top(15).left(16).size(40)
     }
     
     override func draw(_ rect: CGRect) {
@@ -168,4 +176,24 @@ class MainUpperView: UIView {
         return viewPath.contains(point)
     }
     
+}
+
+// MARK: - Private Extensions
+
+private extension MainUpperView {
+    @objc func backButtonPressed(_ sender: UIButton) {
+        
+    }
+}
+
+// MARK: - Extensions
+
+extension MainUpperView {
+    func setBackButton(hidden: Bool) {
+        backButton.isHidden = hidden
+        lenseView.isHidden = !hidden
+        redDotView.isHidden = !hidden
+        yellowDotView.isHidden = !hidden
+        greenDotView.isHidden = !hidden
+    }
 }

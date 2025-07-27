@@ -31,6 +31,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        (tabVCDict[TabType.pokedex] as? PokedexViewController)?.vcDelegate = self
         (tabVCDict[TabType.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
         (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
@@ -123,5 +124,13 @@ extension MainViewController: CardInfoEditViewControllerDelegate {
 extension MainViewController: SettingViewControllerDelegate {
     func cardInfoEditButtonPressed() {
         changeTab(type: .cardInfoEdit)
+    }
+}
+
+// MARK: - PokedexViewControllerDelegate
+
+extension MainViewController: PokedexViewControllerDelegate {
+    func setBackButton(hidden: Bool) {
+        mainUpperView.setBackButton(hidden: hidden)
     }
 }
