@@ -195,10 +195,27 @@ private extension MainUpperView {
 
 extension MainUpperView {
     func setBackButton(hidden: Bool) {
-        backButton.isHidden = hidden
-        lenseView.isHidden = !hidden
-        redDotView.isHidden = !hidden
-        yellowDotView.isHidden = !hidden
-        greenDotView.isHidden = !hidden
+        if backButton.isHidden == hidden { return }
+
+        if hidden {
+            backButton.isHidden = true
+            for view in [lenseView, redDotView, yellowDotView, greenDotView] {
+                view.alpha = 0.0
+                view.isHidden = false
+                UIView.animate(withDuration: 0.3) {
+                    view.alpha = 1.0
+                }
+            }
+        }
+        else {
+            backButton.alpha = 0.0
+            backButton.isHidden = false
+            UIView.animate(withDuration: 0.3) {
+                self.backButton.alpha = 1.0
+            }
+            for view in [lenseView, redDotView, yellowDotView, greenDotView] {
+                view.isHidden = true
+            }
+        }
     }
 }
