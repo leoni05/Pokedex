@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import PinLayout
 
-class PokedexViewController: UINavigationController {
+class PokedexViewController: NavigationController {
     
     // MARK: - Properties
 
@@ -84,5 +84,10 @@ extension PokedexViewController: UICollectionViewDataSource {
             return reusableView
         }
         return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = PokedexDetailViewController()
+        self.pushViewController(detailVC, animated: true)
     }
 }
