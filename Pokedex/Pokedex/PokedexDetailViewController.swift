@@ -102,6 +102,13 @@ class PokedexDetailViewController: UIViewController {
             typeLabel2.backgroundColor = pokemon?.type[1].color
             typeLabel2.isHidden = false
         }
+        
+        descLabel.text = pokemon?.desc
+        descLabel.font = .systemFont(ofSize: 16)
+        descLabel.numberOfLines = 0
+        descLabel.lineBreakStrategy = .hangulWordPriority
+        descLabel.lineBreakMode = .byWordWrapping
+        scrollView.addSubview(descLabel)
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,6 +122,7 @@ class PokedexDetailViewController: UIViewController {
         pokemonImageView.pin.center().size(250)
         typeLabel1.pin.below(of: pokemonImageContainerView).left(16).width(52).height(22).marginTop(24)
         typeLabel2.pin.after(of: typeLabel1, aligned: .center).width(52).height(22).marginLeft(4)
+        descLabel.pin.below(of: typeLabel1).horizontally(16).marginTop(12).sizeToFit(.width)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
