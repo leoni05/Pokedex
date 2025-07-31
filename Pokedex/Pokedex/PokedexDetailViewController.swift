@@ -73,6 +73,35 @@ class PokedexDetailViewController: UIViewController {
         pokemonImageView.image = UIImage(named: "Pokedex\(String(format: "%03d", pokedexNumber-1))")
         pokemonImageView.contentMode = .scaleAspectFit
         pokemonImageContainerView.addSubview(pokemonImageView)
+        
+        typeLabel1.layer.cornerRadius = 4.0
+        typeLabel1.layer.masksToBounds = true
+        typeLabel1.font = .systemFont(ofSize: 12.0, weight: .bold)
+        typeLabel1.text = "타입"
+        typeLabel1.textColor = .white
+        typeLabel1.textAlignment = .center
+        scrollView.addSubview(typeLabel1)
+        
+        typeLabel2.layer.cornerRadius = 4.0
+        typeLabel2.layer.masksToBounds = true
+        typeLabel2.font = .systemFont(ofSize: 12.0, weight: .bold)
+        typeLabel2.text = "타입"
+        typeLabel2.textColor = .white
+        typeLabel2.textAlignment = .center
+        scrollView.addSubview(typeLabel2)
+        
+        typeLabel1.isHidden = true
+        typeLabel2.isHidden = true
+        if (pokemon?.type.count ?? 0) >= 1 {
+            typeLabel1.text = pokemon?.type[0].rawValue
+            typeLabel1.backgroundColor = pokemon?.type[0].color
+            typeLabel1.isHidden = false
+        }
+        if (pokemon?.type.count ?? 0) >= 2 {
+            typeLabel2.text = pokemon?.type[1].rawValue
+            typeLabel2.backgroundColor = pokemon?.type[1].color
+            typeLabel2.isHidden = false
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,6 +113,8 @@ class PokedexDetailViewController: UIViewController {
         nameLabel.pin.below(of: numberLabel, aligned: .right).left(16).marginTop(4).sizeToFit(.width)
         pokemonImageContainerView.pin.below(of: nameLabel).horizontally(16).marginTop(16).height(274)
         pokemonImageView.pin.center().size(250)
+        typeLabel1.pin.below(of: pokemonImageContainerView).left(16).width(52).height(22).marginTop(24)
+        typeLabel2.pin.after(of: typeLabel1, aligned: .center).width(52).height(22).marginLeft(4)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
