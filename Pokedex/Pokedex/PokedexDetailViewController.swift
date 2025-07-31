@@ -30,14 +30,21 @@ class PokedexDetailViewController: UIViewController {
     private let typeLabel1 = UILabel()
     private let typeLabel2 = UILabel()
     private let descLabel = UILabel()
+    
     private let divView1 = UIView()
-    private let categoryTitleLabel = UILabel()
-    private let heightTitleLabel = UILabel()
-    private let weightTitleLabel = UILabel()
-    private let div2View2 = UIView()
+    private let tableHeaderView = UIView()
+    private let divView2 = UIView()
+    private let tableContentView = UIView()
+    private let divView3 = UIView()
+    
+    private let categoryHeaderLabel = UILabel()
+    private let heightHeaderLabel = UILabel()
+    private let weightHeaderLabel = UILabel()
+    
     private let categoryLabel = UILabel()
     private let heightLabel = UILabel()
     private let weightLabel = UILabel()
+    
     private let photoTitleLabel = UILabel()
     private let photoImageViews: [UIImageView] = []
     
@@ -109,6 +116,53 @@ class PokedexDetailViewController: UIViewController {
         descLabel.lineBreakStrategy = .hangulWordPriority
         descLabel.lineBreakMode = .byWordWrapping
         scrollView.addSubview(descLabel)
+        
+        divView1.backgroundColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+        scrollView.addSubview(divView1)
+        
+        divView2.backgroundColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+        scrollView.addSubview(divView2)
+        
+        divView3.backgroundColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+        scrollView.addSubview(divView3)
+        
+        tableHeaderView.backgroundColor = UIColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+        scrollView.addSubview(tableHeaderView)
+        
+        scrollView.addSubview(tableContentView)
+        
+        categoryHeaderLabel.text = "분류"
+        categoryHeaderLabel.textAlignment = .center
+        categoryHeaderLabel.font = .systemFont(ofSize: 16)
+        categoryHeaderLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        tableHeaderView.addSubview(categoryHeaderLabel)
+        
+        heightHeaderLabel.text = "키"
+        heightHeaderLabel.textAlignment = .center
+        heightHeaderLabel.font = .systemFont(ofSize: 16)
+        heightHeaderLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        tableHeaderView.addSubview(heightHeaderLabel)
+        
+        weightHeaderLabel.text = "몸무게"
+        weightHeaderLabel.textAlignment = .center
+        weightHeaderLabel.font = .systemFont(ofSize: 16)
+        weightHeaderLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        tableHeaderView.addSubview(weightHeaderLabel)
+        
+        categoryLabel.text = pokemon?.category
+        categoryLabel.textAlignment = .center
+        categoryLabel.font = .systemFont(ofSize: 16)
+        tableContentView.addSubview(categoryLabel)
+        
+        heightLabel.text = pokemon?.height
+        heightLabel.textAlignment = .center
+        heightLabel.font = .systemFont(ofSize: 16)
+        tableContentView.addSubview(heightLabel)
+        
+        weightLabel.text = pokemon?.weight
+        weightLabel.textAlignment = .center
+        weightLabel.font = .systemFont(ofSize: 16)
+        tableContentView.addSubview(weightLabel)
     }
     
     override func viewDidLayoutSubviews() {
@@ -123,6 +177,20 @@ class PokedexDetailViewController: UIViewController {
         typeLabel1.pin.below(of: pokemonImageContainerView).left(16).width(52).height(22).marginTop(24)
         typeLabel2.pin.after(of: typeLabel1, aligned: .center).width(52).height(22).marginLeft(4)
         descLabel.pin.below(of: typeLabel1).horizontally(16).marginTop(12).sizeToFit(.width)
+        
+        let colWidth: CGFloat = 76
+        let colPadding: CGFloat = 2
+        divView1.pin.below(of: descLabel).horizontally(16).height(1).marginTop(24)
+        tableHeaderView.pin.below(of: divView1).horizontally(16).height(27)
+        divView2.pin.below(of: tableHeaderView).horizontally(16).height(1)
+        weightHeaderLabel.pin.right(colPadding).vertically().width(colWidth)
+        heightHeaderLabel.pin.before(of: weightHeaderLabel).vertically().width(colWidth).marginRight(colPadding*2)
+        categoryHeaderLabel.pin.before(of: heightHeaderLabel).left(colPadding).vertically().marginRight(colPadding*2)
+        tableContentView.pin.below(of: divView2).horizontally(16).height(43)
+        weightLabel.pin.right(colPadding).vertically().width(colWidth)
+        heightLabel.pin.before(of: weightLabel).vertically().width(colWidth).marginRight(colPadding*2)
+        categoryLabel.pin.before(of: heightLabel).left(colPadding).vertically().marginRight(colPadding*2)
+        divView3.pin.below(of: categoryLabel).horizontally(16).height(1)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
