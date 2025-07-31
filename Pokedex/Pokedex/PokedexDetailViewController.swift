@@ -192,10 +192,8 @@ class PokedexDetailViewController: UIViewController {
                 }
             }
             if photoImageViews[idx].image == nil {
-                photoImageViews[idx].image = UIImage(named: "pokeball.small")
-                photoImageViews[idx].contentMode = .center
                 photoImageViews[idx].layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-                photoImageViews[idx].layer.borderWidth = 2
+                photoImageViews[idx].layer.borderWidth = 1
             }
             photoImageViewContainer.addSubview(photoImageViews[idx])
         }
