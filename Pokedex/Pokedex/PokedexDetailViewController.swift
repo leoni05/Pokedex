@@ -45,8 +45,12 @@ class PokedexDetailViewController: UIViewController {
     private let heightLabel = UILabel()
     private let weightLabel = UILabel()
     
+    private var photos: [Photo] = []
     private let photoTitleLabel = UILabel()
-    private let photoImageViews: [UIImageView] = []
+    private let photoImageViewContainer = UIView()
+    private let photoImageViews: [UIImageView] = [
+        UIImageView(), UIImageView(), UIImageView(), UIImageView()
+    ]
     
     // MARK: - Life Cycle
     
@@ -168,6 +172,33 @@ class PokedexDetailViewController: UIViewController {
         photoTitleLabel.font = .systemFont(ofSize: 16)
         photoTitleLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
         scrollView.addSubview(photoTitleLabel)
+        
+        photos = CoreDataManager.shared.getPhotos()
+        
+        scrollView.addSubview(photoImageViewContainer)
+        
+        for idx in 0..<photoImageViews.count {
+            photoImageViews[idx].layer.cornerRadius = 4
+            photoImageViews[idx].layer.masksToBounds = true
+            
+            if idx < 2 {
+                if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+                   let imageName = photos[idx].name {
+                    let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
+                    if FileManager.default.fileExists(atPath: thumbnailFileUrl.path) {
+                        photoImageViews[idx].image = UIImage(contentsOfFile: thumbnailFileUrl.path)
+                        photoImageViews[idx].contentMode = .scaleAspectFill
+                    }
+                }
+            }
+            if photoImageViews[idx].image == nil {
+                photoImageViews[idx].image = UIImage(named: "pokeball.small")
+                photoImageViews[idx].contentMode = .center
+                photoImageViews[idx].layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+                photoImageViews[idx].layer.borderWidth = 2
+            }
+            photoImageViewContainer.addSubview(photoImageViews[idx])
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -198,6 +229,19 @@ class PokedexDetailViewController: UIViewController {
         divView3.pin.below(of: categoryLabel).horizontally(16).height(1)
         
         photoTitleLabel.pin.below(of: divView3).horizontally(16).marginTop(24).sizeToFit(.width)
+        photoImageViewContainer.pin.below(of: photoTitleLabel).horizontally(16).marginTop(12)
+        let imageGap: CGFloat = 12
+        let containerWidth = photoImageViewContainer.frame.width
+        let photoCount = CGFloat(photoImageViews.count)
+        let imageWidth: CGFloat = (containerWidth - (imageGap * (photoCount-1))) / photoCount
+        for idx in 0..<photoImageViews.count {
+            let x = CGFloat(idx) * (imageWidth + imageGap)
+            photoImageViews[idx].pin.left(x).top().size(imageWidth)
+        }
+        photoImageViewContainer.pin.below(of: photoTitleLabel).hCenter().marginTop(12).wrapContent()
+        
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width,
+                                        height: photoImageViewContainer.frame.maxY + 24)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
