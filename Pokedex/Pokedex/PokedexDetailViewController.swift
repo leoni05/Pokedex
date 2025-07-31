@@ -163,6 +163,11 @@ class PokedexDetailViewController: UIViewController {
         weightLabel.textAlignment = .center
         weightLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(weightLabel)
+        
+        photoTitleLabel.text = "발견 장소"
+        photoTitleLabel.font = .systemFont(ofSize: 16)
+        photoTitleLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        scrollView.addSubview(photoTitleLabel)
     }
     
     override func viewDidLayoutSubviews() {
@@ -191,6 +196,8 @@ class PokedexDetailViewController: UIViewController {
         heightLabel.pin.before(of: weightLabel).vertically().width(colWidth).marginRight(colPadding*2)
         categoryLabel.pin.before(of: heightLabel).left(colPadding).vertically().marginRight(colPadding*2)
         divView3.pin.below(of: categoryLabel).horizontally(16).height(1)
+        
+        photoTitleLabel.pin.below(of: divView3).horizontally(16).marginTop(24).sizeToFit(.width)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
