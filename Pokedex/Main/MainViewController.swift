@@ -116,7 +116,7 @@ extension MainViewController: MainTabBarViewDelegate {
 
 extension MainViewController: CardInfoEditViewControllerDelegate {
     func cardEditOkButtonPressed() {
-        changeTab(type: .pokedex)
+        changeTab(type: .setting)
     }
 }
 
