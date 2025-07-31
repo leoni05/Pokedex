@@ -44,9 +44,7 @@ class GotchaViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if presentingVC is CameraViewController {
-            removePresentingVC()
-        }
+        removePresentingVC()
     }
     
 }

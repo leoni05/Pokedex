@@ -52,6 +52,11 @@ class PokedexViewController: NavigationController {
         super.viewDidLayoutSubviews()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.popToRootViewController(animated: false)
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
