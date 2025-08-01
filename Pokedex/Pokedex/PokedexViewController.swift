@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 protocol PokedexViewControllerDelegate: AnyObject {
-    func setBackButton(hidden: Bool)
+    func setBackButtonForPokedex(hidden: Bool)
 }
 
 class PokedexViewController: NavigationController {
@@ -73,7 +73,7 @@ extension PokedexViewController: UICollectionViewDelegateFlowLayout {
         detailVC.delegate = self
         detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
         self.pushViewController(detailVC, animated: true)
-        vcDelegate?.setBackButton(hidden: false)
+        vcDelegate?.setBackButtonForPokedex(hidden: false)
     }
 }
 
@@ -110,6 +110,6 @@ extension PokedexViewController: UICollectionViewDataSource {
 
 extension PokedexViewController: PokedexDetailViewControllerDelegate {
     func setBackButton(hidden: Bool) {
-        vcDelegate?.setBackButton(hidden: hidden)
+        vcDelegate?.setBackButtonForPokedex(hidden: hidden)
     }
 }

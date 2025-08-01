@@ -9,9 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol GalleryDetailViewControllerDelegate: AnyObject {
+    func setBackButton(hidden: Bool)
+}
+
 class GalleryDetailViewController: UIViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: GalleryDetailViewControllerDelegate? = nil
     
     var imageName: String?
     
@@ -34,6 +40,11 @@ class GalleryDetailViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.setBackButton(hidden: true)
     }
     
 }

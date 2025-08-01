@@ -9,10 +9,16 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol GalleryViewControllerDelegate: AnyObject {
+    func setBackButtonForGallery(hidden: Bool)
+}
+
 class GalleryViewController: NavigationController {
     
     // MARK: - Properties
 
+    weak var vcDelegate: GalleryViewControllerDelegate? = nil
+    
     private let inset = 16.0
     private let itemSpacing = 4.0
     private var collectionVC = UICollectionViewController()
@@ -63,7 +69,9 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = GalleryDetailViewController()
         detailVC.imageName = photos[indexPath.row].name
+        detailVC.delegate = self
         self.pushViewController(detailVC, animated: true)
+        vcDelegate?.setBackButtonForGallery(hidden: false)
     }
 }
 
@@ -87,5 +95,13 @@ extension GalleryViewController: UICollectionViewDataSource {
             cell.setImage(image: UIImage(contentsOfFile: thumbnailFileUrl.path))
         }
         return reusableCell
+    }
+}
+
+// MARK: - GalleryDetailViewControllerDelegate
+
+extension GalleryViewController: GalleryDetailViewControllerDelegate {
+    func setBackButton(hidden: Bool) {
+        vcDelegate?.setBackButtonForGallery(hidden: hidden)
     }
 }

@@ -32,6 +32,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         (tabVCDict[TabType.pokedex] as? PokedexViewController)?.vcDelegate = self
+        (tabVCDict[TabType.gallery] as? GalleryViewController)?.vcDelegate = self
         (tabVCDict[TabType.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
         (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
@@ -131,7 +132,15 @@ extension MainViewController: SettingViewControllerDelegate {
 // MARK: - PokedexViewControllerDelegate
 
 extension MainViewController: PokedexViewControllerDelegate {
-    func setBackButton(hidden: Bool) {
+    func setBackButtonForPokedex(hidden: Bool) {
+        mainUpperView.setBackButton(hidden: hidden)
+    }
+}
+
+// MARK: - GalleryViewControllerDelegate
+
+extension MainViewController: GalleryViewControllerDelegate {
+    func setBackButtonForGallery(hidden: Bool) {
         mainUpperView.setBackButton(hidden: hidden)
     }
 }
@@ -142,6 +151,9 @@ extension MainViewController: MainUpperViewDelegate {
     func backButtonPressed() {
         if presentingTab == .pokedex {
             (tabVCDict[TabType.pokedex] as? PokedexViewController)?.popToRootViewController(animated: true)
+        }
+        if presentingTab == .gallery {
+            (tabVCDict[TabType.gallery] as? GalleryViewController)?.popToRootViewController(animated: true)
         }
     }
 }
