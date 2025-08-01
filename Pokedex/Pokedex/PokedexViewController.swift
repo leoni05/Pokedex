@@ -67,6 +67,14 @@ extension PokedexViewController: UICollectionViewDelegateFlowLayout {
         let width = (collectionView.frame.width - horizontalInset*2 - itemSpacing) / 2.0
         return CGSize(width: width, height: itemHeight)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = PokedexDetailViewController()
+        detailVC.delegate = self
+        detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
+        self.pushViewController(detailVC, animated: true)
+        vcDelegate?.setBackButton(hidden: false)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -95,14 +103,6 @@ extension PokedexViewController: UICollectionViewDataSource {
             return reusableView
         }
         return UICollectionReusableView()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailVC = PokedexDetailViewController()
-        detailVC.delegate = self
-        detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
-        self.pushViewController(detailVC, animated: true)
-        vcDelegate?.setBackButton(hidden: false)
     }
 }
 
