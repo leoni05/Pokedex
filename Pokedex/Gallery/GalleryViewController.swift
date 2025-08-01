@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import PinLayout
 
-class GalleryViewController: UIViewController {
+class GalleryViewController: NavigationController {
     
     // MARK: - Properties
 
@@ -23,6 +23,7 @@ class GalleryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.isNavigationBarHidden = true
         setCollectionView()
     }
 
