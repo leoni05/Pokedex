@@ -15,7 +15,7 @@ class GalleryViewController: NavigationController {
 
     private let inset = 16.0
     private let itemSpacing = 4.0
-    private var collectionView: UICollectionView? = nil
+    private var collectionVC = UICollectionViewController()
     private var photos: [Photo] = []
     
     // MARK: - Life Cycle
@@ -24,26 +24,7 @@ class GalleryViewController: NavigationController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.isNavigationBarHidden = true
-        setCollectionView()
-    }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView?.pin.all()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        photos = CoreDataManager.shared.getPhotos()
-        collectionView?.reloadData()
-    }
-    
-}
-
-// MARK: - Private Extensions
-
-private extension GalleryViewController {
-    func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = itemSpacing
@@ -54,9 +35,20 @@ private extension GalleryViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(GalleryCell.self, forCellWithReuseIdentifier: GalleryCell.reuseIdentifier)
-        self.view.addSubview(collectionView)
-        self.collectionView = collectionView
+        collectionVC.collectionView = collectionView
+        self.pushViewController(collectionVC, animated: false)
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        photos = CoreDataManager.shared.getPhotos()
+        collectionVC.collectionView.reloadData()
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -66,6 +58,12 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = (collectionView.frame.width - inset*2 - itemSpacing*3) / 4.0
         return CGSize(width: size, height: size)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = GalleryDetailViewController()
+        detailVC.imageName = photos[indexPath.row].name
+        self.pushViewController(detailVC, animated: true)
     }
 }
 

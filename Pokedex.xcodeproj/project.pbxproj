@@ -10,6 +10,7 @@
 		2E2AA73A2E363FAB0057ED54 /* PokedexDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */; };
 		2E2AA73C2E3641890057ED54 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA73B2E3641890057ED54 /* NavigationController.swift */; };
 		2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE2C7E2E223526005E713D /* ResultViewController.swift */; };
+		2EB82F512E3D0CCA002CB8D3 /* GalleryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB82F502E3D0CCA002CB8D3 /* GalleryDetailViewController.swift */; };
 		2EC5B8682E346EAE009C42DE /* SettingItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5B8672E346EAE009C42DE /* SettingItemButton.swift */; };
 		2EC5B86B2E34F50F009C42DE /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5B8692E34F50F009C42DE /* Model.xcdatamodeld */; };
 		2EC5B86F2E34F81E009C42DE /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC5B86D2E34F81E009C42DE /* Photo+CoreDataClass.swift */; };
@@ -56,6 +57,7 @@
 		2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexDetailViewController.swift; sourceTree = "<group>"; };
 		2E2AA73B2E3641890057ED54 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		2EAE2C7E2E223526005E713D /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		2EB82F502E3D0CCA002CB8D3 /* GalleryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryDetailViewController.swift; sourceTree = "<group>"; };
 		2EC5B8672E346EAE009C42DE /* SettingItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemButton.swift; sourceTree = "<group>"; };
 		2EC5B86A2E34F50F009C42DE /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		2EC5B86D2E34F81E009C42DE /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			children = (
 				D02241952DEF05C3003F68D1 /* GalleryViewController.swift */,
 				2EC5B8752E352612009C42DE /* GalleryCell.swift */,
+				2EB82F502E3D0CCA002CB8D3 /* GalleryDetailViewController.swift */,
 			);
 			path = Gallery;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				D0746C5F2E0456B000402D1C /* AlertModel.swift in Sources */,
 				D0D238B12DF44124003662D1 /* PokemonModel.swift in Sources */,
 				2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */,
+				2EB82F512E3D0CCA002CB8D3 /* GalleryDetailViewController.swift in Sources */,
 				D0B57B262E018C30004BF924 /* GotchaViewController.swift in Sources */,
 				D02241962DEF05C3003F68D1 /* GalleryViewController.swift in Sources */,
 				2E2AA73A2E363FAB0057ED54 /* PokedexDetailViewController.swift in Sources */,
