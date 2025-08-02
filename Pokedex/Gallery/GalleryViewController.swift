@@ -55,6 +55,11 @@ class GalleryViewController: NavigationController {
         collectionVC.collectionView.reloadData()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.popToRootViewController(animated: false)
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
