@@ -76,7 +76,6 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
         detailVC.imageName = photos[indexPath.row].name
         detailVC.delegate = self
         self.pushViewController(detailVC, animated: true)
-        vcDelegate?.setBackButtonForGallery(hidden: false)
     }
 }
 

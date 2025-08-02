@@ -73,7 +73,6 @@ extension PokedexViewController: UICollectionViewDelegateFlowLayout {
         detailVC.delegate = self
         detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
         self.pushViewController(detailVC, animated: true)
-        vcDelegate?.setBackButtonForPokedex(hidden: false)
     }
 }
 
