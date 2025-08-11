@@ -48,6 +48,25 @@ class GalleryDetailViewController: UIViewController {
         }
         imageView.contentMode = .scaleAspectFill
         scrollView.addSubview(imageView)
+        
+        xpTitleLabel.text = "획득 경험치"
+        xpTitleLabel.textColor = .wineRed
+        xpTitleLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        scrollView.addSubview(xpTitleLabel)
+        
+        downloadButton.setImage(UIImage(named: "download"), for: .normal)
+        scrollView.addSubview(downloadButton)
+        
+        starsLabel.text = "★★★☆☆"
+        starsLabel.textColor = .wineRed
+        starsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
+        scrollView.addSubview(starsLabel)
+        
+        xpLabel.text = "450xp"
+        xpLabel.textColor = .wineRed
+        xpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        xpLabel.textAlignment = .right
+        scrollView.addSubview(xpLabel)
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,8 +74,12 @@ class GalleryDetailViewController: UIViewController {
         
         scrollView.pin.all()
         imageView.pin.top(MainUpperView.topInset + 32).horizontally().aspectRatio()
+        xpTitleLabel.pin.below(of: imageView).left(16).marginTop(20).sizeToFit()
+        downloadButton.pin.vCenter(to: xpTitleLabel.edge.vCenter).right(16).size(40)
+        starsLabel.pin.below(of: xpTitleLabel).left(16).marginTop(8).sizeToFit()
+        xpLabel.pin.after(of: starsLabel, aligned: .center).right(16).marginLeft(8).sizeToFit(.width)
         
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: imageView.frame.maxY + 12)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: starsLabel.frame.maxY + 12)
     }
     
     override func viewDidAppear(_ animated: Bool) {
