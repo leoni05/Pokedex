@@ -26,6 +26,7 @@ class GalleryDetailViewController: UIViewController {
     private let xpTitleLabel = UILabel()
     private let starsLabel = UILabel()
     private let downloadButton = UIButton()
+    private let deleteButton = UIButton()
     private let xpLabel = UILabel()
     private let capturedPokemonsLabel = UILabel()
     private let pokemonContaierView = UIView()
@@ -57,6 +58,12 @@ class GalleryDetailViewController: UIViewController {
         downloadButton.setImage(UIImage(named: "download"), for: .normal)
         scrollView.addSubview(downloadButton)
         
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let deleteImage = UIImage(systemName: "trash.fill", withConfiguration: configuration)
+        deleteButton.setImage(deleteImage, for: .normal)
+        deleteButton.tintColor = .wineRed
+        scrollView.addSubview(deleteButton)
+        
         starsLabel.text = "★★★☆☆"
         starsLabel.textColor = .wineRed
         starsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
@@ -76,6 +83,7 @@ class GalleryDetailViewController: UIViewController {
         imageView.pin.top(MainUpperView.topInset + 32).horizontally().aspectRatio()
         xpTitleLabel.pin.below(of: imageView).left(16).marginTop(20).sizeToFit()
         downloadButton.pin.vCenter(to: xpTitleLabel.edge.vCenter).right(16).size(40)
+        deleteButton.pin.before(of: downloadButton, aligned: .center).size(40).marginRight(4)
         starsLabel.pin.below(of: xpTitleLabel).left(16).marginTop(8).sizeToFit()
         xpLabel.pin.after(of: starsLabel, aligned: .center).right(16).marginLeft(8).sizeToFit(.width)
         
