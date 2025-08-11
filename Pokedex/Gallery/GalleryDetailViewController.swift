@@ -20,6 +20,9 @@ class GalleryDetailViewController: UIViewController {
     weak var delegate: GalleryDetailViewControllerDelegate? = nil
     
     var imageName: String?
+    private var resultPokemons: Array<String> = [
+        "Gengar", "Giratina", "Scizor", "Charmander", "Lapras", "Ditto", "Milotic"
+    ]
     
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
@@ -30,7 +33,7 @@ class GalleryDetailViewController: UIViewController {
     private let xpLabel = UILabel()
     private let capturedPokemonsLabel = UILabel()
     private let pokemonContaierView = UIView()
-    private let pokemonImageViews: [UIImageView] = []
+    private var pokemonViews: Array<CapturedPokemonView> = []
     
     // MARK: - Life Cycle
     
@@ -74,6 +77,20 @@ class GalleryDetailViewController: UIViewController {
         xpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
         xpLabel.textAlignment = .right
         scrollView.addSubview(xpLabel)
+        
+        capturedPokemonsLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
+        capturedPokemonsLabel.font = .systemFont(ofSize: 16.0, weight: .regular)
+        capturedPokemonsLabel.text = "잡은 포켓몬"
+        scrollView.addSubview(capturedPokemonsLabel)
+        
+        scrollView.addSubview(pokemonContaierView)
+        
+        for idx in 0..<resultPokemons.count {
+            let view = CapturedPokemonView()
+            view.setPokemonInfo(engName: resultPokemons[idx])
+            pokemonViews.append(view)
+            pokemonContaierView.addSubview(view)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -87,7 +104,20 @@ class GalleryDetailViewController: UIViewController {
         starsLabel.pin.below(of: xpTitleLabel).left(16).marginTop(8).sizeToFit()
         xpLabel.pin.after(of: starsLabel, aligned: .center).right(16).marginLeft(8).sizeToFit(.width)
         
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: starsLabel.frame.maxY + 12)
+        capturedPokemonsLabel.pin.below(of: starsLabel).left(16).marginTop(24).sizeToFit()
+        pokemonContaierView.pin.below(of: capturedPokemonsLabel).horizontally(16).marginTop(12)
+        for idx in 0..<pokemonViews.count {
+            let view = pokemonViews[idx]
+            let gap: CGFloat = 12.0
+            let width: CGFloat = (pokemonContaierView.frame.width-gap)/2.0
+            let height: CGFloat = 201.0
+            let x: CGFloat = ((idx%2==0) ? 0.0 : width+gap)
+            let y = CGFloat(idx/2) * (height+gap)
+            view.pin.left(x).top(y).width(width).height(height)
+        }
+        pokemonContaierView.pin.below(of: capturedPokemonsLabel).left(16).wrapContent().marginTop(12)
+        
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: pokemonContaierView.frame.maxY + 16)
     }
     
     override func viewDidAppear(_ animated: Bool) {
