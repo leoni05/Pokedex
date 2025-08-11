@@ -47,4 +47,11 @@ extension GalleryCell {
     func setImage(image: UIImage?) {
         imageView.image = image
     }
+    
+    func setAnimationForAlpha(duration: TimeInterval, delay: TimeInterval) {
+        self.imageView.alpha = 0.0
+        UIView.animate(withDuration: duration, delay: delay) {
+            self.imageView.alpha = 1.0
+        }
+    }
 }

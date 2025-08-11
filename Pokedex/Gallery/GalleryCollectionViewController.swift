@@ -19,6 +19,7 @@ class GalleryCollectionViewController: UIViewController {
     private let inset = 16.0
     private let itemSpacing = 4.0
     private var photos: [Photo] = []
+    private var isAnimating = false
     
     // MARK: - Life Cycle
     
@@ -47,6 +48,14 @@ class GalleryCollectionViewController: UIViewController {
         collectionView.isHidden = true
         DispatchQueue.main.async {
             self.photos = CoreDataManager.shared.getPhotos()
+            
+            self.isAnimating = true
+            self.collectionView?.isUserInteractionEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.isAnimating = false
+                self.collectionView?.isUserInteractionEnabled = true
+            }
+            
             self.collectionView?.reloadData()
             self.collectionView?.isHidden = false
             self.indicatorView.isHidden = true
@@ -86,6 +95,14 @@ extension GalleryCollectionViewController: UICollectionViewDelegateFlowLayout {
         detailVC.imageName = photos[indexPath.row].name
         detailVC.delegate = navigationController as? GalleryDetailViewControllerDelegate
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? GalleryCell else { return }
+        if isAnimating {
+            let delay: TimeInterval = drand48() * 0.15
+            cell.setAnimationForAlpha(duration: 0.35, delay: delay)
+        }
     }
 }
 
