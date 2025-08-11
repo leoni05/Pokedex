@@ -58,7 +58,7 @@ class GalleryDetailViewController: UIViewController {
         downloadButton.setImage(UIImage(named: "download"), for: .normal)
         scrollView.addSubview(downloadButton)
         
-        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
         let deleteImage = UIImage(systemName: "trash.fill", withConfiguration: configuration)
         deleteButton.setImage(deleteImage, for: .normal)
         deleteButton.tintColor = .wineRed
