@@ -73,6 +73,12 @@ class PokedexCell: UICollectionViewCell {
         indexLabel.textColor = UIColor(red: 42.0/255.0, green: 42.0/255.0, blue: 42.0/255.0, alpha: 1.0)
         indexLabel.numberOfLines = 1
         containerView.addSubview(indexLabel)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(cellContentsLongPressed(_:)))
+        longPressGesture.minimumPressDuration = 0
+        longPressGesture.delegate = self
+        longPressGesture.cancelsTouchesInView = false
+        contentView.addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -116,5 +122,31 @@ extension PokedexCell {
         }
         nameLabel.text = Pokedex.shared.pokemons[index].name
         indexLabel.text = "No. \(String(format: "%04d", index+1))"
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension PokedexCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension PokedexCell {
+    @objc func cellContentsLongPressed(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            UIView.animate(withDuration: 0.1) {
+                self.containerView.backgroundColor = .systemGray6
+                self.containerView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.97, 0.97)
+            }
+            return
+        }
+        UIView.animate(withDuration: 0.1) {
+            self.containerView.backgroundColor = .clear
+            self.containerView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        }
     }
 }
