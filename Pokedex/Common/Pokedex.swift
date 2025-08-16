@@ -312,4 +312,16 @@ extension Pokedex {
         }
         return nil
     }
+    
+    func getPokemonSpeciesFromAPI(engName: String) async -> PokeapiSpeciesModel? {
+        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(engName)") else {
+            return nil
+        }
+        let request = URLRequest(url: apiURL)
+        if let (data, _) = try? await URLSession.shared.data(for: request),
+           let info = try? JSONDecoder().decode(PokeapiSpeciesModel.self, from: data) {
+            return info
+        }
+        return nil
+    }
 }

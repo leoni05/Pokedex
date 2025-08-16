@@ -135,3 +135,24 @@ struct PokeapiInfoModel: Decodable {
     let height: Int
     let types: Array<PokeapiTypeModel>
 }
+
+struct PokeapiSpeciesModel: Decodable {
+    struct PokeapiLanguageModel: Decodable {
+        let name: String
+    }
+    struct PokeapiNameModel: Decodable {
+        let language: PokeapiLanguageModel
+        let name: String
+    }
+    struct PokeapiGenusModel: Decodable {
+        let genus: String
+        let language: PokeapiLanguageModel
+    }
+    struct PokeapiFlavorModel: Decodable {
+        let flavor_text: String
+        let language: PokeapiLanguageModel
+    }
+    let names: Array<PokeapiNameModel>
+    let genera: Array<PokeapiGenusModel>
+    let flavor_text_entries: Array<PokeapiFlavorModel>
+}
