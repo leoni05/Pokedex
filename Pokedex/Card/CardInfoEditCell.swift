@@ -20,6 +20,7 @@ class CardInfoEditCell: UIView {
     weak var delegate: CardInfoEditCellDelegate? = nil
     
     private var selected: Bool = false
+    private let containerView = UIView()
     private let imageView = UIImageView()
     
     // MARK: - Life Cycle
@@ -27,15 +28,23 @@ class CardInfoEditCell: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.addSubview(containerView)
+        
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 4.0
         imageView.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
         imageView.layer.borderWidth = 1.0
         imageView.layer.masksToBounds = true
-        self.addSubview(imageView)
+        containerView.addSubview(imageView)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellPressed(_:)))
         self.addGestureRecognizer(tapGesture)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(cellContentsLongPressed(_:)))
+        longPressGesture.minimumPressDuration = 0
+        longPressGesture.delegate = self
+        longPressGesture.cancelsTouchesInView = false
+        self.addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +53,7 @@ class CardInfoEditCell: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        containerView.pin.all()
         imageView.pin.all()
     }
     
@@ -74,5 +84,27 @@ private extension CardInfoEditCell {
         if let idx = sender.view?.tag {
             delegate?.cellPressed(idx: idx)
         }
+    }
+    
+    @objc func cellContentsLongPressed(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            UIView.animate(withDuration: 0.1) {
+                self.containerView.backgroundColor = .systemGray6
+                self.containerView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.97, 0.97)
+            }
+            return
+        }
+        UIView.animate(withDuration: 0.1) {
+            self.containerView.backgroundColor = .clear
+            self.containerView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        }
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension CardInfoEditCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
