@@ -21,6 +21,9 @@ class SettingItemButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        containerView.layer.cornerRadius = 4.0
+        containerView.layer.masksToBounds = true
         self.addSubview(containerView)
         
         btnImageView.image = UIImage(named: "pokeball.small.fill")
@@ -33,6 +36,11 @@ class SettingItemButton: UIButton {
         containerView.addSubview(btnLabel)
         
         containerView.isUserInteractionEnabled = false
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(contentsLongPressed(_:)))
+        longPressGesture.minimumPressDuration = 0
+        longPressGesture.cancelsTouchesInView = false
+        self.addGestureRecognizer(longPressGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -52,5 +60,23 @@ class SettingItemButton: UIButton {
 extension SettingItemButton {
     func setText(text: String) {
         btnLabel.text = text
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension SettingItemButton {
+    @objc func contentsLongPressed(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            UIView.animate(withDuration: 0.1) {
+                self.containerView.backgroundColor = .systemGray6
+                self.containerView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.97, 0.97)
+            }
+            return
+        }
+        UIView.animate(withDuration: 0.1) {
+            self.containerView.backgroundColor = .clear
+            self.containerView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        }
     }
 }
