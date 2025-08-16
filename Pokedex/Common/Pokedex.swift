@@ -300,4 +300,16 @@ extension Pokedex {
         }
         return nil
     }
+    
+    func getPokemonInfoFromAPI(engName: String) async -> PokeapiInfoModel? {
+        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon/\(engName)") else {
+            return nil
+        }
+        let request = URLRequest(url: apiURL)
+        if let (data, _) = try? await URLSession.shared.data(for: request),
+           let info = try? JSONDecoder().decode(PokeapiInfoModel.self, from: data) {
+            return info
+        }
+        return nil
+    }
 }

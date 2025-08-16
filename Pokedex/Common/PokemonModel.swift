@@ -123,3 +123,15 @@ struct PokemonModel {
     var capturedDate: String = "미포획"
     var selected: Bool = false
 }
+
+struct PokeapiInfoModel: Decodable {
+    struct PokeapiTypeModel: Decodable {
+        struct PokeapiTypeDetailModel: Decodable {
+            let name: String
+        }
+        let type: PokeapiTypeDetailModel
+    }
+    let weight: Int
+    let height: Int
+    let types: Array<PokeapiTypeModel>
+}
