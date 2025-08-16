@@ -21,7 +21,7 @@ class CardInfoEditViewController: UIViewController {
     private let cardInfoLabel = UILabel()
     private let nameTextField = UITextField()
     private let imageLabel = UILabel()
-    private let imageViewsContainer = UIView()
+    private let imageCellsContainer = UIView()
     private var trainerImageCells: Array<CardInfoEditCell> = []
     private let trainerImageCount = 24
     private var selectedImageIdx: Int? = nil
@@ -62,7 +62,7 @@ class CardInfoEditViewController: UIViewController {
         imageLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
         scrollView.addSubview(imageLabel)
         
-        scrollView.addSubview(imageViewsContainer)
+        scrollView.addSubview(imageCellsContainer)
         
         for idx in 0..<trainerImageCount {
             let cell = CardInfoEditCell()
@@ -71,7 +71,7 @@ class CardInfoEditViewController: UIViewController {
             cell.delegate = self
             
             trainerImageCells.append(cell)
-            imageViewsContainer.addSubview(cell)
+            imageCellsContainer.addSubview(cell)
         }
         
         okButton.layer.borderWidth = 2.0
@@ -91,18 +91,18 @@ class CardInfoEditViewController: UIViewController {
         cardInfoLabel.pin.top(MainUpperView.topInset + 16).horizontally(16).sizeToFit(.width)
         nameTextField.pin.below(of: cardInfoLabel).horizontally(16).height(40).marginTop(12)
         imageLabel.pin.below(of: nameTextField).horizontally(16).marginTop(24).sizeToFit(.width)
-        imageViewsContainer.pin.below(of: imageLabel).horizontally(16).marginTop(12)
+        imageCellsContainer.pin.below(of: imageLabel).horizontally(16).marginTop(12)
         for idx in 0..<trainerImageCells.count {
             let imageCell = trainerImageCells[idx]
             let gap: CGFloat = 12
-            let imageWidth: CGFloat = (imageViewsContainer.frame.width - gap)/2
+            let imageWidth: CGFloat = (imageCellsContainer.frame.width - gap)/2
             let imageHeight: CGFloat = (imageWidth * 80) / 158
             let x: CGFloat = ((idx%2==0) ? 0.0 : imageWidth+gap)
             let y: CGFloat = CGFloat(Int(idx/2)) * (imageHeight + gap)
             imageCell.pin.left(x).top(y).width(imageWidth).height(imageHeight)
         }
-        imageViewsContainer.pin.below(of: imageLabel).left(16).wrapContent().marginTop(12)
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: imageViewsContainer.frame.maxY + 84)
+        imageCellsContainer.pin.below(of: imageLabel).left(16).wrapContent().marginTop(12)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: imageCellsContainer.frame.maxY + 84)
         
         okButton.pin.bottom(16).right(16).width(68).height(52)
     }
