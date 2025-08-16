@@ -21,6 +21,8 @@ class PokedexDetailViewController: UIViewController {
     var engName: String = ""
     private var pokemon: PokemonModel? = nil
     
+    private let indicatorView = UIActivityIndicatorView(style: .medium)
+    
     private let scrollView = UIScrollView()
     private let numberLabel = UILabel()
     private let nameLabel = UILabel()
@@ -173,6 +175,10 @@ class PokedexDetailViewController: UIViewController {
         photoTitleLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
         scrollView.addSubview(photoTitleLabel)
         
+        indicatorView.startAnimating()
+        indicatorView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        scrollView.addSubview(indicatorView)
+        
         photos = CoreDataManager.shared.getPhotos()
         
         scrollView.addSubview(photoImageViewContainer)
@@ -226,7 +232,8 @@ class PokedexDetailViewController: UIViewController {
         categoryLabel.pin.before(of: heightLabel).left(colPadding).vertically().marginRight(colPadding*2)
         divView3.pin.below(of: categoryLabel).horizontally(16).height(1)
         
-        photoTitleLabel.pin.below(of: divView3).horizontally(16).marginTop(24).sizeToFit(.width)
+        photoTitleLabel.pin.below(of: divView3).horizontally(16).marginTop(24).sizeToFit()
+        indicatorView.pin.after(of: photoTitleLabel, aligned: .center).size(20).marginLeft(8)
         photoImageViewContainer.pin.below(of: photoTitleLabel).horizontally(16).marginTop(12)
         let imageGap: CGFloat = 12
         let containerWidth = photoImageViewContainer.frame.width
