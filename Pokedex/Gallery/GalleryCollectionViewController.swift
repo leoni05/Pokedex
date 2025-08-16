@@ -15,6 +15,8 @@ class GalleryCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView? = nil
     private let indicatorView = UIActivityIndicatorView(style: .large)
+    private let animationMaxDelay: Double = 0.54
+    private let animationDuration: Double = 0.46
     
     private let inset = 16.0
     private let itemSpacing = 4.0
@@ -51,7 +53,7 @@ class GalleryCollectionViewController: UIViewController {
             
             self.isAnimating = true
             self.collectionView?.isUserInteractionEnabled = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.animationDuration + self.animationMaxDelay) {
                 self.isAnimating = false
                 self.collectionView?.isUserInteractionEnabled = true
             }
@@ -100,8 +102,10 @@ extension GalleryCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GalleryCell else { return }
         if isAnimating {
-            let delay: TimeInterval = drand48() * 0.15
-            cell.setAnimationForAlpha(duration: 0.35, delay: delay)
+            let x = indexPath.row % 4
+            let y = indexPath.row / 4
+            let delay: TimeInterval = min(Double(y+x)/10.0 * animationMaxDelay, animationMaxDelay)
+            cell.setAnimationForAlpha(duration: animationDuration, delay: delay)
         }
     }
 }
