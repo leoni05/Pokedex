@@ -106,12 +106,12 @@ class PokedexDetailViewController: UIViewController {
         typeLabel1.isHidden = true
         typeLabel2.isHidden = true
         if (pokemon?.type.count ?? 0) >= 1 {
-            typeLabel1.text = pokemon?.type[0].rawValue
+            typeLabel1.text = pokemon?.type[0].koreanText
             typeLabel1.backgroundColor = pokemon?.type[0].color
             typeLabel1.isHidden = false
         }
         if (pokemon?.type.count ?? 0) >= 2 {
-            typeLabel2.text = pokemon?.type[1].rawValue
+            typeLabel2.text = pokemon?.type[1].koreanText
             typeLabel2.backgroundColor = pokemon?.type[1].color
             typeLabel2.isHidden = false
         }

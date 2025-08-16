@@ -111,12 +111,12 @@ extension PokedexCell {
         typeLabel1.isHidden = true
         typeLabel2.isHidden = true
         if Pokedex.shared.pokemons[index].type.count >= 1 {
-            typeLabel1.text = Pokedex.shared.pokemons[index].type[0].rawValue
+            typeLabel1.text = Pokedex.shared.pokemons[index].type[0].koreanText
             typeLabel1.backgroundColor = Pokedex.shared.pokemons[index].type[0].color
             typeLabel1.isHidden = false
         }
         if Pokedex.shared.pokemons[index].type.count >= 2 {
-            typeLabel2.text = Pokedex.shared.pokemons[index].type[1].rawValue
+            typeLabel2.text = Pokedex.shared.pokemons[index].type[1].koreanText
             typeLabel2.backgroundColor = Pokedex.shared.pokemons[index].type[1].color
             typeLabel2.isHidden = false
         }
