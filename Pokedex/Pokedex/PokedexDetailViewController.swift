@@ -179,29 +179,37 @@ class PokedexDetailViewController: UIViewController {
         indicatorView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         scrollView.addSubview(indicatorView)
         
-        photos = CoreDataManager.shared.getPhotos()
-        
         scrollView.addSubview(photoImageViewContainer)
         
         for idx in 0..<photoImageViews.count {
             photoImageViews[idx].layer.cornerRadius = 4
             photoImageViews[idx].layer.masksToBounds = true
+            photoImageViews[idx].contentMode = .scaleAspectFill
+            photoImageViews[idx].layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+            photoImageViews[idx].layer.borderWidth = 1
+            photoImageViewContainer.addSubview(photoImageViews[idx])
+        }
+        
+        DispatchQueue.main.async {
+            self.photos = CoreDataManager.shared.getPhotos()
+            self.indicatorView.isHidden = true
+            self.indicatorView.stopAnimating()
             
-            if idx < 2 {
+            // TODO: 반복 횟수를 min(해당 포켓몬이 잡힌 횟수, 4)로 변경
+            for idx in 0..<min(self.photos.count, 2) {
                 if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-                   let imageName = photos[idx].name {
+                   let imageName = self.photos[idx].name {
                     let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
                     if FileManager.default.fileExists(atPath: thumbnailFileUrl.path) {
-                        photoImageViews[idx].image = UIImage(contentsOfFile: thumbnailFileUrl.path)
-                        photoImageViews[idx].contentMode = .scaleAspectFill
+                        self.photoImageViews[idx].alpha = 0.0
+                        self.photoImageViews[idx].layer.borderWidth = 0
+                        self.photoImageViews[idx].image = UIImage(contentsOfFile: thumbnailFileUrl.path)
+                        UIView.animate(withDuration: 0.3) {
+                            self.photoImageViews[idx].alpha = 1.0
+                        }
                     }
                 }
             }
-            if photoImageViews[idx].image == nil {
-                photoImageViews[idx].layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-                photoImageViews[idx].layer.borderWidth = 1
-            }
-            photoImageViewContainer.addSubview(photoImageViews[idx])
         }
     }
     
