@@ -104,7 +104,7 @@ extension GalleryCollectionViewController: UICollectionViewDelegateFlowLayout {
         if isAnimating {
             let x = indexPath.row % 4
             let y = indexPath.row / 4
-            let delay: TimeInterval = min(Double(y+x)/10.0 * animationMaxDelay, animationMaxDelay)
+            let delay: TimeInterval = min(Double(y+x)/12.0 * animationMaxDelay, animationMaxDelay)
             cell.setAnimationForAlpha(duration: animationDuration, delay: delay)
         }
     }
