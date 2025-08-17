@@ -44,6 +44,8 @@ class PokedexViewController: NavigationController {
         collectionView.register(PokedexCell.self, forCellWithReuseIdentifier: PokedexCell.reuseIdentifier)
         collectionView.register(PokedexHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: PokedexHeader.reuseIdentifier)
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         collectionVC.collectionView = collectionView
         self.pushViewController(collectionVC, animated: false)
     }
@@ -110,5 +112,14 @@ extension PokedexViewController: UICollectionViewDataSource {
 extension PokedexViewController: PokedexDetailViewControllerDelegate {
     func setBackButton(hidden: Bool) {
         vcDelegate?.setBackButtonForPokedex(hidden: hidden)
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension PokedexViewController {
+    @objc func handleRefreshControl() {
+        collectionVC.collectionView?.reloadData()
+        collectionVC.collectionView?.refreshControl?.endRefreshing()
     }
 }
