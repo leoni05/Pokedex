@@ -3,9 +3,24 @@
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="captureDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="resultString" optional="YES" attributeType="String"/>
+        <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="pokemons" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Pokemon" inverseName="photos" inverseEntity="Pokemon"/>
         <fetchIndex name="byCaptureDateIndex">
             <fetchIndexElement property="captureDate" type="Binary" order="descending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="Pokemon" representedClassName="Pokemon" syncable="YES">
+        <attribute name="captureDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="height" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pokedexNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" customClassName="[String]"/>
+        <attribute name="weight" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Photo" inverseName="pokemons" inverseEntity="Photo"/>
+        <fetchIndex name="byPokedexNumberIndex">
+            <fetchIndexElement property="pokedexNumber" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
 </model>

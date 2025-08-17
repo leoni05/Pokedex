@@ -47,7 +47,6 @@ class CoreDataManager {
            let photo = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Photo {
             photo.captureDate = captureDate
             photo.name = name
-            photo.resultString = resultString
             do {
                 try persistentContainer.viewContext.save()
                 completion()
