@@ -118,9 +118,22 @@ struct PokeapiInfoModel: Decodable {
         }
         let type: PokeapiTypeDetailModel
     }
+    struct PokeapiSpriteModel: Decodable {
+        struct PokeapiOtherModel: Decodable {
+            enum CodingKeys: String, CodingKey {
+                case officialArtwork = "official-artwork"
+            }
+            struct PokeapiOfficialArtworkModel: Decodable {
+                let front_default: String
+            }
+            let officialArtwork: PokeapiOfficialArtworkModel
+        }
+        let other: PokeapiOtherModel
+    }
     let weight: Int
     let height: Int
     let types: Array<PokeapiTypeModel>
+    let sprites: PokeapiSpriteModel
 }
 
 struct PokeapiSpeciesModel: Decodable {
