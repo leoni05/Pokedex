@@ -461,7 +461,7 @@ private extension CameraViewController {
                     "content": [
                         [
                             "type": "input_text",
-                            "text": "Please analyze this image and send me the result text with several words separated by commas. First word is the score of this image. The score ranges from 0 to 500. After that, the following are pokemon names of the pokemons in this image without duplication."
+                            "text": "Please analyze this image and send me the result string with several numbers separated by commas. First number is the score of this image. The score ranges from 0 to 500. After that, the following are national pokedex numbers of the pokemons in this image without duplication."
                         ],
                         [
                             "type": "input_image",
