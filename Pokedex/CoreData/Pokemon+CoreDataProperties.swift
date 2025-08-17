@@ -24,6 +24,7 @@ extension Pokemon {
     @NSManaged public var category: String?
     @NSManaged public var desc: String?
     @NSManaged public var captureDate: Date?
+    @NSManaged public var imageURL: String?
     @NSManaged public var photos: NSOrderedSet?
 
 }
