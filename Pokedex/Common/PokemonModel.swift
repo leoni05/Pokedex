@@ -111,19 +111,6 @@ enum PokemonType: String {
     }
 }
 
-struct PokemonModel {
-    let name: String
-    let type: Array<PokemonType>
-    let height: String
-    let weight: String
-    let category: String
-    let desc: String
-    let engName: String
-    var pokedexNumber: Int = 0
-    var capturedDate: String = "미포획"
-    var selected: Bool = false
-}
-
 struct PokeapiInfoModel: Decodable {
     struct PokeapiTypeModel: Decodable {
         struct PokeapiTypeDetailModel: Decodable {

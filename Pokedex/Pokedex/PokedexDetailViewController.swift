@@ -19,7 +19,7 @@ class PokedexDetailViewController: UIViewController {
     
     weak var delegate: PokedexDetailViewControllerDelegate? = nil
     var engName: String = ""
-    private var pokemon: PokemonModel? = nil
+    private var pokemon: Pokemon? = nil
     
     private let indicatorView = UIActivityIndicatorView(style: .medium)
     
@@ -105,16 +105,18 @@ class PokedexDetailViewController: UIViewController {
         
         typeLabel1.isHidden = true
         typeLabel2.isHidden = true
-        if (pokemon?.type.count ?? 0) >= 1 {
-            typeLabel1.text = pokemon?.type[0].koreanText
-            typeLabel1.backgroundColor = pokemon?.type[0].color
-            typeLabel1.isHidden = false
-        }
-        if (pokemon?.type.count ?? 0) >= 2 {
-            typeLabel2.text = pokemon?.type[1].koreanText
-            typeLabel2.backgroundColor = pokemon?.type[1].color
-            typeLabel2.isHidden = false
-        }
+        
+        // TODO: Core Data 연동
+//        if (pokemon?.type.count ?? 0) >= 1 {
+//            typeLabel1.text = pokemon?.type[0].koreanText
+//            typeLabel1.backgroundColor = pokemon?.type[0].color
+//            typeLabel1.isHidden = false
+//        }
+//        if (pokemon?.type.count ?? 0) >= 2 {
+//            typeLabel2.text = pokemon?.type[1].koreanText
+//            typeLabel2.backgroundColor = pokemon?.type[1].color
+//            typeLabel2.isHidden = false
+//        }
         
         descLabel.text = pokemon?.desc
         descLabel.font = .systemFont(ofSize: 16)
@@ -160,12 +162,13 @@ class PokedexDetailViewController: UIViewController {
         categoryLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(categoryLabel)
         
-        heightLabel.text = pokemon?.height
+        // TODO: Core Data 연동
+//        heightLabel.text = pokemon?.height
         heightLabel.textAlignment = .center
         heightLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(heightLabel)
         
-        weightLabel.text = pokemon?.weight
+//        weightLabel.text = pokemon?.weight
         weightLabel.textAlignment = .center
         weightLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(weightLabel)

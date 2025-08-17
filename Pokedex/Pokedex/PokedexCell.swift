@@ -104,22 +104,23 @@ class PokedexCell: UICollectionViewCell {
 extension PokedexCell {
     func setPokemonInfo(index: Int) {
         pokedexIndex = index
-        pokeballImageView.image = UIImage(named: pokeballImageName + (Pokedex.shared.pokemons[index].selected ? ".fill" : ""))
-        pokemonImageView.image = UIImage(named: "Pokedex" + String(format: "%03d", index))
-        captureDateLabel.text = Pokedex.shared.pokemons[index].capturedDate
+        // TODO: Core Data 연동
+//        pokeballImageView.image = UIImage(named: pokeballImageName + (Pokedex.shared.pokemons[index].selected ? ".fill" : ""))
+//        pokemonImageView.image = UIImage(named: "Pokedex" + String(format: "%03d", index))
+//        captureDateLabel.text = Pokedex.shared.pokemons[index].capturedDate
         
         typeLabel1.isHidden = true
         typeLabel2.isHidden = true
-        if Pokedex.shared.pokemons[index].type.count >= 1 {
-            typeLabel1.text = Pokedex.shared.pokemons[index].type[0].koreanText
-            typeLabel1.backgroundColor = Pokedex.shared.pokemons[index].type[0].color
-            typeLabel1.isHidden = false
-        }
-        if Pokedex.shared.pokemons[index].type.count >= 2 {
-            typeLabel2.text = Pokedex.shared.pokemons[index].type[1].koreanText
-            typeLabel2.backgroundColor = Pokedex.shared.pokemons[index].type[1].color
-            typeLabel2.isHidden = false
-        }
+//        if Pokedex.shared.pokemons[index].type.count >= 1 {
+//            typeLabel1.text = Pokedex.shared.pokemons[index].type[0].koreanText
+//            typeLabel1.backgroundColor = Pokedex.shared.pokemons[index].type[0].color
+//            typeLabel1.isHidden = false
+//        }
+//        if Pokedex.shared.pokemons[index].type.count >= 2 {
+//            typeLabel2.text = Pokedex.shared.pokemons[index].type[1].koreanText
+//            typeLabel2.backgroundColor = Pokedex.shared.pokemons[index].type[1].color
+//            typeLabel2.isHidden = false
+//        }
         nameLabel.text = Pokedex.shared.pokemons[index].name
         indexLabel.text = "No. \(String(format: "%04d", index+1))"
     }
