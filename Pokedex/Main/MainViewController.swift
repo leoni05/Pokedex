@@ -12,6 +12,7 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
 
+    private var firstCardInfoSetting = false
     private let mainUpperView = MainUpperView()
     private let mainTabBarView = MainTabBarView()
     
@@ -37,6 +38,7 @@ class MainViewController: UIViewController {
         (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
         if UserDefaults.standard.string(forKey: "userName") == nil {
+            firstCardInfoSetting = true
             presentingTab = .cardInfoEdit
         }
         else {
@@ -117,7 +119,13 @@ extension MainViewController: MainTabBarViewDelegate {
 
 extension MainViewController: CardInfoEditViewControllerDelegate {
     func cardEditOkButtonPressed() {
-        changeTab(type: .setting)
+        if firstCardInfoSetting {
+            firstCardInfoSetting = false
+            changeTab(type: .pokedex)
+        }
+        else {
+            changeTab(type: .setting)
+        }
     }
 }
 
