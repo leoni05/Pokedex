@@ -38,7 +38,7 @@ class SamuelOakViewController: UIViewController {
         speechLabel.text = "포켓몬스터의 세계에 잘 왔단다!"
         speechLabel.textColor = .wineRed
         speechLabel.numberOfLines = 3
-        speechLabel.font = UIFont(name: "Galmuri11-Regular", size: 18)
+        speechLabel.font = UIFont(name: "Galmuri11-Regular", size: 16)
         speechBubbleView.addSubview(speechLabel)
         
         arrowLabelWrapper.isHidden = true
@@ -52,6 +52,9 @@ class SamuelOakViewController: UIViewController {
         arrowLabelWrapper.addSubview(arrowLabel)
         
         setArrowLabel(hidden: false)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(screenPressed(_:)))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,5 +87,14 @@ private extension SamuelOakViewController {
                 self.arrowLabelWrapper.isHidden = !self.arrowLabelWrapper.isHidden
             }
         }
+    }
+    
+    @objc func screenPressed(_ sender: UITapGestureRecognizer) {
+        if timerForBlink == nil {
+            return
+        }
+        self.setArrowLabel(hidden: true)
+        speechLabel.text = "포켓몬스터 데이터를 다운로드 받을 준비는 되었는가?\n(Wi-Fi 환경 이용을 절대 권장합니다)"
+        speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
     }
 }
