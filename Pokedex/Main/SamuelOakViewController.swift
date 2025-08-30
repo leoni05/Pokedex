@@ -13,6 +13,7 @@ class SamuelOakViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let samuelOakWrapperView = UIView()
     private let samuelOakImageView = UIImageView()
     private let speechBubbleView = SpeechBubbleView()
     private let arrowLabelWrapper = UIView()
@@ -26,9 +27,11 @@ class SamuelOakViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        self.view.addSubview(samuelOakWrapperView)
+        
         samuelOakImageView.image = UIImage(named: "SamuelOak")
         samuelOakImageView.contentMode = .scaleAspectFit
-        self.view.addSubview(samuelOakImageView)
+        samuelOakWrapperView.addSubview(samuelOakImageView)
         
         self.view.addSubview(speechBubbleView)
         
@@ -54,13 +57,16 @@ class SamuelOakViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        samuelOakImageView.pin.center().size(220)
         speechBubbleView.pin.bottom(self.view.pin.safeArea+4).horizontally(self.view.pin.safeArea+4)
             .height(100)
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
         arrowLabelWrapper.pin.vCenter(to: speechBubbleView.edge.bottom).right(to: speechBubbleView.edge.right)
             .size(18).marginRight(12).marginTop(-2)
         arrowLabel.pin.center().sizeToFit()
+        
+        samuelOakWrapperView.pin.above(of: speechBubbleView)
+            .top(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
+        samuelOakImageView.pin.center().size(220)
     }
     
 }
