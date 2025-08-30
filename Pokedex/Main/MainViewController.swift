@@ -26,6 +26,7 @@ class MainViewController: UIViewController {
         TabType.cardInfoEdit : CardInfoEditViewController(),
         TabType.setting : SettingViewController()
     ]
+    private var sameulOakVC: SamuelOakViewController? = nil
     
     // MARK: - Life Cycle
     
@@ -56,10 +57,20 @@ class MainViewController: UIViewController {
         
         mainTabBarView.delegate = self
         self.view.addSubview(mainTabBarView)
+        
+        sameulOakVC = SamuelOakViewController()
+        if let samuelOakVC = sameulOakVC {
+            self.addChild(samuelOakVC)
+            self.view.addSubview(samuelOakVC.view)
+            samuelOakVC.view.didMoveToSuperview()
+        }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if let sameulOakVC = sameulOakVC {
+            sameulOakVC.view.pin.all()
+        }
         
         mainUpperView.pin.top(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
             .height(72)

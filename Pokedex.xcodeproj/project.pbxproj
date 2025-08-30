@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1BF8942E6329FD0055C1B5 /* SamuelOakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BF8932E6329FD0055C1B5 /* SamuelOakViewController.swift */; };
 		2E2AA73A2E363FAB0057ED54 /* PokedexDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */; };
 		2E2AA73C2E3641890057ED54 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA73B2E3641890057ED54 /* NavigationController.swift */; };
 		2E6D7B262E520EE8009D4B1A /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6D7B222E520EE8009D4B1A /* Photo+CoreDataClass.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E1BF8932E6329FD0055C1B5 /* SamuelOakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamuelOakViewController.swift; sourceTree = "<group>"; };
 		2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexDetailViewController.swift; sourceTree = "<group>"; };
 		2E2AA73B2E3641890057ED54 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		2E6D7B222E520EE8009D4B1A /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				D0C467702DD8D16F0011B152 /* MainTabButton.swift */,
 				D02526C12DF33C7E0028B42A /* PokeballButton.swift */,
 				D022419E2DEF33AE003F68D1 /* TabType.swift */,
+				2E1BF8932E6329FD0055C1B5 /* SamuelOakViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				D0C467712DD8D16F0011B152 /* MainTabButton.swift in Sources */,
 				2EC5B86B2E34F50F009C42DE /* Model.xcdatamodeld in Sources */,
 				D0746C5F2E0456B000402D1C /* AlertModel.swift in Sources */,
+				2E1BF8942E6329FD0055C1B5 /* SamuelOakViewController.swift in Sources */,
 				D0D238B12DF44124003662D1 /* PokemonModel.swift in Sources */,
 				2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */,
 				2E6D7B262E520EE8009D4B1A /* Photo+CoreDataClass.swift in Sources */,
