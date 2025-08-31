@@ -125,6 +125,10 @@ private extension SamuelOakViewController {
     }
     
     @objc func cancelPressed(_ sender: UIButton) {
+        waitForRetry()
+    }
+    
+    func waitForRetry() {
         self.setArrowLabel(hidden: false)
         speechLabel.text = "준비가 되면 다시 이야기해 주게!"
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
@@ -132,8 +136,41 @@ private extension SamuelOakViewController {
     }
     
     @objc func okPressed(_ sender: UIButton) {
-        speechLabel.text = "그럼 시작하겠네!\n(Downloading... 0%)"
-        speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
+        finishedDownloading(number: 0)
         confirmBubbleView.isHidden = true
+        downloadPokemonData()
+    }
+    
+    func finishedDownloading(number: Int) {
+        speechLabel.text = "그럼 시작하겠네!\n(Downloading... \(100*number/Pokedex.totalNumber)%)"
+        speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
+    }
+    
+    func downloadPokemonData() {
+        Task {
+            for number in 1...Pokedex.totalNumber {
+                let pokemonInfo = await Pokedex.shared.getPokemonInfoFromAPI(number: number)
+                let pokemonSpecie = await Pokedex.shared.getPokemonSpeciesFromAPI(number: number)
+                
+                guard let imageUrlString = pokemonInfo?.sprites.other.officialArtwork.front_default,
+                        let imageUrl = URL(string: imageUrlString),
+                        let (imageData, _) = try? await URLSession.shared.data(from: imageUrl) else {
+                    showDownloadErrorPopup()
+                    waitForRetry()
+                    return
+                }
+                
+                finishedDownloading(number: number)
+            }
+        }
+    }
+    
+    func showDownloadErrorPopup() {
+        let alertVC = AlertViewController()
+        alertVC.delegate = nil
+        alertVC.alertType = .alert
+        alertVC.titleText = "데이터 다운로드 오류"
+        alertVC.contentText = "데이터 다운로드 중에 오류가 발생했습니다.\n잠시 후 시도해 주세요."
+        self.present(alertVC, animated: true)
     }
 }

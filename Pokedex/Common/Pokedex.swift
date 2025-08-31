@@ -11,6 +11,7 @@ class Pokedex {
     
     // MARK: - Properties
     
+    static let totalNumber = 3
     static let shared = Pokedex()
     var pokemons = [Pokemon]()
 
@@ -27,8 +28,8 @@ extension Pokedex {
         return nil
     }
     
-    func getPokemonInfoFromAPI(engName: String) async -> PokeapiInfoModel? {
-        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon/\(engName)") else {
+    func getPokemonInfoFromAPI(number: Int) async -> PokeapiInfoModel? {
+        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon/\(number)") else {
             return nil
         }
         let request = URLRequest(url: apiURL)
@@ -39,8 +40,8 @@ extension Pokedex {
         return nil
     }
     
-    func getPokemonSpeciesFromAPI(engName: String) async -> PokeapiSpeciesModel? {
-        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(engName)") else {
+    func getPokemonSpeciesFromAPI(number: Int) async -> PokeapiSpeciesModel? {
+        guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(number)") else {
             return nil
         }
         let request = URLRequest(url: apiURL)
