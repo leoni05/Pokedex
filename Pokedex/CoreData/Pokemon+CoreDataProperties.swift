@@ -2,7 +2,7 @@
 //  Pokemon+CoreDataProperties.swift
 //  Pokedex
 //
-//  Created by jyj on 8/17/25.
+//  Created by jyj on 8/31/25.
 //
 //
 
@@ -16,15 +16,14 @@ extension Pokemon {
         return NSFetchRequest<Pokemon>(entityName: "Pokemon")
     }
 
-    @NSManaged public var pokedexNumber: Int16
-    @NSManaged public var name: String?
-    @NSManaged public var type: String?
-    @NSManaged public var height: Int16
-    @NSManaged public var weight: Int16
+    @NSManaged public var captureDate: Date?
     @NSManaged public var category: String?
     @NSManaged public var desc: String?
-    @NSManaged public var captureDate: Date?
-    @NSManaged public var imageURL: String?
+    @NSManaged public var height: Int16
+    @NSManaged public var name: String?
+    @NSManaged public var pokedexNumber: Int16
+    @NSManaged public var type: String?
+    @NSManaged public var weight: Int16
     @NSManaged public var photos: NSOrderedSet?
 
 }
