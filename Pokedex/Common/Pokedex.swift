@@ -28,6 +28,10 @@ extension Pokedex {
         return nil
     }
     
+    func reloadPokemon() {
+        pokemons = CoreDataManager.shared.getPokemons()
+    }
+    
     func getPokemonInfoFromAPI(number: Int) async -> PokeapiInfoModel? {
         guard let apiURL = URL(string: "https://pokeapi.co/api/v2/pokemon/\(number)") else {
             return nil

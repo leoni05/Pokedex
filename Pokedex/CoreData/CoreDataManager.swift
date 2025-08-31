@@ -57,6 +57,23 @@ class CoreDataManager {
         }
     }
     
+    func getPokemons() -> [Pokemon] {
+        var pokemons: [Pokemon] = []
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pokemon")
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "pokedexNumber", ascending: true)
+        ]
+        do {
+            if let fetchResult = try persistentContainer.viewContext.fetch(fetchRequest) as? [Pokemon] {
+                pokemons = fetchResult
+            }
+        }
+        catch {
+            print("Fetch failed: \(error)")
+        }
+        return pokemons
+    }
+    
     func savePokemon(number: Int, pokemonInfo: PokeapiInfoModel, pokemonSpecie: PokeapiSpeciesModel) throws {
         if let entity = NSEntityDescription.entity(forEntityName: "Pokemon", in: persistentContainer.viewContext),
            let pokemon = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Pokemon {
