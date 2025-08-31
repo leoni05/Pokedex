@@ -84,7 +84,7 @@ class SamuelOakViewController: UIViewController {
         arrowLabel.pin.center().sizeToFit()
         
         okButton.pin.left().top().height(50).width(80)
-        cancelButton.pin.below(of: okButton, aligned: .left).height(50).width(80).marginBottom(4)
+        cancelButton.pin.below(of: okButton, aligned: .left).height(50).width(80).marginTop(4)
         confirmBubbleView.pin.above(of: speechBubbleView, aligned: .right).wrapContent(padding: 4).marginBottom(8)
         
         samuelOakWrapperView.pin.above(of: speechBubbleView)
