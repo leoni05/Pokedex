@@ -160,14 +160,25 @@ private extension SamuelOakViewController {
                 let pokemonSpecie = await Pokedex.shared.getPokemonSpeciesFromAPI(number: number)
                 
                 guard let imageUrlString = pokemonInfo?.sprites.other.officialArtwork.front_default,
-                        let imageUrl = URL(string: imageUrlString),
-                        let (imageData, _) = try? await URLSession.shared.data(from: imageUrl) else {
+                      let imageUrl = URL(string: imageUrlString),
+                      let (imageData, _) = try? await URLSession.shared.data(from: imageUrl),
+                      let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
+                                                                        in: .userDomainMask).first else {
                     showDownloadErrorPopup()
                     waitForRetry()
                     return
                 }
                 
-                finishedDownloading(number: number)
+                let fileUrl = documentsDirectory.appendingPathComponent("\(number)", conformingTo: .png)
+                do {
+                    try imageData.write(to: fileUrl)
+                    finishedDownloading(number: number)
+                } catch {
+                    print("Failed to save image data: \(error)")
+                    showDownloadErrorPopup()
+                    waitForRetry()
+                    return
+                }
             }
             delegate?.finishedDownloading()
         }
