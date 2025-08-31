@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
         TabType.cardInfoEdit : CardInfoEditViewController(),
         TabType.setting : SettingViewController()
     ]
-    private var sameulOakVC: SamuelOakViewController? = nil
+    private var samuelOakVC: SamuelOakViewController? = nil
     
     // MARK: - Life Cycle
     
@@ -58,17 +58,20 @@ class MainViewController: UIViewController {
         mainTabBarView.delegate = self
         self.view.addSubview(mainTabBarView)
         
-        sameulOakVC = SamuelOakViewController()
-        if let samuelOakVC = sameulOakVC {
-            self.addChild(samuelOakVC)
-            self.view.addSubview(samuelOakVC.view)
-            samuelOakVC.view.didMoveToSuperview()
+        if UserDefaults.standard.integer(forKey: "lastDownloadedPokemon") < Pokedex.totalNumber {
+            samuelOakVC = SamuelOakViewController()
+            if let samuelOakVC = samuelOakVC {
+                samuelOakVC.delegate = self
+                self.addChild(samuelOakVC)
+                self.view.addSubview(samuelOakVC.view)
+                samuelOakVC.view.didMoveToSuperview()
+            }
         }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let sameulOakVC = sameulOakVC {
+        if let sameulOakVC = samuelOakVC {
             sameulOakVC.view.pin.all()
         }
         
@@ -174,5 +177,20 @@ extension MainViewController: MainUpperViewDelegate {
         if presentingTab == .gallery {
             (tabVCDict[TabType.gallery] as? GalleryViewController)?.popToRootViewController(animated: true)
         }
+    }
+}
+
+// MARK: - SamuelOakViewControllerDelegate
+
+extension MainViewController: SamuelOakViewControllerDelegate {
+    func finishedDownloading() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.samuelOakVC?.view.alpha = 0.0
+        }, completion: { _ in
+            self.samuelOakVC?.willMove(toParent: nil)
+            self.samuelOakVC?.view.removeFromSuperview()
+            self.samuelOakVC?.removeFromParent()
+            self.samuelOakVC = nil
+        })
     }
 }

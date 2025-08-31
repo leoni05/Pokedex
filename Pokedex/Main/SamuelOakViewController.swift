@@ -9,9 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol SamuelOakViewControllerDelegate: AnyObject {
+    func finishedDownloading()
+}
+
 class SamuelOakViewController: UIViewController {
     
     // MARK: - Properties
+    
+    weak var delegate: SamuelOakViewControllerDelegate? = nil
     
     private let samuelOakWrapperView = UIView()
     private let samuelOakImageView = UIImageView()
@@ -144,6 +150,7 @@ private extension SamuelOakViewController {
     func finishedDownloading(number: Int) {
         speechLabel.text = "그럼 시작하겠네!\n(Downloading... \(100*number/Pokedex.totalNumber)%)"
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
+        UserDefaults.standard.set(number, forKey: "lastDownloadedPokemon")
     }
     
     func downloadPokemonData() {
@@ -162,6 +169,7 @@ private extension SamuelOakViewController {
                 
                 finishedDownloading(number: number)
             }
+            delegate?.finishedDownloading()
         }
     }
     
