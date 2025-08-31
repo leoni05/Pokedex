@@ -60,6 +60,7 @@ class SamuelOakViewController: UIViewController {
         okButton.setTitle("예", for: .normal)
         okButton.titleLabel?.font = UIFont(name: "Galmuri11-Regular", size: 16)
         okButton.setTitleColor(.wineRed, for: .normal)
+        okButton.addTarget(self, action: #selector(okPressed(_:)), for: .touchUpInside)
         confirmBubbleView.addSubview(okButton)
         
         cancelButton.setTitle("아니오", for: .normal)
@@ -126,6 +127,12 @@ private extension SamuelOakViewController {
     @objc func cancelPressed(_ sender: UIButton) {
         self.setArrowLabel(hidden: false)
         speechLabel.text = "준비가 되면 다시 이야기해 주게!"
+        speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
+        confirmBubbleView.isHidden = true
+    }
+    
+    @objc func okPressed(_ sender: UIButton) {
+        speechLabel.text = "그럼 시작하겠네!\n(Downloading... 0%)"
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
         confirmBubbleView.isHidden = true
     }
