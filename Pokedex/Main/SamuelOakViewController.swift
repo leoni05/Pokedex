@@ -65,6 +65,7 @@ class SamuelOakViewController: UIViewController {
         cancelButton.setTitle("아니오", for: .normal)
         cancelButton.titleLabel?.font = UIFont(name: "Galmuri11-Regular", size: 16)
         cancelButton.setTitleColor(.wineRed, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelPressed(_:)), for: .touchUpInside)
         confirmBubbleView.addSubview(cancelButton)
         
         setArrowLabel(hidden: false)
@@ -103,8 +104,10 @@ private extension SamuelOakViewController {
         }
         else {
             arrowLabelWrapper.isHidden = false
-            timerForBlink = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-                self.arrowLabelWrapper.isHidden = !self.arrowLabelWrapper.isHidden
+            if timerForBlink == nil {
+                timerForBlink = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+                    self.arrowLabelWrapper.isHidden = !self.arrowLabelWrapper.isHidden
+                }
             }
         }
     }
@@ -118,5 +121,12 @@ private extension SamuelOakViewController {
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
         
         confirmBubbleView.isHidden = false
+    }
+    
+    @objc func cancelPressed(_ sender: UIButton) {
+        self.setArrowLabel(hidden: false)
+        speechLabel.text = "준비가 되면 다시 이야기해 주게!"
+        speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
+        confirmBubbleView.isHidden = true
     }
 }
