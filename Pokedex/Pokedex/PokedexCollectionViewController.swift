@@ -47,6 +47,19 @@ class PokedexCollectionViewController: UIViewController {
         
         indicatorView.startAnimating()
         indicatorView.isHidden = false
+        collectionView.isHidden = true
+        DispatchQueue.main.async {
+            Pokedex.shared.reloadPokemon()
+            Thread.sleep(forTimeInterval: 5)
+            self.indicatorView.isHidden = true
+            self.indicatorView.stopAnimating()
+            self.collectionView?.reloadData()
+            self.collectionView?.alpha = 0.0
+            self.collectionView?.isHidden = false
+            UIView.animate(withDuration: 0.3) {
+                self.collectionView?.alpha = 1.0
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
