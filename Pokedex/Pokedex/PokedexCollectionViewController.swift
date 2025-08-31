@@ -50,7 +50,6 @@ class PokedexCollectionViewController: UIViewController {
         collectionView.isHidden = true
         DispatchQueue.main.async {
             Pokedex.shared.reloadPokemon()
-            Thread.sleep(forTimeInterval: 5)
             self.indicatorView.isHidden = true
             self.indicatorView.stopAnimating()
             self.collectionView?.reloadData()
