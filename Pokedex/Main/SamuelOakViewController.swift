@@ -156,11 +156,9 @@ private extension SamuelOakViewController {
     func downloadPokemonData() {
         Task {
             for number in 1...Pokedex.totalNumber {
-                let pokemonInfo = await Pokedex.shared.getPokemonInfoFromAPI(number: number)
-                let pokemonSpecie = await Pokedex.shared.getPokemonSpeciesFromAPI(number: number)
-                
-                guard let imageUrlString = pokemonInfo?.sprites.other.officialArtwork.front_default,
-                      let imageUrl = URL(string: imageUrlString),
+                guard let pokemonInfo = await Pokedex.shared.getPokemonInfoFromAPI(number: number),
+                      let pokemonSpecie = await Pokedex.shared.getPokemonSpeciesFromAPI(number: number),
+                      let imageUrl = URL(string: pokemonInfo.sprites.other.officialArtwork.front_default),
                       let (imageData, _) = try? await URLSession.shared.data(from: imageUrl),
                       let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                         in: .userDomainMask).first else {
@@ -172,6 +170,7 @@ private extension SamuelOakViewController {
                 let fileUrl = documentsDirectory.appendingPathComponent("\(number)", conformingTo: .png)
                 do {
                     try imageData.write(to: fileUrl)
+                    try CoreDataManager.shared.savePokemon(number: number, pokemonInfo: pokemonInfo, pokemonSpecie: pokemonSpecie)
                     finishedDownloading(number: number)
                 } catch {
                     print("Failed to save image data: \(error)")
