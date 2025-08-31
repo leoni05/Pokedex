@@ -18,9 +18,6 @@ class GalleryViewController: NavigationController {
     // MARK: - Properties
 
     weak var vcDelegate: GalleryViewControllerDelegate? = nil
-    
-    private let inset = 16.0
-    private let itemSpacing = 4.0
     private var collectionVC = GalleryCollectionViewController()
     
     // MARK: - Life Cycle
