@@ -91,8 +91,8 @@ extension PokedexCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = PokedexDetailViewController()
         detailVC.delegate = navigationController as? PokedexDetailViewControllerDelegate
-        // TODO: Core Data 연동
-//        detailVC.engName = Pokedex.shared.pokemons[indexPath.row].engName
+        detailVC.index = indexPath.row
+        
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

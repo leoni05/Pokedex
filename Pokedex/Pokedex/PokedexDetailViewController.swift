@@ -18,7 +18,7 @@ class PokedexDetailViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: PokedexDetailViewControllerDelegate? = nil
-    var engName: String = ""
+    var index: Int? = nil
     private var pokemon: Pokemon? = nil
     
     private let indicatorView = UIActivityIndicatorView(style: .medium)
@@ -58,9 +58,10 @@ class PokedexDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let index = index {
+            pokemon = Pokedex.shared.pokemons[index]
+        }
         self.view.backgroundColor = .white
-        pokemon = Pokedex.shared.getPokemon(engName: engName)
-        
         self.view.addSubview(scrollView)
         
         numberLabel.textColor = .wineRed
@@ -82,8 +83,13 @@ class PokedexDetailViewController: UIViewController {
         pokemonImageContainerView.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
         scrollView.addSubview(pokemonImageContainerView)
         
-        let pokedexNumber = pokemon?.pokedexNumber ?? 0
-        pokemonImageView.image = UIImage(named: "Pokedex\(String(format: "%03d", pokedexNumber-1))")
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        if let pokedexNumber = pokemon?.pokedexNumber,
+           let imageURL = documentsDirectory?.appendingPathComponent("\(pokedexNumber)", conformingTo: .png) {
+            if FileManager.default.fileExists(atPath: imageURL.path) {
+                pokemonImageView.image = UIImage(contentsOfFile: imageURL.path)
+            }
+        }
         pokemonImageView.contentMode = .scaleAspectFit
         pokemonImageContainerView.addSubview(pokemonImageView)
         
@@ -103,20 +109,7 @@ class PokedexDetailViewController: UIViewController {
         typeLabel2.textAlignment = .center
         scrollView.addSubview(typeLabel2)
         
-        typeLabel1.isHidden = true
-        typeLabel2.isHidden = true
-        
-        // TODO: Core Data 연동
-//        if (pokemon?.type.count ?? 0) >= 1 {
-//            typeLabel1.text = pokemon?.type[0].koreanText
-//            typeLabel1.backgroundColor = pokemon?.type[0].color
-//            typeLabel1.isHidden = false
-//        }
-//        if (pokemon?.type.count ?? 0) >= 2 {
-//            typeLabel2.text = pokemon?.type[1].koreanText
-//            typeLabel2.backgroundColor = pokemon?.type[1].color
-//            typeLabel2.isHidden = false
-//        }
+        setTypeLabels(typeString: pokemon?.type)
         
         descLabel.text = pokemon?.desc
         descLabel.font = .systemFont(ofSize: 16)
@@ -162,13 +155,12 @@ class PokedexDetailViewController: UIViewController {
         categoryLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(categoryLabel)
         
-        // TODO: Core Data 연동
-//        heightLabel.text = pokemon?.height
+        heightLabel.text = "\(Double(pokemon?.height ?? 0)/10)m"
         heightLabel.textAlignment = .center
         heightLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(heightLabel)
         
-//        weightLabel.text = pokemon?.weight
+        weightLabel.text = "\(Double(pokemon?.weight ?? 0)/10)kg"
         weightLabel.textAlignment = .center
         weightLabel.font = .systemFont(ofSize: 16)
         tableContentView.addSubview(weightLabel)
@@ -277,4 +269,28 @@ class PokedexDetailViewController: UIViewController {
         delegate?.setBackButton(hidden: true)
     }
 
+}
+
+// MARK: - Private Extensions
+
+private extension PokedexDetailViewController {
+    func setTypeLabels(typeString: String?) {
+        typeLabel1.isHidden = true
+        typeLabel2.isHidden = true
+        
+        guard let types = typeString?.components(separatedBy: ",") else { return }
+        
+        if types.count >= 1 {
+            let pokemonType = PokemonType(rawValue: types[0])
+            typeLabel1.text = pokemonType?.koreanText
+            typeLabel1.backgroundColor = pokemonType?.color
+            typeLabel1.isHidden = false
+        }
+        if types.count >= 2 {
+            let pokemonType = PokemonType(rawValue: types[1])
+            typeLabel2.text = pokemonType?.koreanText
+            typeLabel2.backgroundColor = pokemonType?.color
+            typeLabel2.isHidden = false
+        }
+    }
 }
