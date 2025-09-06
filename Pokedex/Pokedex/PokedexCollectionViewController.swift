@@ -67,6 +67,13 @@ class PokedexCollectionViewController: UIViewController {
         collectionView?.pin.all()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if (collectionView?.contentOffset.y ?? 0) < 0 {
+            collectionView?.setContentOffset(.zero, animated: false)
+        }
+    }
+    
 }
 
 // MARK: - Private Extensions
