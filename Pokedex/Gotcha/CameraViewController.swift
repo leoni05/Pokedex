@@ -419,7 +419,7 @@ private extension CameraViewController {
         }
     }
     
-    func uploadImageToFirebase(imageData: Data, imageName: String, completion: @escaping (URL) -> Void) {
+    func uploadImageToFirebase(imageData: Data, imageName: String, completion: @escaping (URL, StorageReference) -> Void) {
         let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
         firebaseReference.putData(imageData, metadata: nil) { metaData, error in
             if metaData == nil {
@@ -433,12 +433,12 @@ private extension CameraViewController {
                     self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
                     return
                 }
-                completion(url)
+                completion(url, firebaseReference)
             }
         }
     }
     
-    func processingImageURL(imageURL: URL, imageName: String) {
+    func processingImageURL(imageURL: URL, imageName: String, storageReference: StorageReference) {
         guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist"),
               let dict = NSDictionary(contentsOf: plistURL),
               let openAIKey = dict["OpenAI"] as? String,
@@ -493,7 +493,9 @@ private extension CameraViewController {
             let gotchaResult = makeGotchaResult(resultText: resultText)
             
             CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
-                self.gotchaResult = gotchaResult
+                storageReference.delete() { _ in
+                    self.gotchaResult = gotchaResult
+                }
             }
         }
     }
@@ -558,8 +560,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
         
         saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName) {
-            uploadImageToFirebase(imageData: imageData, imageName: imageName) { url in
-                self.processingImageURL(imageURL: url, imageName: imageName)
+            uploadImageToFirebase(imageData: imageData, imageName: imageName) { url, storageReference in
+                self.processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
             }
         }
     }
