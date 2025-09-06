@@ -43,13 +43,14 @@ extension Pokedex {
     
     func setListedPokemons() {
         listedPokemons = []
+        capturedCount = 0
         for pokemon in pokemons {
-            if todayPokemonNumbers.contains(Int(pokemon.pokedexNumber)) {
-                listedPokemons.append(pokemon)
-            }
-            else if pokemon.captureDate != nil {
+            if pokemon.captureDate != nil {
                 listedPokemons.append(pokemon)
                 capturedCount += 1
+            }
+            else if todayPokemonNumbers.contains(Int(pokemon.pokedexNumber)) {
+                listedPokemons.append(pokemon)
             }
         }
     }
