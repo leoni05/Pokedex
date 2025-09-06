@@ -47,7 +47,6 @@ class PokedexDetailViewController: UIViewController {
     private let heightLabel = UILabel()
     private let weightLabel = UILabel()
     
-    private var photos: [Photo] = []
     private let photoTitleLabel = UILabel()
     private let photoImageViewContainer = UIView()
     private let photoImageViews: [UIImageView] = [
@@ -170,7 +169,6 @@ class PokedexDetailViewController: UIViewController {
         photoTitleLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
         scrollView.addSubview(photoTitleLabel)
         
-        indicatorView.startAnimating()
         indicatorView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         scrollView.addSubview(indicatorView)
         
@@ -185,15 +183,13 @@ class PokedexDetailViewController: UIViewController {
             photoImageViewContainer.addSubview(photoImageViews[idx])
         }
         
+        indicatorView.startAnimating()
         DispatchQueue.main.async {
-            self.photos = CoreDataManager.shared.getPhotos()
-            self.indicatorView.isHidden = true
-            self.indicatorView.stopAnimating()
-            
-            // TODO: 반복 횟수를 min(해당 포켓몬이 잡힌 횟수, 4)로 변경
-            for idx in 0..<min(self.photos.count, 2) {
+            let photoCount = (self.pokemon?.photos?.count ?? 0)
+            for idx in 0..<min(photoCount, 4) {
                 if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
-                   let imageName = self.photos[idx].name {
+                   let photo = (self.pokemon?.photos?[photoCount-idx-1] as? Photo),
+                   let imageName = photo.name {
                     let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
                     if FileManager.default.fileExists(atPath: thumbnailFileUrl.path) {
                         self.photoImageViews[idx].alpha = 0.0
@@ -205,6 +201,8 @@ class PokedexDetailViewController: UIViewController {
                     }
                 }
             }
+            self.indicatorView.isHidden = true
+            self.indicatorView.stopAnimating()
         }
     }
     
