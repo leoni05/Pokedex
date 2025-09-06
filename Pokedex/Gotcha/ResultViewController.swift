@@ -113,7 +113,6 @@ class ResultViewController: UIViewController {
         summaryStarsLabel.textColor = .wineRed
         summaryStarsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
         summaryStarsLabel.text = String(starArray)
-        summaryStarsLabel.text = "★★★☆☆"
         summaryScrollView.addSubview(summaryStarsLabel)
         
         summaryXpLabel.textColor = .wineRed
