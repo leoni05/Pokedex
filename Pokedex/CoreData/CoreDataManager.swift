@@ -47,6 +47,10 @@ class CoreDataManager {
            let photo = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Photo {
             photo.captureDate = captureDate
             photo.name = name
+            photo.score = Int16(gotchaResult.resultScore)
+            for pokedexNumber in gotchaResult.resultPokemonNumbers {
+                photo.addToPokemons(Pokedex.shared.pokemons[pokedexNumber-1])
+            }
             do {
                 try persistentContainer.viewContext.save()
                 completion()
