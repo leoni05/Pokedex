@@ -104,39 +104,59 @@ class PokedexCell: UICollectionViewCell {
 extension PokedexCell {
     func setPokemonInfo(index: Int) {
         pokedexIndex = index
-        // TODO: Core Data 연동
-//        pokeballImageView.image = UIImage(named: pokeballImageName + (Pokedex.shared.pokemons[index].selected ? ".fill" : ""))
-//        pokemonImageView.image = UIImage(named: "Pokedex" + String(format: "%03d", index))
-//        captureDateLabel.text = Pokedex.shared.pokemons[index].capturedDate
         
-        typeLabel1.isHidden = true
-        typeLabel2.isHidden = true
-//        if Pokedex.shared.pokemons[index].type.count >= 1 {
-//            typeLabel1.text = Pokedex.shared.pokemons[index].type[0].koreanText
-//            typeLabel1.backgroundColor = Pokedex.shared.pokemons[index].type[0].color
-//            typeLabel1.isHidden = false
-//        }
-//        if Pokedex.shared.pokemons[index].type.count >= 2 {
-//            typeLabel2.text = Pokedex.shared.pokemons[index].type[1].koreanText
-//            typeLabel2.backgroundColor = Pokedex.shared.pokemons[index].type[1].color
-//            typeLabel2.isHidden = false
-//        }
+        setPokemonImage(index: index)
+        setCaptureDateLabel(captureDate: Pokedex.shared.pokemons[index].captureDate)
+        setTypeLabels(typeString: Pokedex.shared.pokemons[index].type)
         nameLabel.text = Pokedex.shared.pokemons[index].name
         indexLabel.text = "No. \(String(format: "%04d", index+1))"
-    }
-}
-
-// MARK: - UIGestureRecognizerDelegate
-
-extension PokedexCell: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }
 
 // MARK: - Private Extensions
 
 private extension PokedexCell {
+    func setPokemonImage(index: Int) {
+        let pokeballImageNameSuffix = ((Pokedex.shared.pokemons[index].captureDate != nil) ? ".fill" : "")
+        pokeballImageView.image = UIImage(named: pokeballImageName + pokeballImageNameSuffix)
+        
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        if let imageURL = documentsDirectory?.appendingPathComponent("\(index+1)", conformingTo: .png) {
+            if FileManager.default.fileExists(atPath: imageURL.path) {
+                pokemonImageView.image = UIImage(contentsOfFile: imageURL.path)
+            }
+        }
+    }
+    
+    func setCaptureDateLabel(captureDate: Date?) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        captureDateLabel.text = "미포획"
+        if let captureDate = captureDate {
+            captureDateLabel.text = dateFormatter.string(for: captureDate)
+        }
+    }
+    
+    func setTypeLabels(typeString: String?) {
+        typeLabel1.isHidden = true
+        typeLabel2.isHidden = true
+        
+        guard let types = typeString?.components(separatedBy: ",") else { return }
+        
+        if types.count >= 1 {
+            let pokemonType = PokemonType(rawValue: types[0])
+            typeLabel1.text = pokemonType?.koreanText
+            typeLabel1.backgroundColor = pokemonType?.color
+            typeLabel1.isHidden = false
+        }
+        if types.count >= 2 {
+            let pokemonType = PokemonType(rawValue: types[1])
+            typeLabel2.text = pokemonType?.koreanText
+            typeLabel2.backgroundColor = pokemonType?.color
+            typeLabel2.isHidden = false
+        }
+    }
+    
     @objc func cellContentsLongPressed(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             UIView.animate(withDuration: 0.1) {
@@ -149,5 +169,13 @@ private extension PokedexCell {
             self.containerView.backgroundColor = .clear
             self.containerView.transform = CGAffineTransformMakeScale(1.0, 1.0)
         }
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension PokedexCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
