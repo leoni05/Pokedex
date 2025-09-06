@@ -73,7 +73,11 @@ class PokedexDetailViewController: UIViewController {
         nameLabel.text = pokemon?.name
         scrollView.addSubview(nameLabel)
         
-        pokeballImageView.image = UIImage(named: "pokeball.big.fill")
+        var pokeballImageSuffix = ""
+        if pokemon?.captureDate != nil {
+            pokeballImageSuffix = ".fill"
+        }
+        pokeballImageView.image = UIImage(named: "pokeball.big" + pokeballImageSuffix)
         pokeballImageView.contentMode = .scaleAspectFit
         scrollView.addSubview(pokeballImageView)
         
