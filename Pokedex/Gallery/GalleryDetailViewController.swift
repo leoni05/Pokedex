@@ -21,7 +21,6 @@ class GalleryDetailViewController: UIViewController {
     
     var photo: Photo?
     private var imageName: String?
-    private var resultPokemonNumbers: Array<Int> = []
     
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
@@ -69,29 +68,41 @@ class GalleryDetailViewController: UIViewController {
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed(_:)), for: .touchUpInside)
         scrollView.addSubview(deleteButton)
         
-        starsLabel.text = "★★★☆☆"
+        var starArray: [Character] = ["☆", "☆", "☆", "☆", "☆"]
+        for idx in 0..<Int((photo?.score ?? 0) + 99)/100 {
+            starArray[idx] = "★"
+        }
+        starsLabel.text = String(starArray)
         starsLabel.textColor = .wineRed
         starsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
         scrollView.addSubview(starsLabel)
         
-        xpLabel.text = "450xp"
+        xpLabel.text = "\(photo?.score ?? 0)xp"
         xpLabel.textColor = .wineRed
         xpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
         xpLabel.textAlignment = .right
         scrollView.addSubview(xpLabel)
         
+        var capturePokemonsSuffix = ""
+        if (photo?.pokemons?.count ?? 0) == 0 {
+            capturePokemonsSuffix = " (없음)"
+        }
         capturedPokemonsLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
         capturedPokemonsLabel.font = .systemFont(ofSize: 16.0, weight: .regular)
-        capturedPokemonsLabel.text = "잡은 포켓몬"
+        capturedPokemonsLabel.text = "잡은 포켓몬" + capturePokemonsSuffix
         scrollView.addSubview(capturedPokemonsLabel)
         
         scrollView.addSubview(pokemonContaierView)
         
-        for idx in 0..<resultPokemonNumbers.count {
-            let view = CapturedPokemonView()
-            view.setPokemonInfo(pokedexNumber: resultPokemonNumbers[idx])
-            pokemonViews.append(view)
-            pokemonContaierView.addSubview(view)
+        if let pokemons = photo?.pokemons {
+            for pokemon in pokemons {
+                if let pokemon = pokemon as? Pokemon {
+                    let view = CapturedPokemonView()
+                    view.setPokemonInfo(pokemon: pokemon)
+                    pokemonViews.append(view)
+                    pokemonContaierView.addSubview(view)
+                }
+            }
         }
     }
     

@@ -56,6 +56,11 @@ extension CapturedPokemonView {
     func setPokemonInfo(pokedexNumber: Int) {
         if pokedexNumber-1 >= Pokedex.shared.pokemons.count { return }
         let pokemon = Pokedex.shared.pokemons[pokedexNumber-1]
+        setPokemonInfo(pokemon: pokemon)
+    }
+    
+    func setPokemonInfo(pokemon: Pokemon) {
+        let pokedexNumber = Int(pokemon.pokedexNumber)
         self.pokedexNumber = pokedexNumber
         
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
