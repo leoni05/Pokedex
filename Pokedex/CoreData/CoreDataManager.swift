@@ -11,7 +11,9 @@ import CoreData
 
 class CoreDataManager {
     
-    static let shared: CoreDataManager = CoreDataManager() 
+    // MARK: - Properties
+    
+    static let shared: CoreDataManager = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Model")
@@ -23,8 +25,15 @@ class CoreDataManager {
         return container
     }()
     
+    // MARK: - Life Cycle
+    
     private init() { }
     
+}
+
+// MARK: - Extensions
+
+extension CoreDataManager {
     func getPhotos() -> [Photo] {
         var photos: [Photo] = []
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Photo")
@@ -125,5 +134,4 @@ class CoreDataManager {
             }
         }
     }
-    
 }
