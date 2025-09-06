@@ -13,11 +13,21 @@ class Pokedex {
     
     static let totalNumber = 5
     static let shared = Pokedex()
+    private var todayPokemonNumbers: Set<Int> = []
     var pokemons = [Pokemon]()
 
     // MARK: - Life Cycle
     
-    private init() { }
+    private init() {
+        guard let date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date()) else {
+            return
+        }
+        srand48(Int(date.timeIntervalSince1970))
+        for _ in 0..<5 {
+            let randomNumber = Int(drand48() * Double(Pokedex.totalNumber)) + 1
+            todayPokemonNumbers.insert(randomNumber)
+        }
+    }
     
 }
 
