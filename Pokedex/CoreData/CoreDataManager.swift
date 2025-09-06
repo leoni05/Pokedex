@@ -50,6 +50,9 @@ class CoreDataManager {
             photo.score = Int16(gotchaResult.resultScore)
             for pokedexNumber in gotchaResult.resultPokemonNumbers {
                 photo.addToPokemons(Pokedex.shared.pokemons[pokedexNumber-1])
+                if Pokedex.shared.pokemons[pokedexNumber-1].captureDate == nil {
+                    Pokedex.shared.pokemons[pokedexNumber-1].captureDate = Date()
+                }
             }
             do {
                 try persistentContainer.viewContext.save()
