@@ -19,6 +19,8 @@ class SamuelOakViewController: UIViewController {
     
     weak var delegate: SamuelOakViewControllerDelegate? = nil
     
+    private let topBubbleView = SpeechBubbleView()
+    private let topLabel = UILabel()
     private let samuelOakWrapperView = UIView()
     private let samuelOakImageView = UIImageView()
     private let speechBubbleView = SpeechBubbleView()
@@ -35,6 +37,13 @@ class SamuelOakViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        
+        self.view.addSubview(topBubbleView)
+        
+        topLabel.text = "오박사 연구소"
+        topLabel.textColor = .wineRed
+        topLabel.font = UIFont(name: "Galmuri11-Regular", size: 16)
+        topBubbleView.addSubview(topLabel)
         
         self.view.addSubview(samuelOakWrapperView)
         
@@ -84,6 +93,9 @@ class SamuelOakViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        topBubbleView.pin.top(self.view.pin.safeArea+4).horizontally(self.view.pin.safeArea+4).height(50)
+        topLabel.pin.horizontally(16).vCenter().sizeToFit(.width)
+        
         speechBubbleView.pin.bottom(self.view.pin.safeArea+4).horizontally(self.view.pin.safeArea+4)
             .height(100)
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
@@ -95,8 +107,8 @@ class SamuelOakViewController: UIViewController {
         cancelButton.pin.below(of: okButton, aligned: .left).height(50).width(80).marginTop(4)
         confirmBubbleView.pin.above(of: speechBubbleView, aligned: .right).wrapContent(padding: 4).marginBottom(8)
         
-        samuelOakWrapperView.pin.above(of: speechBubbleView)
-            .top(self.view.pin.safeArea).horizontally(self.view.pin.safeArea)
+        samuelOakWrapperView.pin.above(of: speechBubbleView).below(of: topBubbleView)
+            .horizontally(self.view.pin.safeArea)
         samuelOakImageView.pin.center().size(220)
     }
     
