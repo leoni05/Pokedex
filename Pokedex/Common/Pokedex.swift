@@ -11,10 +11,11 @@ class Pokedex {
     
     // MARK: - Properties
     
-    static let totalNumber = 5
+    static let totalNumber = 10
     static let shared = Pokedex()
     private var todayPokemonNumbers: Set<Int> = []
     var pokemons = [Pokemon]()
+    var listedPokemons = [Pokemon]()
 
     // MARK: - Life Cycle
     
@@ -23,7 +24,7 @@ class Pokedex {
             return
         }
         srand48(Int(date.timeIntervalSince1970))
-        for _ in 0..<5 {
+        for _ in 0..<10 {
             let randomNumber = Int(drand48() * Double(Pokedex.totalNumber)) + 1
             todayPokemonNumbers.insert(randomNumber)
         }
@@ -36,6 +37,19 @@ class Pokedex {
 extension Pokedex {
     func reloadPokemon() {
         pokemons = CoreDataManager.shared.getPokemons()
+        setListedPokemons()
+    }
+    
+    func setListedPokemons() {
+        listedPokemons = []
+        for pokemon in pokemons {
+            if todayPokemonNumbers.contains(Int(pokemon.pokedexNumber)) {
+                listedPokemons.append(pokemon)
+            }
+            else if pokemon.captureDate != nil {
+                listedPokemons.append(pokemon)
+            }
+        }
     }
     
     func getPokemonInfoFromAPI(number: Int) async -> PokeapiInfoModel? {

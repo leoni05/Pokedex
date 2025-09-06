@@ -98,7 +98,8 @@ extension PokedexCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = PokedexDetailViewController()
         detailVC.delegate = navigationController as? PokedexDetailViewControllerDelegate
-        detailVC.index = indexPath.row
+        let pokemonNumber = Pokedex.shared.listedPokemons[indexPath.row].pokedexNumber
+        detailVC.index = Int(pokemonNumber-1)
         
         navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -108,13 +109,14 @@ extension PokedexCollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension PokedexCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Pokedex.shared.pokemons.count
+        return Pokedex.shared.listedPokemons.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
         if let cell = reusableCell as? PokedexCell {
-            cell.setPokemonInfo(index: indexPath.row)
+            let pokemonNumber = Pokedex.shared.listedPokemons[indexPath.row].pokedexNumber
+            cell.setPokemonInfo(index: Int(pokemonNumber-1))
         }
         return reusableCell
     }
