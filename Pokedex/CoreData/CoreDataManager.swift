@@ -92,7 +92,7 @@ class CoreDataManager {
                 pokemon.category = genusElement.genus
             }
             if let descElement = pokemonSpecie.flavor_text_entries.first(where: { $0.language.name == "ko" }) {
-                pokemon.desc = descElement.flavor_text
+                pokemon.desc = descElement.flavor_text.replacingOccurrences(of: "\n", with: " ")
             }
             if let nameElement = pokemonSpecie.names.first(where: { $0.language.name == "ko" }) {
                 pokemon.name = nameElement.name
