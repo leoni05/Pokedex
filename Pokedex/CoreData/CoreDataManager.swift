@@ -14,6 +14,8 @@ class CoreDataManager {
     // MARK: - Properties
     
     static let shared: CoreDataManager = CoreDataManager()
+    var needReloadPokedexVC = true
+    var needReloadGalleryVC = true
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Model")

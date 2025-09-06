@@ -25,6 +25,7 @@ class PokedexCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        indicatorView.isHidden = true
         self.view.addSubview(indicatorView)
         
         let layout = UICollectionViewFlowLayout()
@@ -44,21 +45,6 @@ class PokedexCollectionViewController: UIViewController {
         collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         self.collectionView = collectionView
         self.view.addSubview(collectionView)
-        
-        indicatorView.startAnimating()
-        indicatorView.isHidden = false
-        collectionView.isHidden = true
-        DispatchQueue.main.async {
-            Pokedex.shared.reloadPokemon()
-            self.indicatorView.isHidden = true
-            self.indicatorView.stopAnimating()
-            self.collectionView?.reloadData()
-            self.collectionView?.alpha = 0.0
-            self.collectionView?.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.collectionView?.alpha = 1.0
-            }
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,6 +57,27 @@ class PokedexCollectionViewController: UIViewController {
         super.viewWillDisappear(animated)
         if (collectionView?.contentOffset.y ?? 0) < 0 {
             collectionView?.setContentOffset(.zero, animated: false)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if CoreDataManager.shared.needReloadPokedexVC {
+            CoreDataManager.shared.needReloadPokedexVC = false
+            indicatorView.startAnimating()
+            indicatorView.isHidden = false
+            collectionView?.isHidden = true
+            DispatchQueue.main.async {
+                Pokedex.shared.reloadPokemon()
+                self.indicatorView.isHidden = true
+                self.indicatorView.stopAnimating()
+                self.collectionView?.reloadData()
+                self.collectionView?.alpha = 0.0
+                self.collectionView?.isHidden = false
+                UIView.animate(withDuration: 0.3) {
+                    self.collectionView?.alpha = 1.0
+                }
+            }
         }
     }
     

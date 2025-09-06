@@ -494,6 +494,8 @@ private extension CameraViewController {
             
             CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
                 storageReference.delete() { _ in
+                    CoreDataManager.shared.needReloadGalleryVC = true
+                    CoreDataManager.shared.needReloadPokedexVC = true
                     self.gotchaResult = gotchaResult
                 }
             }

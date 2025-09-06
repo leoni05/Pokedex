@@ -75,8 +75,6 @@ class GalleryCollectionViewController: UIViewController {
         failReloadButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
         failReloadButton.addTarget(self, action: #selector(failReloadButtonPressed(_:)), for: .touchUpInside)
         self.view.addSubview(failReloadButton)
-        
-        reloadPhotosFirstTime()
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,6 +92,14 @@ class GalleryCollectionViewController: UIViewController {
         super.viewWillDisappear(animated)
         if (collectionView?.contentOffset.y ?? 0) < 0 {
             collectionView?.setContentOffset(.zero, animated: false)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if CoreDataManager.shared.needReloadGalleryVC {
+            CoreDataManager.shared.needReloadGalleryVC = false
+            reloadPhotosFirstTime()
         }
     }
     
