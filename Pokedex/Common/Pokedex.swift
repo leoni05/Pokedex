@@ -24,10 +24,6 @@ class Pokedex {
 // MARK: - Extensions
 
 extension Pokedex {
-    func getPokemon(engName: String) -> Pokemon? {
-        return nil
-    }
-    
     func reloadPokemon() {
         pokemons = CoreDataManager.shared.getPokemons()
     }
