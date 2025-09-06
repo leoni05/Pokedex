@@ -18,6 +18,11 @@ class GalleryCollectionViewController: UIViewController {
     private let animationMaxDelay: Double = 0.54
     private let animationDuration: Double = 0.46
     
+    private let failContainerView = UIView()
+    private let failImageView = UIImageView()
+    private let failLabel = UILabel()
+    private let failReloadButton = UIButton()
+    
     private let inset = 16.0
     private let itemSpacing = 4.0
     private var photos: [Photo] = []
@@ -45,30 +50,44 @@ class GalleryCollectionViewController: UIViewController {
         self.collectionView = collectionView
         self.view.addSubview(collectionView)
         
-        indicatorView.startAnimating()
-        indicatorView.isHidden = false
-        collectionView.isHidden = true
-        DispatchQueue.main.async {
-            self.photos = CoreDataManager.shared.getPhotos()
-            
-            self.isAnimating = true
-            self.collectionView?.isUserInteractionEnabled = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + self.animationDuration + self.animationMaxDelay) {
-                self.isAnimating = false
-                self.collectionView?.isUserInteractionEnabled = true
-            }
-            
-            self.collectionView?.reloadData()
-            self.collectionView?.isHidden = false
-            self.indicatorView.isHidden = true
-            self.indicatorView.stopAnimating()
-        }
+        self.view.addSubview(failContainerView)
+        
+        failImageView.image = UIImage(named: "pachirisu")
+        failImageView.contentMode = .scaleAspectFill
+        failImageView.layer.borderWidth = 1.0
+        failImageView.layer.borderColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0).cgColor
+        failImageView.layer.cornerRadius = 25.0
+        failImageView.layer.masksToBounds = true
+        failContainerView.addSubview(failImageView)
+        
+        failLabel.textColor = .wineRed
+        failLabel.font = UIFont(name: "Galmuri11-Bold", size: 14)
+        failLabel.text = "사진이 없어요 ㅠ.ㅠ\n사진을 찍어 포켓몬을 잡아보세요."
+        failLabel.numberOfLines = 0
+        failLabel.textAlignment = .center
+        failContainerView.addSubview(failLabel)
+        
+        failReloadButton.layer.borderWidth = 2.0
+        failReloadButton.layer.borderColor = UIColor.wineRed.cgColor
+        failReloadButton.backgroundColor = .white
+        failReloadButton.setTitle("확인", for: .normal)
+        failReloadButton.setTitleColor(.wineRed, for: .normal)
+        failReloadButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        failReloadButton.addTarget(self, action: #selector(failReloadButtonPressed(_:)), for: .touchUpInside)
+        self.view.addSubview(failReloadButton)
+        
+        reloadPhotosFirstTime()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         indicatorView.pin.all()
         collectionView?.pin.all()
+        
+        failImageView.pin.top().left().size(100)
+        failLabel.pin.below(of: failImageView, aligned: .center).marginTop(12).sizeToFit()
+        failContainerView.pin.center().wrapContent()
+        failReloadButton.pin.bottom(16).right(16).width(68).height(52)
     }
     
 }
@@ -78,8 +97,63 @@ class GalleryCollectionViewController: UIViewController {
 private extension GalleryCollectionViewController {
     @objc func handleRefreshControl() {
         self.photos = CoreDataManager.shared.getPhotos()
-        self.collectionView?.reloadData()
+        
+        if photos.count == 0 {
+            self.failContainerView.alpha = 0.0
+            self.failReloadButton.alpha = 0.0
+            self.failContainerView.isHidden = false
+            self.failReloadButton.isHidden = false
+            self.collectionView?.isHidden = true
+            UIView.animate(withDuration: 0.3) {
+                self.failContainerView.alpha = 1.0
+                self.failReloadButton.alpha = 1.0
+            }
+        }
+        else {
+            self.collectionView?.reloadData()
+        }
         self.collectionView?.refreshControl?.endRefreshing()
+    }
+    
+    @objc func failReloadButtonPressed(_ sender: UIButton) {
+        reloadPhotosFirstTime()
+    }
+    
+    func reloadPhotosFirstTime() {
+        indicatorView.startAnimating()
+        indicatorView.isHidden = false
+        collectionView?.isHidden = true
+        failContainerView.isHidden = true
+        failReloadButton.isHidden = true
+        failContainerView.alpha = 0.0
+        failReloadButton.alpha = 0.0
+        
+        DispatchQueue.main.async {
+            self.photos = CoreDataManager.shared.getPhotos()
+            
+            if self.photos.count == 0 {
+                self.failContainerView.isHidden = false
+                self.failReloadButton.isHidden = false
+                UIView.animate(withDuration: 0.3) {
+                    self.failContainerView.alpha = 1.0
+                    self.failReloadButton.alpha = 1.0
+                }
+            }
+            else {
+                self.isAnimating = true
+                self.collectionView?.isUserInteractionEnabled = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + self.animationDuration + self.animationMaxDelay) {
+                    self.isAnimating = false
+                    self.collectionView?.isUserInteractionEnabled = true
+                }
+                
+                self.collectionView?.reloadData()
+                self.collectionView?.isHidden = false
+            }
+            
+            self.indicatorView.isHidden = true
+            self.indicatorView.stopAnimating()
+        }
     }
 }
 
