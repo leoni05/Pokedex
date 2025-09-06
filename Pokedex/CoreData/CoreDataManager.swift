@@ -57,6 +57,17 @@ class CoreDataManager {
         }
     }
     
+    func deletePhoto(photo: Photo, completion: () -> Void) {
+        do {
+            persistentContainer.viewContext.delete(photo)
+            try persistentContainer.viewContext.save()
+            completion()
+        }
+        catch {
+            print("Delete failed: \(error)")
+        }
+    }
+    
     func getPokemons() -> [Pokemon] {
         var pokemons: [Pokemon] = []
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Pokemon")

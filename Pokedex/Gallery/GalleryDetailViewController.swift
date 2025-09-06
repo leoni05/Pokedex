@@ -19,7 +19,8 @@ class GalleryDetailViewController: UIViewController {
     
     weak var delegate: GalleryDetailViewControllerDelegate? = nil
     
-    var imageName: String?
+    var photo: Photo?
+    private var imageName: String?
     private var resultPokemonNumbers: Array<Int> = []
     
     private let scrollView = UIScrollView()
@@ -40,6 +41,8 @@ class GalleryDetailViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.view.addSubview(scrollView)
+        
+        imageName = photo?.name
         
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
            let imageName = imageName {
@@ -63,6 +66,7 @@ class GalleryDetailViewController: UIViewController {
         let deleteImage = UIImage(systemName: "trash.fill", withConfiguration: configuration)
         deleteButton.setImage(deleteImage, for: .normal)
         deleteButton.tintColor = .wineRed
+        deleteButton.addTarget(self, action: #selector(deleteButtonPressed(_:)), for: .touchUpInside)
         scrollView.addSubview(deleteButton)
         
         starsLabel.text = "★★★☆☆"
@@ -135,4 +139,52 @@ class GalleryDetailViewController: UIViewController {
         delegate?.setBackButton(hidden: true)
     }
     
+}
+
+// MARK: - Private Extensions
+
+private extension GalleryDetailViewController {
+    @objc func deleteButtonPressed(_ sender: UIButton) {
+        let alertVC = AlertViewController()
+        alertVC.delegate = self
+        alertVC.alertType = .confirm
+        alertVC.titleText = "사진 삭제"
+        alertVC.contentText = "선택한 사진을 삭제하시겠습니까?"
+        self.present(alertVC, animated: true)
+    }
+    
+    func deletePhoto() {
+        guard let photo = photo,
+              let imageName = photo.name else {
+            return
+        }
+        
+        guard let documentsDirectory = FileManager.default.urls(
+            for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileUrl = documentsDirectory.appendingPathComponent(imageName, conformingTo: .jpeg)
+        let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
+        do {
+            try FileManager.default.removeItem(at: fileUrl)
+            try FileManager.default.removeItem(at: thumbnailFileUrl)
+        } catch {
+            print("File manager remove item failed \(error)")
+        }
+        
+        CoreDataManager.shared.deletePhoto(photo: photo) {
+            self.navigationController?.popToRootViewController(animated: true)
+            if let topVC = self.navigationController?.topViewController as? GalleryCollectionViewController {
+                topVC.reloadPhotosFirstTime()
+            }
+        }
+    }
+}
+
+// MARK: - AlertViewControllerDelegate  
+
+extension GalleryDetailViewController: AlertViewControllerDelegate {
+    func buttonPressed(buttonType: AlertButtonType) {
+        if buttonType == .ok {
+            deletePhoto()
+        }
+    }
 }

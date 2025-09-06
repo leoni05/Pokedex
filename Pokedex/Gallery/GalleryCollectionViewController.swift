@@ -92,33 +92,9 @@ class GalleryCollectionViewController: UIViewController {
     
 }
 
-// MARK: - Private Extensions
+// MARK: - Extensions
 
-private extension GalleryCollectionViewController {
-    @objc func handleRefreshControl() {
-        self.photos = CoreDataManager.shared.getPhotos()
-        
-        if photos.count == 0 {
-            self.failContainerView.alpha = 0.0
-            self.failReloadButton.alpha = 0.0
-            self.failContainerView.isHidden = false
-            self.failReloadButton.isHidden = false
-            self.collectionView?.isHidden = true
-            UIView.animate(withDuration: 0.3) {
-                self.failContainerView.alpha = 1.0
-                self.failReloadButton.alpha = 1.0
-            }
-        }
-        else {
-            self.collectionView?.reloadData()
-        }
-        self.collectionView?.refreshControl?.endRefreshing()
-    }
-    
-    @objc func failReloadButtonPressed(_ sender: UIButton) {
-        reloadPhotosFirstTime()
-    }
-    
+extension GalleryCollectionViewController {
     func reloadPhotosFirstTime() {
         indicatorView.startAnimating()
         indicatorView.isHidden = false
@@ -157,6 +133,34 @@ private extension GalleryCollectionViewController {
     }
 }
 
+// MARK: - Private Extensions
+
+private extension GalleryCollectionViewController {
+    @objc func handleRefreshControl() {
+        self.photos = CoreDataManager.shared.getPhotos()
+        
+        if photos.count == 0 {
+            self.failContainerView.alpha = 0.0
+            self.failReloadButton.alpha = 0.0
+            self.failContainerView.isHidden = false
+            self.failReloadButton.isHidden = false
+            self.collectionView?.isHidden = true
+            UIView.animate(withDuration: 0.3) {
+                self.failContainerView.alpha = 1.0
+                self.failReloadButton.alpha = 1.0
+            }
+        }
+        else {
+            self.collectionView?.reloadData()
+        }
+        self.collectionView?.refreshControl?.endRefreshing()
+    }
+    
+    @objc func failReloadButtonPressed(_ sender: UIButton) {
+        reloadPhotosFirstTime()
+    }
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension GalleryCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -168,7 +172,7 @@ extension GalleryCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = GalleryDetailViewController()
-        detailVC.imageName = photos[indexPath.row].name
+        detailVC.photo = photos[indexPath.row]
         detailVC.delegate = navigationController as? GalleryDetailViewControllerDelegate
         navigationController?.pushViewController(detailVC, animated: true)
     }
