@@ -11,6 +11,7 @@
 		2E1BF8962E6330F30055C1B5 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BF8952E6330F30055C1B5 /* SpeechBubbleView.swift */; };
 		2E2AA73A2E363FAB0057ED54 /* PokedexDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */; };
 		2E2AA73C2E3641890057ED54 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA73B2E3641890057ED54 /* NavigationController.swift */; };
+		2E6881FA2E6C0D7000094E84 /* GotchaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6881F92E6C0D7000094E84 /* GotchaModel.swift */; };
 		2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE2C7E2E223526005E713D /* ResultViewController.swift */; };
 		2EB242EE2E48E268008F89E7 /* GalleryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB242ED2E48E268008F89E7 /* GalleryCollectionViewController.swift */; };
 		2EB4B4B82E508BA100DCBBA9 /* CardInfoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB4B4B72E508BA100DCBBA9 /* CardInfoEditCell.swift */; };
@@ -65,6 +66,7 @@
 		2E1BF8952E6330F30055C1B5 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
 		2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexDetailViewController.swift; sourceTree = "<group>"; };
 		2E2AA73B2E3641890057ED54 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		2E6881F92E6C0D7000094E84 /* GotchaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GotchaModel.swift; sourceTree = "<group>"; };
 		2EAE2C7E2E223526005E713D /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		2EB242ED2E48E268008F89E7 /* GalleryCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewController.swift; sourceTree = "<group>"; };
 		2EB4B4B72E508BA100DCBBA9 /* CardInfoEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoEditCell.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				2EAE2C7E2E223526005E713D /* ResultViewController.swift */,
 				2EF8AF3C2E2E8E300070CEE8 /* SummaryXpBarView.swift */,
 				2EF8AF3E2E2E9C490070CEE8 /* CapturedPokemonView.swift */,
+				2E6881F92E6C0D7000094E84 /* GotchaModel.swift */,
 			);
 			path = Gotcha;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				D0746C5F2E0456B000402D1C /* AlertModel.swift in Sources */,
 				2E1BF8942E6329FD0055C1B5 /* SamuelOakViewController.swift in Sources */,
 				D0D238B12DF44124003662D1 /* PokemonModel.swift in Sources */,
+				2E6881FA2E6C0D7000094E84 /* GotchaModel.swift in Sources */,
 				2E1BF8962E6330F30055C1B5 /* SpeechBubbleView.swift in Sources */,
 				2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */,
 				2ECB8EBC2E6458DF008ECB64 /* Photo+CoreDataClass.swift in Sources */,

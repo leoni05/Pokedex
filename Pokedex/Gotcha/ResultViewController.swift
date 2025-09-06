@@ -17,9 +17,7 @@ class ResultViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var resultScore: Int = 0
-    private var resultPokemonNumbers: Array<Int> = []
-    private var pokemonNumberSet: Set<Int> = []
+    var gotchaResult: GotchaResult? = nil
     
     private var containerView = UIView()
     private var titleLabel = UILabel()
@@ -133,11 +131,13 @@ class ResultViewController: UIViewController {
         
         summaryScrollView.addSubview(summaryPokemonsWrapper)
         
-        for idx in 0..<resultPokemonNumbers.count {
-            let view = CapturedPokemonView()
-            view.setPokemonInfo(pokedexNumber: resultPokemonNumbers[idx])
-            summaryCapturedPokemonViews.append(view)
-            summaryPokemonsWrapper.addSubview(view)
+        if let gotchaResult = gotchaResult {
+            for idx in 0..<gotchaResult.resultPokemonNumbers.count {
+                let view = CapturedPokemonView()
+                view.setPokemonInfo(pokedexNumber: gotchaResult.resultPokemonNumbers[idx])
+                summaryCapturedPokemonViews.append(view)
+                summaryPokemonsWrapper.addSubview(view)
+            }
         }
         
         okButton.layer.borderWidth = 2.0
@@ -154,7 +154,8 @@ class ResultViewController: UIViewController {
         failContainerView.isHidden = true
         summaryScrollView.isHidden = true
         
-        if resultPokemonNumbers.count >= 1 {
+        if let gotchaResult = gotchaResult,
+           gotchaResult.resultPokemonNumbers.count >= 1 {
             containerView.isHidden = false
             showPokemon(index: selectedIndex)
         }
@@ -206,37 +207,17 @@ class ResultViewController: UIViewController {
     
 }
 
-// MARK: - Extensions
-
-extension ResultViewController {
-    func setResult(resultText: String) {
-        let resultArray = resultText.components(separatedBy: ",")
-        if resultArray.count > 0 {
-            resultScore = Int(resultArray[0]) ?? 0
-            resultPokemonNumbers = []
-            pokemonNumberSet = []
-            
-            for idx in 1..<resultArray.count {
-                if let pokedexNumber = Int(resultArray[idx]) {
-                    if pokedexNumber <= Pokedex.totalNumber && pokemonNumberSet.contains(pokedexNumber) == false {
-                        resultPokemonNumbers.append(pokedexNumber)
-                        pokemonNumberSet.insert(pokedexNumber)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Private Extensions
 
 private extension ResultViewController {
     func showPokemon(index: Int) {
+        guard let gotchaResult = gotchaResult else { return }
+        
         if index == 0 { prevButton.isHidden = true }
         else { prevButton.isHidden = false }
         
         pokemonImageView.alpha = 0.0
-        let pokemon = Pokedex.shared.pokemons[resultPokemonNumbers[index]-1]
+        let pokemon = Pokedex.shared.pokemons[gotchaResult.resultPokemonNumbers[index]-1]
         numberLabel.text = "No. \(String(format: "%04d", pokemon.pokedexNumber))"
         nameLabel.text = pokemon.name
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -263,7 +244,8 @@ private extension ResultViewController {
     }
     
     @objc func nextButtonPressed(_ sender: UIButton) {
-        if selectedIndex+1 >= resultPokemonNumbers.count {
+        guard let gotchaResult = gotchaResult else { return }
+        if selectedIndex+1 >= gotchaResult.resultPokemonNumbers.count {
             showSummary()
             return
         }

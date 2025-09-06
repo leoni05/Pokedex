@@ -15,7 +15,7 @@ class GotchaViewController: UIViewController {
     // MARK: - Properties
     
     private var presentingVC: UIViewController? = nil
-    private var resultText: String = ""
+    private var gotchaResult: GotchaResult? = nil
     
     // MARK: - Life Cycle
     
@@ -104,7 +104,7 @@ private extension GotchaViewController {
                 self.removePresentingVC()
                 let resultVC = ResultViewController()
                 resultVC.delegate = self
-                resultVC.setResult(resultText: self.resultText)
+                resultVC.gotchaResult = self.gotchaResult
                 self.presentingVC = resultVC
                 if let vc = self.presentingVC {
                     self.addChild(vc)
@@ -120,13 +120,13 @@ private extension GotchaViewController {
 // MARK: - CameraViewControllerDelegate
 
 extension GotchaViewController: CameraViewControllerDelegate {
-    func captureFinished(cameraVC: CameraViewController, resultText: String) {
-        print("GotchaViewController received: \(resultText)")
+    func captureFinished(cameraVC: CameraViewController, gotchaResult: GotchaResult?) {
+        print("GotchaViewController received: \(String(describing: gotchaResult))")
         if cameraVC != presentingVC {
-            print("Skipped: \(resultText)")
+            print("Skipped: \(String(describing: gotchaResult))")
             return
         }
-        self.resultText = resultText
+        self.gotchaResult = gotchaResult
         showResultVC()
     }
 }

@@ -42,7 +42,7 @@ class CoreDataManager {
         return photos
     }
     
-    func savePhoto(captureDate: Date, name: String, resultString: String, completion: () -> Void) {
+    func savePhoto(captureDate: Date, name: String, gotchaResult: GotchaResult, completion: () -> Void) {
         if let entity = NSEntityDescription.entity(forEntityName: "Photo", in: persistentContainer.viewContext),
            let photo = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Photo {
             photo.captureDate = captureDate

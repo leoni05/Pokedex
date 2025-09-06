@@ -13,7 +13,7 @@ import FirebaseCore
 import FirebaseStorage
 
 protocol CameraViewControllerDelegate: AnyObject {
-    func captureFinished(cameraVC: CameraViewController, resultText: String)
+    func captureFinished(cameraVC: CameraViewController, gotchaResult: GotchaResult?)
 }
 
 class CameraViewController: UIViewController {
@@ -41,7 +41,7 @@ class CameraViewController: UIViewController {
     private let loadingImageView = UIImageView()
     
     private let starLabels: Array<UILabel> = [UILabel(), UILabel(), UILabel()]
-    private var resultText: String? = nil
+    private var gotchaResult: GotchaResult? = nil
     weak var delegate: CameraViewControllerDelegate? = nil
     private var timerForShaking: Timer? = nil
     
@@ -292,7 +292,7 @@ private extension CameraViewController {
     }
     
     @objc func shakePokeball(_ timer: Timer) {
-        if self.resultText != nil {
+        if self.gotchaResult != nil {
             timer.invalidate()
             timerForShaking = nil
             for idx in 0..<starLabels.count {
@@ -323,7 +323,7 @@ private extension CameraViewController {
                     }
                 }, completion: { _ in
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-                        self.delegate?.captureFinished(cameraVC: self, resultText: self.resultText ?? "")
+                        self.delegate?.captureFinished(cameraVC: self, gotchaResult: self.gotchaResult)
                     }
                 })
             })
@@ -490,10 +490,33 @@ private extension CameraViewController {
             }
             var resultText = responseText
             resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
-            CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, resultString: resultText) {
-                self.resultText = resultText
+            let gotchaResult = makeGotchaResult(resultText: resultText)
+            
+            CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
+                self.gotchaResult = gotchaResult
             }
         }
+    }
+    
+    func makeGotchaResult(resultText: String) -> GotchaResult {
+        var gotchaResult = GotchaResult()
+        let resultArray = resultText.components(separatedBy: ",")
+        if resultArray.count > 0 {
+            gotchaResult.resultScore = Int(resultArray[0]) ?? 0
+            gotchaResult.resultPokemonNumbers = []
+            gotchaResult.pokemonNumberSet = []
+            
+            for idx in 1..<resultArray.count {
+                if let pokedexNumber = Int(resultArray[idx]) {
+                    if pokedexNumber <= Pokedex.totalNumber
+                        && gotchaResult.pokemonNumberSet.contains(pokedexNumber) == false {
+                        gotchaResult.resultPokemonNumbers.append(pokedexNumber)
+                        gotchaResult.pokemonNumberSet.insert(pokedexNumber)
+                    }
+                }
+            }
+        }
+        return gotchaResult
     }
 }
 
