@@ -13,7 +13,7 @@ class CapturedPokemonView: UIView {
     
     // MARK: - Properties
     
-    private var engName: String = ""
+    private var pokedexNumber: Int? = nil
     private var imageView = UIImageView()
     private var numberLabel = UILabel()
     private var nameLabel = UILabel()
@@ -53,10 +53,17 @@ class CapturedPokemonView: UIView {
 }
 
 extension CapturedPokemonView {
-    func setPokemonInfo(engName: String) {
-        guard let pokemon = Pokedex.shared.getPokemon(engName: engName) else { return }
-        self.engName = engName
-        imageView.image = UIImage(named: "Pokedex\(String(format: "%03d", pokemon.pokedexNumber-1))")
+    func setPokemonInfo(pokedexNumber: Int) {
+        if pokedexNumber-1 >= Pokedex.shared.pokemons.count { return }
+        let pokemon = Pokedex.shared.pokemons[pokedexNumber-1]
+        self.pokedexNumber = pokedexNumber
+        
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        if let imageURL = documentsDirectory?.appendingPathComponent("\(pokedexNumber)", conformingTo: .png) {
+            if FileManager.default.fileExists(atPath: imageURL.path) {
+                imageView.image = UIImage(contentsOfFile: imageURL.path)
+            }
+        }
         numberLabel.text = "No. \(String(format: "%04d", pokemon.pokedexNumber))"
         nameLabel.text = pokemon.name
     }

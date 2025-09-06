@@ -20,9 +20,7 @@ class GalleryDetailViewController: UIViewController {
     weak var delegate: GalleryDetailViewControllerDelegate? = nil
     
     var imageName: String?
-    private var resultPokemons: Array<String> = [
-        "Gengar", "Giratina", "Scizor", "Charmander", "Lapras", "Ditto", "Milotic"
-    ]
+    private var resultPokemonNumbers: Array<Int> = []
     
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
@@ -85,9 +83,9 @@ class GalleryDetailViewController: UIViewController {
         
         scrollView.addSubview(pokemonContaierView)
         
-        for idx in 0..<resultPokemons.count {
+        for idx in 0..<resultPokemonNumbers.count {
             let view = CapturedPokemonView()
-            view.setPokemonInfo(engName: resultPokemons[idx])
+            view.setPokemonInfo(pokedexNumber: resultPokemonNumbers[idx])
             pokemonViews.append(view)
             pokemonContaierView.addSubview(view)
         }
