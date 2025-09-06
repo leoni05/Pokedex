@@ -16,6 +16,7 @@ class Pokedex {
     private var todayPokemonNumbers: Set<Int> = []
     var pokemons = [Pokemon]()
     var listedPokemons = [Pokemon]()
+    var capturedCount = 0
 
     // MARK: - Life Cycle
     
@@ -48,6 +49,7 @@ extension Pokedex {
             }
             else if pokemon.captureDate != nil {
                 listedPokemons.append(pokemon)
+                capturedCount += 1
             }
         }
     }

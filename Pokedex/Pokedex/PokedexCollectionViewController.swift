@@ -127,7 +127,7 @@ extension PokedexCollectionViewController: UICollectionViewDataSource {
             let reusableView = collectionView
                 .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PokedexHeader.reuseIdentifier, for: indexPath)
             if let header = reusableView as? PokedexHeader {
-                
+                header.setProgressLabelText()
             }
             return reusableView
         }

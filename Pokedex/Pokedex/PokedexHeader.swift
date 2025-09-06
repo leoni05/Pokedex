@@ -44,4 +44,14 @@ class PokedexHeader: UICollectionReusableView {
         pokedexNameLabel.pin.bottom().horizontally(16).sizeToFit(.width)
         progressLabel.pin.above(of: pokedexNameLabel, aligned: .left).right(16).marginBottom(8).sizeToFit(.width)
     }
+    
+}
+
+// MARK: - Extensions
+
+extension PokedexHeader {
+    func setProgressLabelText() {
+        let progressValue = Double(Pokedex.shared.capturedCount) / Double(Pokedex.totalNumber) * 100.0
+        progressLabel.text = "도감 완성률 \(progressValue)%"
+    }
 }
