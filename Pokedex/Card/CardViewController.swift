@@ -29,8 +29,7 @@ class CardViewController: UIViewController {
     
     private let selectionCount = 6
     private let selectionContainerView = UIView()
-    private var selectionViews: Array<UIView> = []
-    private var selectionImageViews: Array<UIImageView> = []
+    private var pokemonCells: Array<CardPokemonCell> = []
     
     private var badgesLabel = UILabel()
     private let badgeCount = 8
@@ -112,18 +111,9 @@ class CardViewController: UIViewController {
         scrollView.addSubview(selectionContainerView)
         
         for idx in 0..<selectionCount {
-            let view = UIView()
-            view.layer.cornerRadius = 4.0
-            view.layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
-            view.layer.borderWidth = 1.0
-            selectionContainerView.addSubview(view)
-            selectionViews.append(view)
-            
-            let imageView = UIImageView()
-            imageView.contentMode = .center
-            imageView.image = UIImage(named: "pokeball.small")
-            view.addSubview(imageView)
-            selectionImageViews.append(imageView)
+            let cell = CardPokemonCell()
+            selectionContainerView.addSubview(cell)
+            pokemonCells.append(cell)
         }
         
         badgesLabel.text = "BADGES"
@@ -169,17 +159,13 @@ class CardViewController: UIViewController {
         
         selectionContainerView.pin.below(of: infoView).horizontally(16).marginTop(24)
         let pokemonSize = (selectionContainerView.frame.width - (8.0*2))/3.0
-        selectionViews[0].pin.top().left().size(pokemonSize)
-        selectionViews[1].pin.top().hCenter().size(pokemonSize)
-        selectionViews[2].pin.top().right().size(pokemonSize)
-        selectionViews[3].pin.below(of: selectionViews[0], aligned: .left).marginTop(8).size(pokemonSize)
-        selectionViews[4].pin.below(of: selectionViews[1], aligned: .center).marginTop(8).size(pokemonSize)
-        selectionViews[5].pin.below(of: selectionViews[2], aligned: .right).marginTop(8).size(pokemonSize)
+        pokemonCells[0].pin.top().left().size(pokemonSize)
+        pokemonCells[1].pin.top().hCenter().size(pokemonSize)
+        pokemonCells[2].pin.top().right().size(pokemonSize)
+        pokemonCells[3].pin.below(of: pokemonCells[0], aligned: .left).marginTop(8).size(pokemonSize)
+        pokemonCells[4].pin.below(of: pokemonCells[1], aligned: .center).marginTop(8).size(pokemonSize)
+        pokemonCells[5].pin.below(of: pokemonCells[2], aligned: .right).marginTop(8).size(pokemonSize)
         selectionContainerView.pin.below(of: infoView).hCenter().marginTop(24).wrapContent()
-        
-        for idx in 0..<selectionImageViews.count {
-            selectionImageViews[idx].pin.all(12)
-        }
         
         badgesLabel.pin.below(of: selectionContainerView).horizontally(16).marginTop(32).sizeToFit(.width)
         badgeContainerView.pin.below(of: badgesLabel).horizontally(16).marginTop(12)

@@ -12,6 +12,7 @@
 		2E2AA73A2E363FAB0057ED54 /* PokedexDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */; };
 		2E2AA73C2E3641890057ED54 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AA73B2E3641890057ED54 /* NavigationController.swift */; };
 		2E587F402E6D872E00568D3D /* TrainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E587F3F2E6D872E00568D3D /* TrainerViewController.swift */; };
+		2E587F442E6D8B1F00568D3D /* CardPokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E587F432E6D8B1F00568D3D /* CardPokemonCell.swift */; };
 		2E6881FA2E6C0D7000094E84 /* GotchaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6881F92E6C0D7000094E84 /* GotchaModel.swift */; };
 		2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAE2C7E2E223526005E713D /* ResultViewController.swift */; };
 		2EB242EE2E48E268008F89E7 /* GalleryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB242ED2E48E268008F89E7 /* GalleryCollectionViewController.swift */; };
@@ -68,6 +69,7 @@
 		2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexDetailViewController.swift; sourceTree = "<group>"; };
 		2E2AA73B2E3641890057ED54 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		2E587F3F2E6D872E00568D3D /* TrainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainerViewController.swift; sourceTree = "<group>"; };
+		2E587F432E6D8B1F00568D3D /* CardPokemonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPokemonCell.swift; sourceTree = "<group>"; };
 		2E6881F92E6C0D7000094E84 /* GotchaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GotchaModel.swift; sourceTree = "<group>"; };
 		2EAE2C7E2E223526005E713D /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		2EB242ED2E48E268008F89E7 /* GalleryCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewController.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				D02241992DEF05F2003F68D1 /* CardViewController.swift */,
 				2EE528912E31F9D200E01734 /* CardInfoEditViewController.swift */,
 				2EB4B4B72E508BA100DCBBA9 /* CardInfoEditCell.swift */,
+				2E587F432E6D8B1F00568D3D /* CardPokemonCell.swift */,
 			);
 			path = Card;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				2EC5B8722E34FA98009C42DE /* CoreDataManager.swift in Sources */,
 				D022419F2DEF33AE003F68D1 /* TabType.swift in Sources */,
 				D022419A2DEF05F2003F68D1 /* CardViewController.swift in Sources */,
+				2E587F442E6D8B1F00568D3D /* CardPokemonCell.swift in Sources */,
 				D02241982DEF05DD003F68D1 /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
