@@ -117,12 +117,21 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPokemonIndex = indexPath.row
+        
         let alertVC = AlertViewController()
-        alertVC.alertType = .confirm
-        alertVC.titleText = "대표 포켓몬 변경"
-        alertVC.contentText = "대표 포켓몬을 선택한 포켓몬으로 변경할까요?"
         alertVC.delegate = self
-        alertVC.tag = SelectPokemonAlertType.confirmSelect
+        if Pokedex.shared.listedPokemons[indexPath.row].captureDate == nil {
+            alertVC.alertType = .alert
+            alertVC.titleText = "대표 포켓몬 변경"
+            alertVC.contentText = "포획한 포켓몬만 대표 포켓몬으로 설정할 수 있습니다."
+            alertVC.tag = SelectPokemonAlertType.canNotSelect
+        }
+        else {
+            alertVC.alertType = .confirm
+            alertVC.titleText = "대표 포켓몬 변경"
+            alertVC.contentText = "대표 포켓몬을 선택한 포켓몬으로 변경할까요?"
+            alertVC.tag = SelectPokemonAlertType.confirmSelect
+        }
         self.present(alertVC, animated: true)
     }
 }
