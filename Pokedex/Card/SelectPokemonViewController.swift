@@ -144,6 +144,17 @@ private extension SelectPokemonViewController {
         alertVC.alertType = .confirm
         alertVC.titleText = "대표 포켓몬 해제"
         alertVC.contentText = "대표 포켓몬을 해제할까요?"
+        alertVC.delegate = self
         self.present(alertVC, animated: true)
+    }
+}
+
+// MARK: - AlertViewControllerDelegate
+
+extension SelectPokemonViewController: AlertViewControllerDelegate {
+    func buttonPressed(buttonType: AlertButtonType) {
+        if buttonType == .ok {
+            navigationController?.popToRootViewController(animated: true)
+        }
     }
 }
