@@ -95,8 +95,8 @@ class GalleryCollectionViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if CoreDataManager.shared.needReloadGalleryVC {
             CoreDataManager.shared.needReloadGalleryVC = false
             reloadPhotosFirstTime()
