@@ -196,6 +196,10 @@ class CardViewController: UIViewController {
         let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
         nameLabel.text = userName
         trainerImage.image = UIImage(named: "TrainerCard" + String(format: "%02d", trainerImageIdx))
+        
+        for idx in 0..<Pokedex.shared.selectionCount {
+            pokemonCells[idx].setPokemonImage(pokemonNumber: Pokedex.shared.selectedPokemonNumbers[idx])
+        }
     }
 }
 

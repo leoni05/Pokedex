@@ -84,3 +84,23 @@ extension CardPokemonCell: UIGestureRecognizerDelegate {
         }
     }
 }
+
+// MARK: - Extensions
+
+extension CardPokemonCell {
+    func setPokemonImage(pokemonNumber: Int) {
+        if pokemonNumber == 0 {
+            pokemonImageView.contentMode = .center
+            pokemonImageView.image = UIImage(named: "pokeball.small")
+        }
+        else {
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            if let imageURL = documentsDirectory?.appendingPathComponent("\(pokemonNumber)", conformingTo: .png) {
+                if FileManager.default.fileExists(atPath: imageURL.path) {
+                    pokemonImageView.contentMode = .scaleAspectFit
+                    pokemonImageView.image = UIImage(contentsOfFile: imageURL.path)
+                }
+            }
+        }
+    }
+}
