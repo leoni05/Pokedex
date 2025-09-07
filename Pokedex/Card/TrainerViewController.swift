@@ -39,3 +39,11 @@ class TrainerViewController: NavigationController {
     }
     
 }
+
+// MARK: - SelectPokemonViewControllerDelegate
+
+extension TrainerViewController: SelectPokemonViewControllerDelegate {
+    func setBackButton(hidden: Bool) {
+        vcDelegate?.setBackButtonForTrainer(hidden: hidden)
+    }
+}

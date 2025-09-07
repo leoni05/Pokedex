@@ -36,6 +36,7 @@ class MainViewController: UIViewController {
         (tabVCDict[TabType.pokedex] as? PokedexViewController)?.vcDelegate = self
         (tabVCDict[TabType.gallery] as? GalleryViewController)?.vcDelegate = self
         (tabVCDict[TabType.cardInfoEdit] as? CardInfoEditViewController)?.delegate = self
+        (tabVCDict[TabType.card] as? TrainerViewController)?.vcDelegate = self
         (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
         if UserDefaults.standard.string(forKey: "userName") == nil {
@@ -167,6 +168,14 @@ extension MainViewController: GalleryViewControllerDelegate {
     }
 }
 
+// MARK: - TrainerViewControllerDelegate
+
+extension MainViewController: TrainerViewControllerDelegate {
+    func setBackButtonForTrainer(hidden: Bool) {
+        mainUpperView.setBackButton(hidden: hidden)
+    }
+}
+
 // MARK: - MainUpperViewDelegate
 
 extension MainViewController: MainUpperViewDelegate {
@@ -176,6 +185,9 @@ extension MainViewController: MainUpperViewDelegate {
         }
         if presentingTab == .gallery {
             (tabVCDict[TabType.gallery] as? GalleryViewController)?.popToRootViewController(animated: true)
+        }
+        if presentingTab == .card {
+            (tabVCDict[TabType.card] as? TrainerViewController)?.popToRootViewController(animated: true)
         }
     }
 }

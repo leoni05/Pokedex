@@ -205,6 +205,7 @@ class CardViewController: UIViewController {
 extension CardViewController: CardPokemonCellDelegate {
     func cellPressed(idx: Int) {
         let selectPokemonVC = SelectPokemonViewController()
+        selectPokemonVC.delegate = navigationController as? SelectPokemonViewControllerDelegate
         selectPokemonVC.targetIndex = idx
         self.navigationController?.pushViewController(selectPokemonVC, animated: true)
     }

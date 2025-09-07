@@ -9,10 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol SelectPokemonViewControllerDelegate: AnyObject {
+    func setBackButton(hidden: Bool)
+}
+
 class SelectPokemonViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var delegate: SelectPokemonViewControllerDelegate? = nil
     var targetIndex: Int? = nil
     
     private let horizontalInset = 16.0
@@ -67,6 +72,23 @@ class SelectPokemonViewController: UIViewController {
                 self.collectionView?.alpha = 1.0
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.setBackButton(hidden: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+            delegate?.setBackButton(hidden: true)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.setBackButton(hidden: true)
     }
     
 }
