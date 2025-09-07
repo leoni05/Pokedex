@@ -162,7 +162,7 @@ private extension SamuelOakViewController {
     func finishedDownloading(number: Int) {
         speechLabel.text = "그럼 시작하겠네!\n(Downloading... \(100*number/Pokedex.totalNumber)%)"
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
-        UserDefaults.standard.set(number, forKey: "lastDownloadedPokemon")
+        UserDefaults.standard.set(number, forKey: UserDefaultsKeys.lastDownloadedPokemon)
     }
     
     func downloadPokemonData() {

@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         (tabVCDict[TabType.card] as? TrainerViewController)?.vcDelegate = self
         (tabVCDict[TabType.setting] as? SettingViewController)?.delegate = self
         
-        if UserDefaults.standard.string(forKey: "userName") == nil {
+        if UserDefaults.standard.string(forKey: UserDefaultsKeys.userName) == nil {
             firstCardInfoSetting = true
             presentingTab = .cardInfoEdit
         }
@@ -59,7 +59,7 @@ class MainViewController: UIViewController {
         mainTabBarView.delegate = self
         self.view.addSubview(mainTabBarView)
         
-        if UserDefaults.standard.integer(forKey: "lastDownloadedPokemon") < Pokedex.totalNumber {
+        if UserDefaults.standard.integer(forKey: UserDefaultsKeys.lastDownloadedPokemon) < Pokedex.totalNumber {
             samuelOakVC = SamuelOakViewController()
             if let samuelOakVC = samuelOakVC {
                 samuelOakVC.delegate = self

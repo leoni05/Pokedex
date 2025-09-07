@@ -192,8 +192,8 @@ class CardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let userName = UserDefaults.standard.string(forKey: "userName") ?? ""
-        let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
+        let userName = UserDefaults.standard.string(forKey: UserDefaultsKeys.userName) ?? ""
+        let trainerImageIdx = UserDefaults.standard.integer(forKey: UserDefaultsKeys.trainerImageIdx)
         nameLabel.text = userName
         trainerImage.image = UIImage(named: "TrainerCard" + String(format: "%02d", trainerImageIdx))
         pokedexCountLabel.text = "\(Pokedex.shared.capturedCount)"

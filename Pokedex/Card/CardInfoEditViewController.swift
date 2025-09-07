@@ -110,12 +110,12 @@ class CardInfoEditViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let nameString = UserDefaults.standard.string(forKey: "userName") {
+        if let nameString = UserDefaults.standard.string(forKey: UserDefaultsKeys.userName) {
             initUserName = nameString
             nameTextField.text = nameString
         }
-        if UserDefaults.standard.object(forKey: "trainerImageIdx") != nil {
-            let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
+        if UserDefaults.standard.object(forKey: UserDefaultsKeys.trainerImageIdx) != nil {
+            let trainerImageIdx = UserDefaults.standard.integer(forKey: UserDefaultsKeys.trainerImageIdx)
             initTrainerImageIdx = trainerImageIdx
             changeImageSelection(idx: trainerImageIdx)
         }
@@ -150,8 +150,8 @@ private extension CardInfoEditViewController {
             self.present(alertVC, animated: true)
             return
         }
-        UserDefaults.standard.set(nameTextField.text, forKey: "userName")
-        UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")
+        UserDefaults.standard.set(nameTextField.text, forKey: UserDefaultsKeys.userName)
+        UserDefaults.standard.set(selectedImageIdx, forKey: UserDefaultsKeys.trainerImageIdx)
         delegate?.cardEditOkButtonPressed()
     }
     
@@ -189,8 +189,8 @@ extension CardInfoEditViewController: UITextFieldDelegate {
 extension CardInfoEditViewController: AlertViewControllerDelegate {
     func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
-            UserDefaults.standard.set(nameTextField.text, forKey: "userName")
-            UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")
+            UserDefaults.standard.set(nameTextField.text, forKey: UserDefaultsKeys.userName)
+            UserDefaults.standard.set(selectedImageIdx, forKey: UserDefaultsKeys.trainerImageIdx)
             delegate?.cardEditOkButtonPressed()
         }
     }
