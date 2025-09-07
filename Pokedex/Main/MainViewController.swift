@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
         TabType.pokedex : PokedexViewController(),
         TabType.gallery : GalleryViewController(),
         TabType.gotcha : GotchaViewController(),
-        TabType.card : CardViewController(),
+        TabType.card : TrainerViewController(),
         TabType.cardInfoEdit : CardInfoEditViewController(),
         TabType.setting : SettingViewController()
     ]
