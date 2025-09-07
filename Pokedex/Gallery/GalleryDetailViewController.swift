@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import PinLayout
+import Photos
 
 protocol GalleryDetailViewControllerDelegate: AnyObject {
     func setBackButton(hidden: Bool)
@@ -59,6 +60,7 @@ class GalleryDetailViewController: UIViewController {
         scrollView.addSubview(xpTitleLabel)
         
         downloadButton.setImage(UIImage(named: "download"), for: .normal)
+        downloadButton.addTarget(self, action: #selector(downloadButtonPressed(_:)), for: .touchUpInside)
         scrollView.addSubview(downloadButton)
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)
@@ -157,10 +159,51 @@ class GalleryDetailViewController: UIViewController {
 private extension GalleryDetailViewController {
     @objc func deleteButtonPressed(_ sender: UIButton) {
         let alertVC = AlertViewController()
+        alertVC.tag = GalleryAlertType.deletePhoto
         alertVC.delegate = self
         alertVC.alertType = .confirm
         alertVC.titleText = "사진 삭제"
         alertVC.contentText = "선택한 사진을 삭제하시겠습니까?"
+        self.present(alertVC, animated: true)
+    }
+    
+    @objc func downloadButtonPressed(_ sender: UIButton) {
+        PHPhotoLibrary.requestAuthorization { [weak self] status in
+            DispatchQueue.main.async {
+                if status == .authorized {
+                    self?.downloadPhoto()
+                }
+                else {
+                    let alertVC = AlertViewController()
+                    alertVC.tag = GalleryAlertType.goSetting
+                    alertVC.alertType = .confirm
+                    alertVC.titleText = "앨범 접근 권한"
+                    alertVC.contentText = "사진 저장을 위해 앨범 접근 권한이 필요합니다.\n설정 화면으로 이동하시겠습니까?"
+                    alertVC.delegate = self
+                    self?.present(alertVC, animated: true)
+                }
+            }
+        }
+    }
+    
+    func downloadPhoto() {
+        guard let imageData = imageView.image?.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        PHPhotoLibrary.shared().performChanges({
+            let creationRequest = PHAssetCreationRequest.forAsset()
+            creationRequest.addResource(with: .photo, data: imageData, options: nil)
+        }, completionHandler: { _, error in
+            if let error = error {
+                print("Save photo failed: \(error)")
+            }
+        })
+        
+        let alertVC = AlertViewController()
+        alertVC.tag = GalleryAlertType.downloadFinished
+        alertVC.alertType = .alert
+        alertVC.titleText = "사진 저장"
+        alertVC.contentText = "앨범에 사진이 저장되었습니다."
         self.present(alertVC, animated: true)
     }
     
@@ -195,7 +238,14 @@ private extension GalleryDetailViewController {
 extension GalleryDetailViewController: AlertViewControllerDelegate {
     func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
-            deletePhoto()
+            if tag == GalleryAlertType.deletePhoto {
+                deletePhoto()
+            }
+            if tag == GalleryAlertType.goSetting {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            }
         }
     }
 }
