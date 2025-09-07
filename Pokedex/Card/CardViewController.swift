@@ -28,7 +28,6 @@ class CardViewController: UIViewController {
     private let levelValueLabel = UILabel()
     
     private let selectionCount = 6
-    private let selectedIndex: Array<Int> = [0, 1, 2, 84, 35, 32]
     private let selectionContainerView = UIView()
     private var selectionViews: Array<UIView> = []
     private var selectionImageViews: Array<UIImageView> = []
@@ -121,10 +120,8 @@ class CardViewController: UIViewController {
             selectionViews.append(view)
             
             let imageView = UIImageView()
-            imageView.contentMode = .scaleAspectFit
-            if idx < selectedIndex.count {
-                imageView.image = UIImage(named: "Pokedex" + String(format: "%03d", selectedIndex[idx]))
-            }
+            imageView.contentMode = .center
+            imageView.image = UIImage(named: "pokeball.small")
             view.addSubview(imageView)
             selectionImageViews.append(imageView)
         }
