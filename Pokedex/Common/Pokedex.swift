@@ -11,7 +11,7 @@ class Pokedex {
     
     // MARK: - Properties
     
-    static let totalNumber = 10
+    static let totalNumber = 1025
     static let shared = Pokedex()
     private var todayPokemonNumbers: Set<Int> = []
     var pokemons = [Pokemon]()
