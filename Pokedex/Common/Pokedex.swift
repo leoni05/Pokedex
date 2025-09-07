@@ -20,6 +20,8 @@ class Pokedex {
     
     let selectionCount = 6
     var selectedPokemonNumbers: [Int] = [0, 0, 0, 0, 0, 0]
+    var trainerLevel = 1
+    var nextRequiredScorePercent: CGFloat = 0.0
 
     // MARK: - Life Cycle
     
@@ -42,6 +44,7 @@ class Pokedex {
                 selectedPokemonNumbers[idx] = (Int(numbers[idx]) ?? 0)
             }
         }
+        computeLevel()
     }
     
 }
@@ -105,5 +108,33 @@ extension Pokedex {
             newString += "\(selectedPokemonNumbers[idx])"
         }
         UserDefaults.standard.set(newString, forKey: UserDefaultsKeys.selectedPokemonNumbers)
+    }
+    
+    func acquireScore(score: Int) {
+        let prevScore = UserDefaults.standard.integer(forKey: UserDefaultsKeys.score)
+        let nextScore = min(prevScore + score, 99999999)
+        UserDefaults.standard.set(nextScore, forKey: UserDefaultsKeys.score)
+        computeLevel()
+    }
+    
+    func computeLevel() {
+        var tempScore = UserDefaults.standard.integer(forKey: UserDefaultsKeys.score)
+        var tempLevel = 1
+      
+        let targetLevel = [1, 10, 50, 90, 100]
+        let requiredScores = [0, 1000, 5000, 100000, 1000000]
+        
+        for idx in 1..<targetLevel.count {
+            let levelUp = min(tempScore/requiredScores[idx], targetLevel[idx]-targetLevel[idx-1])
+            let used = levelUp * requiredScores[idx]
+            tempScore -= used
+            tempLevel += levelUp
+            
+            if levelUp < targetLevel[idx]-targetLevel[idx-1] {
+                nextRequiredScorePercent = 100*CGFloat(tempScore)/CGFloat(requiredScores[idx])
+                break
+            }
+        }
+        trainerLevel = tempLevel
     }
 }

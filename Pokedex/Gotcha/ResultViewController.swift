@@ -123,9 +123,10 @@ class ResultViewController: UIViewController {
         
         summaryLevelLabel.textColor = .wineRed
         summaryLevelLabel.font = UIFont(name: "Galmuri11-Bold", size: 16)
-        summaryLevelLabel.text = "Lv 5"
+        summaryLevelLabel.text = "Lv \(Pokedex.shared.trainerLevel)"
         summaryScrollView.addSubview(summaryLevelLabel)
         
+        summaryXpBarView.percentVal = Pokedex.shared.nextRequiredScorePercent
         summaryScrollView.addSubview(summaryXpBarView)
         
         summaryCapturedPokemonsLabel.textColor = UIColor(red: 162.0/255.0, green: 162.0/255.0, blue: 162.0/255.0, alpha: 1.0)
