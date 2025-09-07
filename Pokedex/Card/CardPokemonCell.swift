@@ -30,6 +30,9 @@ class CardPokemonCell: UIView {
         pokemonImageView.image = UIImage(named: "pokeball.small")
         containerView.addSubview(pokemonImageView)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellPressed(_:)))
+        self.addGestureRecognizer(tapGesture)
+        
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressed(_:)))
         longPressGesture.minimumPressDuration = 0
         longPressGesture.delegate = self
@@ -49,9 +52,19 @@ class CardPokemonCell: UIView {
     
 }
 
-// MARK: - Extensions
+// MARK: - UIGestureRecognizerDelegate
 
 extension CardPokemonCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    @objc func cellPressed(_ sender: UITapGestureRecognizer) {
+        if let idx = sender.view?.tag {
+            
+        }
+    }
+    
     @objc func cellLongPressed(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             UIView.animate(withDuration: 0.1) {
