@@ -27,6 +27,8 @@ class SelectPokemonViewController: UIViewController {
     private var collectionView: UICollectionView? = nil
     private let indicatorView = UIActivityIndicatorView(style: .large)
     
+    private let clearButton = UIButton()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -40,7 +42,7 @@ class SelectPokemonViewController: UIViewController {
         layout.minimumLineSpacing = itemSpacing
         layout.minimumInteritemSpacing = itemSpacing
         layout.sectionInset = UIEdgeInsets(top: MainUpperView.topInset + 16.0, left: horizontalInset,
-                                           bottom: 16.0, right: horizontalInset)
+                                           bottom: 16.0 + 52.0 + 16.0, right: horizontalInset)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isHidden = true
         collectionView.delegate = self
@@ -48,12 +50,22 @@ class SelectPokemonViewController: UIViewController {
         collectionView.register(PokedexCell.self, forCellWithReuseIdentifier: PokedexCell.reuseIdentifier)
         self.collectionView = collectionView
         self.view.addSubview(collectionView)
+        
+        clearButton.layer.borderWidth = 2.0
+        clearButton.layer.borderColor = UIColor.wineRed.cgColor
+        clearButton.backgroundColor = .white
+        clearButton.setTitle("해제", for: .normal)
+        clearButton.setTitleColor(.wineRed, for: .normal)
+        clearButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
+        clearButton.addTarget(self, action: #selector(clearButtonPressed(_:)), for: .touchUpInside)
+        self.view.addSubview(clearButton)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         indicatorView.pin.all()
         collectionView?.pin.all()
+        clearButton.pin.bottom(16).right(16).width(68).height(52)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,5 +133,17 @@ extension SelectPokemonViewController: UICollectionViewDataSource {
             cell.setPokemonInfo(index: Int(pokemonNumber-1))
         }
         return reusableCell
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension SelectPokemonViewController {
+    @objc func clearButtonPressed(_ sender: UIButton) {
+        let alertVC = AlertViewController()
+        alertVC.alertType = .confirm
+        alertVC.titleText = "대표 포켓몬 해제"
+        alertVC.contentText = "대표 포켓몬을 해제할까요?"
+        self.present(alertVC, animated: true)
     }
 }
