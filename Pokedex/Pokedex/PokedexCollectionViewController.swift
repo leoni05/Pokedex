@@ -53,8 +53,8 @@ class PokedexCollectionViewController: UIViewController {
         collectionView?.pin.all()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         if (collectionView?.contentOffset.y ?? 0) < 0 {
             collectionView?.setContentOffset(.zero, animated: false)
         }
