@@ -17,6 +17,9 @@ class Pokedex {
     var pokemons = [Pokemon]()
     var listedPokemons = [Pokemon]()
     var capturedCount = 0
+    
+    let selectionCount = 6
+    var selectedPokemonNumbers: [Int] = [0, 0, 0, 0, 0, 0]
 
     // MARK: - Life Cycle
     
@@ -28,6 +31,16 @@ class Pokedex {
         for _ in 0..<10 {
             let randomNumber = Int(drand48() * Double(Pokedex.totalNumber)) + 1
             todayPokemonNumbers.insert(randomNumber)
+        }
+        
+        if let selectedPokemonNumbersString = UserDefaults.standard.string(forKey: UserDefaultsKeys.selectedPokemonNumbers) {
+            let numbers = selectedPokemonNumbersString.components(separatedBy: ",")
+            for idx in 0..<numbers.count {
+                if idx >= selectionCount {
+                    break
+                }
+                selectedPokemonNumbers[idx] = (Int(numbers[idx]) ?? 0)
+            }
         }
     }
     
@@ -77,5 +90,20 @@ extension Pokedex {
             return info
         }
         return nil
+    }
+    
+    func changePokemonSelection(target: Int, pokedexNumber: Int) {
+        if target >= selectionCount {
+            return
+        }
+        var newString = ""
+        selectedPokemonNumbers[target] = pokedexNumber
+        for idx in 0..<selectionCount {
+            if idx > 0 {
+                newString += ","
+            }
+            newString += "\(selectedPokemonNumbers[idx])"
+        }
+        UserDefaults.standard.set(newString, forKey: UserDefaultsKeys.selectedPokemonNumbers)
     }
 }

@@ -27,7 +27,6 @@ class CardViewController: UIViewController {
     private let levelLabel = UILabel()
     private let levelValueLabel = UILabel()
     
-    private let selectionCount = 6
     private let selectionContainerView = UIView()
     private var pokemonCells: Array<CardPokemonCell> = []
     
@@ -110,7 +109,7 @@ class CardViewController: UIViewController {
         
         scrollView.addSubview(selectionContainerView)
         
-        for idx in 0..<selectionCount {
+        for idx in 0..<Pokedex.shared.selectionCount {
             let cell = CardPokemonCell()
             cell.tag = idx
             cell.delegate = self

@@ -19,6 +19,7 @@ class SelectPokemonViewController: UIViewController {
     
     weak var delegate: SelectPokemonViewControllerDelegate? = nil
     var targetIndex: Int? = nil
+    private var selectedPokemonIndex: Int? = nil
     
     private let horizontalInset = 16.0
     private let itemSpacing = 12.0
@@ -115,6 +116,7 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedPokemonIndex = indexPath.row
         let alertVC = AlertViewController()
         alertVC.alertType = .confirm
         alertVC.titleText = "대표 포켓몬 변경"
@@ -162,9 +164,17 @@ extension SelectPokemonViewController: AlertViewControllerDelegate {
     func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
             if tag == SelectPokemonAlertType.clearSelection {
+                if let targetIndex = targetIndex {
+                    Pokedex.shared.changePokemonSelection(target: targetIndex, pokedexNumber: 0)
+                }
                 navigationController?.popToRootViewController(animated: true)
             }
             if tag == SelectPokemonAlertType.confirmSelect {
+                if let targetIndex = targetIndex,
+                   let selectedPokemonIndex = selectedPokemonIndex {
+                    let pokemon = Pokedex.shared.listedPokemons[selectedPokemonIndex]
+                    Pokedex.shared.changePokemonSelection(target: targetIndex, pokedexNumber: Int(pokemon.pokedexNumber))
+                }
                 navigationController?.popToRootViewController(animated: true)
             }
         }
