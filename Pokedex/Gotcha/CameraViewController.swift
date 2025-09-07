@@ -498,6 +498,7 @@ private extension CameraViewController {
                     CoreDataManager.shared.needReloadPokedexVC = true
                     
                     Pokedex.shared.acquireScore(score: gotchaResult.resultScore)
+                    Pokedex.shared.setListedPokemons()
                     self.gotchaResult = gotchaResult
                 }
             }
