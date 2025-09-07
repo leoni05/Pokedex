@@ -152,7 +152,7 @@ private extension SelectPokemonViewController {
 // MARK: - AlertViewControllerDelegate
 
 extension SelectPokemonViewController: AlertViewControllerDelegate {
-    func buttonPressed(buttonType: AlertButtonType) {
+    func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
             navigationController?.popToRootViewController(animated: true)
         }

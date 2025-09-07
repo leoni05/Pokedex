@@ -10,13 +10,14 @@ import UIKit
 import PinLayout
 
 protocol AlertViewControllerDelegate: AnyObject {
-    func buttonPressed(buttonType: AlertButtonType)
+    func buttonPressed(buttonType: AlertButtonType, tag: Int?)
 }
 
 class AlertViewController: UIViewController {
     
     // MARK: - Properties
     
+    var tag: Int? = nil
     var alertType: AlertType = .alert
     weak var delegate: AlertViewControllerDelegate? = nil
     
@@ -118,12 +119,12 @@ class AlertViewController: UIViewController {
 
 private extension AlertViewController {
     @objc func okButtonPressed(_ sender: UIButton) {
-        delegate?.buttonPressed(buttonType: .ok)
+        delegate?.buttonPressed(buttonType: .ok, tag: tag)
         self.dismiss(animated: false)
     }
     
     @objc func cancelButtonPressed(_ sender: UIButton) {
-        delegate?.buttonPressed(buttonType: .cancel)
+        delegate?.buttonPressed(buttonType: .cancel, tag: tag)
         self.dismiss(animated: false)
     }
 }

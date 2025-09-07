@@ -187,7 +187,7 @@ extension CardInfoEditViewController: UITextFieldDelegate {
 // MARK: - AlertViewControllerDelegate
 
 extension CardInfoEditViewController: AlertViewControllerDelegate {
-    func buttonPressed(buttonType: AlertButtonType) {
+    func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
             UserDefaults.standard.set(nameTextField.text, forKey: "userName")
             UserDefaults.standard.set(selectedImageIdx, forKey: "trainerImageIdx")

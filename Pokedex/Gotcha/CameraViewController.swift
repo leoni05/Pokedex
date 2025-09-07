@@ -572,7 +572,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 // MARK: - AlertViewControllerDelegate
 
 extension CameraViewController: AlertViewControllerDelegate {
-    func buttonPressed(buttonType: AlertButtonType) {
+    func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
             if let url = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(url)

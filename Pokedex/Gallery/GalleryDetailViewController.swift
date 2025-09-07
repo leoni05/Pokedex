@@ -193,7 +193,7 @@ private extension GalleryDetailViewController {
 // MARK: - AlertViewControllerDelegate  
 
 extension GalleryDetailViewController: AlertViewControllerDelegate {
-    func buttonPressed(buttonType: AlertButtonType) {
+    func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
             deletePhoto()
         }
