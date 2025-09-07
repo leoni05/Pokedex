@@ -120,7 +120,7 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
         alertVC.titleText = "대표 포켓몬 변경"
         alertVC.contentText = "대표 포켓몬을 선택한 포켓몬으로 변경할까요?"
         alertVC.delegate = self
-        alertVC.tag = SelectPokemonAlertType.confirmSelect.rawValue
+        alertVC.tag = SelectPokemonAlertType.confirmSelect
         self.present(alertVC, animated: true)
     }
 }
@@ -151,7 +151,7 @@ private extension SelectPokemonViewController {
         alertVC.titleText = "대표 포켓몬 해제"
         alertVC.contentText = "대표 포켓몬을 해제할까요?"
         alertVC.delegate = self
-        alertVC.tag = SelectPokemonAlertType.clearSelection.rawValue
+        alertVC.tag = SelectPokemonAlertType.clearSelection
         self.present(alertVC, animated: true)
     }
 }
@@ -161,10 +161,10 @@ private extension SelectPokemonViewController {
 extension SelectPokemonViewController: AlertViewControllerDelegate {
     func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
-            if tag == SelectPokemonAlertType.clearSelection.rawValue {
+            if tag == SelectPokemonAlertType.clearSelection {
                 navigationController?.popToRootViewController(animated: true)
             }
-            if tag == SelectPokemonAlertType.confirmSelect.rawValue {
+            if tag == SelectPokemonAlertType.confirmSelect {
                 navigationController?.popToRootViewController(animated: true)
             }
         }
