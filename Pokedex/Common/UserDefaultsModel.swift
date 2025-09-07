@@ -9,4 +9,5 @@ import Foundation
 
 enum UserDefaultsKeys {
     static let selectedPokemonNumbers = "selectedPokemonNumbers"
+    static let score = "score"
 }

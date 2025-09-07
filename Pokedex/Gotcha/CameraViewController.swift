@@ -496,6 +496,10 @@ private extension CameraViewController {
                 storageReference.delete() { _ in
                     CoreDataManager.shared.needReloadGalleryVC = true
                     CoreDataManager.shared.needReloadPokedexVC = true
+                    
+                    let prevScore = UserDefaults.standard.integer(forKey: UserDefaultsKeys.score)
+                    let nextScore = min(prevScore + gotchaResult.resultScore, 99999999)
+                    UserDefaults.standard.set(nextScore, forKey: UserDefaultsKeys.score)
                     self.gotchaResult = gotchaResult
                 }
             }

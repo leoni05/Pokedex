@@ -196,6 +196,11 @@ class CardViewController: UIViewController {
         let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
         nameLabel.text = userName
         trainerImage.image = UIImage(named: "TrainerCard" + String(format: "%02d", trainerImageIdx))
+        pokedexCountLabel.text = "\(Pokedex.shared.capturedCount)"
+        
+        let score = UserDefaults.standard.integer(forKey: UserDefaultsKeys.score)
+        scoreValueLabel.text = "\(score)"
+        levelValueLabel.text = "Lv. \(computeLevel(score: score))"
         
         for idx in 0..<Pokedex.shared.selectionCount {
             pokemonCells[idx].setPokemonImage(pokemonNumber: Pokedex.shared.selectedPokemonNumbers[idx])
@@ -211,5 +216,25 @@ extension CardViewController: CardPokemonCellDelegate {
         selectPokemonVC.delegate = navigationController as? SelectPokemonViewControllerDelegate
         selectPokemonVC.targetIndex = idx
         self.navigationController?.pushViewController(selectPokemonVC, animated: true)
+    }
+}
+
+// MARK: - Private Extensions
+
+private extension CardViewController {
+    func computeLevel(score: Int) -> Int {
+        var tempScore = score
+        var level = 1
+      
+        let targetLevel = [1, 10, 50, 90, 100]
+        let requiredScores = [0, 1000, 5000, 100000, 1000000]
+        
+        for idx in 1..<targetLevel.count {
+            let levelUp = min(tempScore/requiredScores[idx], targetLevel[idx]-targetLevel[idx-1])
+            let used = levelUp * requiredScores[idx]
+            tempScore -= used
+            level += levelUp
+        }
+        return level
     }
 }
