@@ -52,6 +52,6 @@ class PokedexHeader: UICollectionReusableView {
 extension PokedexHeader {
     func setProgressLabelText() {
         let progressValue = Double(Pokedex.shared.capturedCount) / Double(Pokedex.totalNumber) * 100.0
-        progressLabel.text = "도감 완성률 \(progressValue)%"
+        progressLabel.text = "도감 완성률 \(round(progressValue * 10)/10)%"
     }
 }
