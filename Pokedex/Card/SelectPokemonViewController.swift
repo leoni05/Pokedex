@@ -115,7 +115,13 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let alertVC = AlertViewController()
+        alertVC.alertType = .confirm
+        alertVC.titleText = "대표 포켓몬 변경"
+        alertVC.contentText = "대표 포켓몬을 선택한 포켓몬으로 변경할까요?"
+        alertVC.delegate = self
+        alertVC.tag = SelectPokemonAlertType.confirmSelect.rawValue
+        self.present(alertVC, animated: true)
     }
 }
 
@@ -145,6 +151,7 @@ private extension SelectPokemonViewController {
         alertVC.titleText = "대표 포켓몬 해제"
         alertVC.contentText = "대표 포켓몬을 해제할까요?"
         alertVC.delegate = self
+        alertVC.tag = SelectPokemonAlertType.clearSelection.rawValue
         self.present(alertVC, animated: true)
     }
 }
@@ -154,7 +161,12 @@ private extension SelectPokemonViewController {
 extension SelectPokemonViewController: AlertViewControllerDelegate {
     func buttonPressed(buttonType: AlertButtonType, tag: Int?) {
         if buttonType == .ok {
-            navigationController?.popToRootViewController(animated: true)
+            if tag == SelectPokemonAlertType.clearSelection.rawValue {
+                navigationController?.popToRootViewController(animated: true)
+            }
+            if tag == SelectPokemonAlertType.confirmSelect.rawValue {
+                navigationController?.popToRootViewController(animated: true)
+            }
         }
     }
 }
