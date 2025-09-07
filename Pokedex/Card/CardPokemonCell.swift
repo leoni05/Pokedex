@@ -9,10 +9,15 @@ import Foundation
 import UIKit
 import PinLayout
 
+protocol CardPokemonCellDelegate: AnyObject {
+    func cellPressed(idx: Int)
+}
+
 class CardPokemonCell: UIView {
     
     // MARK: - Properties
     
+    weak var delegate: CardPokemonCellDelegate? = nil
     private let containerView = UIView()
     private let pokemonImageView = UIImageView()
     
@@ -61,7 +66,7 @@ extension CardPokemonCell: UIGestureRecognizerDelegate {
     
     @objc func cellPressed(_ sender: UITapGestureRecognizer) {
         if let idx = sender.view?.tag {
-            
+            delegate?.cellPressed(idx: idx)
         }
     }
     

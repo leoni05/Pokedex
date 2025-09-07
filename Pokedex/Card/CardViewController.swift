@@ -112,6 +112,8 @@ class CardViewController: UIViewController {
         
         for idx in 0..<selectionCount {
             let cell = CardPokemonCell()
+            cell.tag = idx
+            cell.delegate = self
             selectionContainerView.addSubview(cell)
             pokemonCells.append(cell)
         }
@@ -195,5 +197,15 @@ class CardViewController: UIViewController {
         let trainerImageIdx = UserDefaults.standard.integer(forKey: "trainerImageIdx")
         nameLabel.text = userName
         trainerImage.image = UIImage(named: "TrainerCard" + String(format: "%02d", trainerImageIdx))
+    }
+}
+
+// MARK: - CardPokemonCellDelegate
+
+extension CardViewController: CardPokemonCellDelegate {
+    func cellPressed(idx: Int) {
+        let selectPokemonVC = SelectPokemonViewController()
+        selectPokemonVC.targetIndex = idx
+        self.navigationController?.pushViewController(selectPokemonVC, animated: true)
     }
 }
