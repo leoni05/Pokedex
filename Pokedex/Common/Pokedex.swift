@@ -44,6 +44,7 @@ class Pokedex {
                 selectedPokemonNumbers[idx] = (Int(numbers[idx]) ?? 0)
             }
         }
+        reloadPokemon()
         computeLevel()
     }
     
