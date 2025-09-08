@@ -154,20 +154,21 @@ private extension SamuelOakViewController {
     }
     
     @objc func okPressed(_ sender: UIButton) {
-        finishedDownloading(number: 0)
+        let lastDownloadedPokemon = UserDefaults.standard.integer(forKey: UserDefaultsKeys.lastDownloadedPokemon)
+        finishedDownloading(number: lastDownloadedPokemon)
         confirmBubbleView.isHidden = true
-        downloadPokemonData()
+        downloadPokemonData(startNumber: lastDownloadedPokemon+1)
     }
     
     func finishedDownloading(number: Int) {
-        speechLabel.text = "그럼 시작하겠네!\n(Downloading... \(100*number/Pokedex.totalNumber)%)"
+        speechLabel.text = "그럼 시작하겠네!\n(Downloading... \(number)/\(Pokedex.totalNumber))"
         speechLabel.pin.top(14).horizontally(16).sizeToFit(.width)
         UserDefaults.standard.set(number, forKey: UserDefaultsKeys.lastDownloadedPokemon)
     }
     
-    func downloadPokemonData() {
+    func downloadPokemonData(startNumber: Int) {
         Task {
-            for number in 1...Pokedex.totalNumber {
+            for number in startNumber...Pokedex.totalNumber {
                 guard let pokemonInfo = await Pokedex.shared.getPokemonInfoFromAPI(number: number),
                       let pokemonSpecie = await Pokedex.shared.getPokemonSpeciesFromAPI(number: number),
                       let imageUrl = URL(string: pokemonInfo.sprites.other.officialArtwork.front_default),
