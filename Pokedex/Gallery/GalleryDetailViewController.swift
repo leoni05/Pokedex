@@ -71,15 +71,18 @@ class GalleryDetailViewController: UIViewController {
         scrollView.addSubview(deleteButton)
         
         var starArray: [Character] = ["☆", "☆", "☆", "☆", "☆"]
-        for idx in 0..<Int((photo?.score ?? 0) + 99)/100 {
-            starArray[idx] = "★"
+        let photoScore = Int(photo?.score ?? 0)
+        for idx in 0..<starArray.count {
+            if idx * 100 < photoScore {
+                starArray[idx] = "★"
+            }
         }
         starsLabel.text = String(starArray)
         starsLabel.textColor = .wineRed
         starsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
         scrollView.addSubview(starsLabel)
         
-        xpLabel.text = "\(photo?.score ?? 0)xp"
+        xpLabel.text = "\(photoScore)xp"
         xpLabel.textColor = .wineRed
         xpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
         xpLabel.textAlignment = .right

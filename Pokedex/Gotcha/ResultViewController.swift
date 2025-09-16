@@ -107,8 +107,11 @@ class ResultViewController: UIViewController {
         summaryScrollView.addSubview(summaryTitleLabel)
         
         var starArray: [Character] = ["☆", "☆", "☆", "☆", "☆"]
-        for idx in 0..<((gotchaResult?.resultScore ?? 0) + 99)/100 {
-            starArray[idx] = "★"
+        let resultScore = gotchaResult?.resultScore ?? 0
+        for idx in 0..<starArray.count {
+            if idx * 100 < resultScore {
+                starArray[idx] = "★"
+            }
         }
         summaryStarsLabel.textColor = .wineRed
         summaryStarsLabel.font = UIFont(name: "Galmuri11-Bold", size: 40)
@@ -117,7 +120,7 @@ class ResultViewController: UIViewController {
         
         summaryXpLabel.textColor = .wineRed
         summaryXpLabel.font = UIFont(name: "Galmuri11-Bold", size: 24)
-        summaryXpLabel.text = "\(gotchaResult?.resultScore ?? 0)xp"
+        summaryXpLabel.text = "\(resultScore)xp"
         summaryXpLabel.textAlignment = .right
         summaryScrollView.addSubview(summaryXpLabel)
         
