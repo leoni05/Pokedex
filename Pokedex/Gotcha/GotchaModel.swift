@@ -15,4 +15,5 @@ struct GotchaResult {
 
 enum GotchaError: Error {
     case imageGenerate
+    case documentsDirectory
 }
