@@ -444,15 +444,13 @@ private extension CameraViewController {
         }
     }
     
-    func processingImageURL(imageURL: URL, imageName: String, storageReference: StorageReference) {
+    func processingImageURL(imageURL: URL, imageName: String, storageReference: StorageReference) async throws {
         guard let plistURL = Bundle.main.url(forResource: "Keys", withExtension: "plist"),
               let dict = NSDictionary(contentsOf: plistURL),
               let openAIKey = dict["OpenAI"] as? String,
               let apiURL = URL(string: "https://api.openai.com/v1/responses")
         else {
-            self.showFileUploadErrorAlert()
-            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-            return
+            throw GotchaError.openAI
         }
         
         var request = URLRequest(url: apiURL)
@@ -478,35 +476,29 @@ private extension CameraViewController {
             ]
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-            self.showFileUploadErrorAlert()
-            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-            return
+            throw GotchaError.openAI
         }
         request.httpBody = jsonData
-        Task {
-            guard let (data, _) = try? await URLSession.shared.data(for: request),
-                  let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let output = (result["output"] as? [Any])?.first as? [String : Any],
-                  let content = (output["content"] as? [Any])?.first as? [String : Any],
-                  let responseText = content["text"] as? String
-            else {
-                self.showFileUploadErrorAlert()
-                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-                return
-            }
-            var resultText = responseText
-            resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
-            let gotchaResult = makeGotchaResult(resultText: resultText)
-            
-            CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
-                storageReference.delete() { _ in
-                    CoreDataManager.shared.needReloadGalleryVC = true
-                    CoreDataManager.shared.needReloadPokedexVC = true
-                    
-                    Pokedex.shared.acquireScore(score: gotchaResult.resultScore)
-                    Pokedex.shared.setListedPokemons()
-                    self.gotchaResult = gotchaResult
-                }
+        guard let (data, _) = try? await URLSession.shared.data(for: request),
+              let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let output = (result["output"] as? [Any])?.first as? [String : Any],
+              let content = (output["content"] as? [Any])?.first as? [String : Any],
+              let responseText = content["text"] as? String
+        else {
+            throw GotchaError.openAI
+        }
+        var resultText = responseText
+        resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
+        let gotchaResult = makeGotchaResult(resultText: resultText)
+        
+        CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
+            storageReference.delete() { _ in
+                CoreDataManager.shared.needReloadGalleryVC = true
+                CoreDataManager.shared.needReloadPokedexVC = true
+                
+                Pokedex.shared.acquireScore(score: gotchaResult.resultScore)
+                Pokedex.shared.setListedPokemons()
+                self.gotchaResult = gotchaResult
             }
         }
     }
@@ -560,7 +552,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
                 try saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName)
                 let (url, storageReference) = try await uploadImageToFirebase(imageData: imageData, imageName: imageName)
-                self.processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
+                try await processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
             }
             catch {
                 self.showFileUploadErrorAlert()

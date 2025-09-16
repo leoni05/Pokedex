@@ -17,4 +17,5 @@ enum GotchaError: Error {
     case imageGenerate
     case documentsDirectory
     case firebaseUpload
+    case openAI
 }
