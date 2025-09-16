@@ -432,22 +432,15 @@ private extension CameraViewController {
         }
     }
     
-    func uploadImageToFirebase(imageData: Data, imageName: String, completion: @escaping (URL, StorageReference) -> Void) {
+    func uploadImageToFirebase(imageData: Data, imageName: String) async throws -> (URL, StorageReference) {
         let firebaseReference = Storage.storage().reference().child("images/\(imageName)")
-        firebaseReference.putData(imageData, metadata: nil) { metaData, error in
-            if metaData == nil {
-                self.showFileUploadErrorAlert()
-                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-                return
-            }
-            firebaseReference.downloadURL { url, error in
-                guard let url = url else {
-                    self.showFileUploadErrorAlert()
-                    self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-                    return
-                }
-                completion(url, firebaseReference)
-            }
+        do {
+            let _ = try await firebaseReference.putDataAsync(imageData)
+            let url = try await firebaseReference.downloadURL()
+            return (url, firebaseReference)
+        }
+        catch {
+            throw error
         }
     }
     
@@ -561,17 +554,18 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.showCapturingGuideView(text: "지우는 몬스터볼을 썼다!", appearAnimated: true)
         self.captureSession?.stopRunning()
         
-        do {
-            let (imageData, thumbnailData) = try generateImageData(sampleBuffer: sampleBuffer)
-            let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
-            try saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName)
-            uploadImageToFirebase(imageData: imageData, imageName: imageName) { url, storageReference in
+        Task {
+            do {
+                let (imageData, thumbnailData) = try generateImageData(sampleBuffer: sampleBuffer)
+                let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
+                try saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName)
+                let (url, storageReference) = try await uploadImageToFirebase(imageData: imageData, imageName: imageName)
                 self.processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
             }
-        }
-        catch {
-            self.showFileUploadErrorAlert()
-            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+            catch {
+                self.showFileUploadErrorAlert()
+                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+            }
         }
     }
 }
