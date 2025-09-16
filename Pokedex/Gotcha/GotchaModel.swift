@@ -12,3 +12,7 @@ struct GotchaResult {
     var resultPokemonNumbers: Array<Int> = []
     var pokemonNumberSet: Set<Int> = []
 }
+
+enum GotchaError: Error {
+    case imageGenerate
+}

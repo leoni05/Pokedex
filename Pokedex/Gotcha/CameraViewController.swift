@@ -386,6 +386,19 @@ private extension CameraViewController {
         }
     }
     
+    func generateImageData(sampleBuffer: CMSampleBuffer) throws -> (Data, Data) {
+        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            throw GotchaError.imageGenerate
+        }
+        let ciImage = CIImage(cvImageBuffer: cvBuffer)
+        let uiImage = UIImage(ciImage: ciImage)
+        guard let imageData = uiImage.jpegData(compressionQuality: 1.0),
+              let thumbnailData = createThumbnailData(imageData: imageData, maxPixelSize: 200.0) else {
+            throw GotchaError.imageGenerate
+        }
+        return (imageData, thumbnailData)
+    }
+    
     func createThumbnailData(imageData: Data, maxPixelSize: CGFloat) -> Data? {
         let imageSourceOptions = [
             kCGImageSourceShouldCache: false ] as CFDictionary
@@ -546,28 +559,20 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         needToTakePicture = false
         self.showCapturingGuideView(text: "지우는 몬스터볼을 썼다!", appearAnimated: true)
-        
         self.captureSession?.stopRunning()
         
-        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            self.showFileUploadErrorAlert()
-            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-            return
-        }
-        let ciImage = CIImage(cvImageBuffer: cvBuffer)
-        let uiImage = UIImage(ciImage: ciImage)
-        guard let imageData = uiImage.jpegData(compressionQuality: 1.0),
-              let thumbnailData = createThumbnailData(imageData: imageData, maxPixelSize: 200.0) else {
-            self.showFileUploadErrorAlert()
-            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
-            return
-        }
-        let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
-        
-        saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName) {
-            uploadImageToFirebase(imageData: imageData, imageName: imageName) { url, storageReference in
-                self.processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
+        do {
+            let (imageData, thumbnailData) = try generateImageData(sampleBuffer: sampleBuffer)
+            let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
+            saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName) {
+                uploadImageToFirebase(imageData: imageData, imageName: imageName) { url, storageReference in
+                    self.processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
+                }
             }
+        }
+        catch {
+            self.showFileUploadErrorAlert()
+            self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
         }
     }
 }
