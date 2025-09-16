@@ -550,16 +550,25 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.captureSession?.stopRunning()
         
         Task {
-            do {
-                let (imageData, thumbnailData) = try generateImageData(sampleBuffer: sampleBuffer)
-                let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
-                try saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName)
-                let (url, storageReference) = try await uploadImageToFirebase(imageData: imageData, imageName: imageName)
-                try await processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
-            }
-            catch {
-                self.showFileUploadErrorAlert()
-                self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+            let imageName = "\(UUID().uuidString)-\(String(Date().timeIntervalSince1970)).jpg"
+            let retryCount = 5
+            
+            for attemptNum in 0..<retryCount {
+                do {
+                    let (imageData, thumbnailData) = try generateImageData(sampleBuffer: sampleBuffer)
+                    try saveImageToDirectory(imageData: imageData, thumbnailData: thumbnailData, imageName: imageName)
+                    let (url, storageReference) = try await uploadImageToFirebase(imageData: imageData, imageName: imageName)
+                    try await processingImageURL(imageURL: url, imageName: imageName, storageReference: storageReference)
+                    break
+                }
+                catch {
+                    print("Capture error \(error)")
+                    try? await Task.sleep(nanoseconds: 100_000_000)
+                    if attemptNum+1 >= retryCount {
+                        self.showFileUploadErrorAlert()
+                        self.showGuideView(text: "아깝다! 조금만 더 하면 됐는데!")
+                    }
+                }
             }
         }
     }
