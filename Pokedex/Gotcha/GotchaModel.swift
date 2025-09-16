@@ -18,4 +18,5 @@ enum GotchaError: Error {
     case documentsDirectory
     case firebaseUpload
     case openAI
+    case saveToCoredata
 }

@@ -53,25 +53,26 @@ extension CoreDataManager {
         return photos
     }
     
-    func savePhoto(captureDate: Date, name: String, gotchaResult: GotchaResult, completion: () -> Void) {
-        if let entity = NSEntityDescription.entity(forEntityName: "Photo", in: persistentContainer.viewContext),
-           let photo = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Photo {
-            photo.captureDate = captureDate
-            photo.name = name
-            photo.score = Int16(gotchaResult.resultScore)
-            for pokedexNumber in gotchaResult.resultPokemonNumbers {
-                photo.addToPokemons(Pokedex.shared.pokemons[pokedexNumber-1])
-                if Pokedex.shared.pokemons[pokedexNumber-1].captureDate == nil {
-                    Pokedex.shared.pokemons[pokedexNumber-1].captureDate = Date()
-                }
+    func savePhoto(captureDate: Date, name: String, gotchaResult: GotchaResult) throws {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Photo", in: persistentContainer.viewContext),
+              let photo = NSManagedObject(entity: entity, insertInto: persistentContainer.viewContext) as? Photo else {
+            throw GotchaError.saveToCoredata
+        }
+        photo.captureDate = captureDate
+        photo.name = name
+        photo.score = Int16(gotchaResult.resultScore)
+        for pokedexNumber in gotchaResult.resultPokemonNumbers {
+            photo.addToPokemons(Pokedex.shared.pokemons[pokedexNumber-1])
+            if Pokedex.shared.pokemons[pokedexNumber-1].captureDate == nil {
+                Pokedex.shared.pokemons[pokedexNumber-1].captureDate = Date()
             }
-            do {
-                try persistentContainer.viewContext.save()
-                completion()
-            }
-            catch {
-                print("Save failed: \(error)")
-            }
+        }
+        do {
+            try persistentContainer.viewContext.save()
+        }
+        catch {
+            print("Save failed: \(error)")
+            throw error
         }
     }
     

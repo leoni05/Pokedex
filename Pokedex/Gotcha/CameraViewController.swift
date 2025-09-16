@@ -491,15 +491,18 @@ private extension CameraViewController {
         resultText = resultText.components(separatedBy: [" ", "\n"]).joined()
         let gotchaResult = makeGotchaResult(resultText: resultText)
         
-        CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult) {
-            storageReference.delete() { _ in
-                CoreDataManager.shared.needReloadGalleryVC = true
-                CoreDataManager.shared.needReloadPokedexVC = true
-                
-                Pokedex.shared.acquireScore(score: gotchaResult.resultScore)
-                Pokedex.shared.setListedPokemons()
-                self.gotchaResult = gotchaResult
-            }
+        do {
+            try CoreDataManager.shared.savePhoto(captureDate: Date(), name: imageName, gotchaResult: gotchaResult)
+            try await storageReference.delete()
+            CoreDataManager.shared.needReloadGalleryVC = true
+            CoreDataManager.shared.needReloadPokedexVC = true
+            
+            Pokedex.shared.acquireScore(score: gotchaResult.resultScore)
+            Pokedex.shared.setListedPokemons()
+            self.gotchaResult = gotchaResult
+        }
+        catch {
+            throw error
         }
     }
     
