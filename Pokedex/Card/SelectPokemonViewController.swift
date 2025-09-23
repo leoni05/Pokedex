@@ -20,6 +20,7 @@ class SelectPokemonViewController: UIViewController {
     weak var delegate: SelectPokemonViewControllerDelegate? = nil
     var targetIndex: Int? = nil
     private var selectedPokemonIndex: Int? = nil
+    private var listedPokemonsCopy = [Pokemon]()
     
     private let horizontalInset = 16.0
     private let itemSpacing = 12.0
@@ -71,18 +72,21 @@ class SelectPokemonViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        indicatorView.startAnimating()
-        indicatorView.isHidden = false
-        collectionView?.isHidden = true
-        DispatchQueue.main.async {
-            Pokedex.shared.reloadPokemon()
-            self.indicatorView.isHidden = true
-            self.indicatorView.stopAnimating()
-            self.collectionView?.reloadData()
-            self.collectionView?.alpha = 0.0
-            self.collectionView?.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.collectionView?.alpha = 1.0
+        if listedPokemonsCopy.count == 0 {
+            indicatorView.startAnimating()
+            indicatorView.isHidden = false
+            collectionView?.isHidden = true
+            DispatchQueue.main.async {
+                Pokedex.shared.reloadPokemon()
+                self.listedPokemonsCopy = Pokedex.shared.listedPokemons
+                self.indicatorView.isHidden = true
+                self.indicatorView.stopAnimating()
+                self.collectionView?.reloadData()
+                self.collectionView?.alpha = 0.0
+                self.collectionView?.isHidden = false
+                UIView.animate(withDuration: 0.3) {
+                    self.collectionView?.alpha = 1.0
+                }
             }
         }
     }
@@ -120,7 +124,7 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
         
         let alertVC = AlertViewController()
         alertVC.delegate = self
-        if Pokedex.shared.listedPokemons[indexPath.row].captureDate == nil {
+        if listedPokemonsCopy[indexPath.row].captureDate == nil {
             alertVC.alertType = .alert
             alertVC.titleText = "대표 포켓몬 변경"
             alertVC.contentText = "포획한 포켓몬만 대표 포켓몬으로 설정할 수 있습니다."
@@ -140,13 +144,13 @@ extension SelectPokemonViewController: UICollectionViewDelegateFlowLayout {
 
 extension SelectPokemonViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Pokedex.shared.listedPokemons.count
+        return listedPokemonsCopy.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: PokedexCell.reuseIdentifier, for: indexPath)
         if let cell = reusableCell as? PokedexCell {
-            let pokemonNumber = Pokedex.shared.listedPokemons[indexPath.row].pokedexNumber
+            let pokemonNumber = listedPokemonsCopy[indexPath.row].pokedexNumber
             cell.setPokemonInfo(index: Int(pokemonNumber-1))
         }
         return reusableCell
@@ -181,7 +185,7 @@ extension SelectPokemonViewController: AlertViewControllerDelegate {
             if tag == SelectPokemonAlertType.confirmSelect {
                 if let targetIndex = targetIndex,
                    let selectedPokemonIndex = selectedPokemonIndex {
-                    let pokemon = Pokedex.shared.listedPokemons[selectedPokemonIndex]
+                    let pokemon = listedPokemonsCopy[selectedPokemonIndex]
                     Pokedex.shared.changePokemonSelection(target: targetIndex, pokedexNumber: Int(pokemon.pokedexNumber))
                 }
                 navigationController?.popToRootViewController(animated: true)
