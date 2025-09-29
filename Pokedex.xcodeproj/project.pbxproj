@@ -31,6 +31,8 @@
 		2ECB8EBE2E6458DF008ECB64 /* Pokemon+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB8EBA2E6458DF008ECB64 /* Pokemon+CoreDataClass.swift */; };
 		2ECB8EBF2E6458DF008ECB64 /* Pokemon+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB8EBB2E6458DF008ECB64 /* Pokemon+CoreDataProperties.swift */; };
 		2ECB8EC32E647F29008ECB64 /* PokedexCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECB8EC22E647F29008ECB64 /* PokedexCollectionViewController.swift */; };
+		2EDC8B762E8ACF1D00EE86AF /* PokedexPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC8B752E8ACF1D00EE86AF /* PokedexPhotoViewController.swift */; };
+		2EDC8B782E8ACFD000EE86AF /* PokedexModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDC8B772E8ACFD000EE86AF /* PokedexModel.swift */; };
 		2EE528922E31F9D200E01734 /* CardInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE528912E31F9D200E01734 /* CardInfoEditViewController.swift */; };
 		2EF8AF3D2E2E8E300070CEE8 /* SummaryXpBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF8AF3C2E2E8E300070CEE8 /* SummaryXpBarView.swift */; };
 		2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF8AF3E2E2E9C490070CEE8 /* CapturedPokemonView.swift */; };
@@ -92,6 +94,8 @@
 		2ECB8EBA2E6458DF008ECB64 /* Pokemon+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pokemon+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2ECB8EBB2E6458DF008ECB64 /* Pokemon+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pokemon+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2ECB8EC22E647F29008ECB64 /* PokedexCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexCollectionViewController.swift; sourceTree = "<group>"; };
+		2EDC8B752E8ACF1D00EE86AF /* PokedexPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexPhotoViewController.swift; sourceTree = "<group>"; };
+		2EDC8B772E8ACFD000EE86AF /* PokedexModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexModel.swift; sourceTree = "<group>"; };
 		2EE528912E31F9D200E01734 /* CardInfoEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoEditViewController.swift; sourceTree = "<group>"; };
 		2EF8AF3C2E2E8E300070CEE8 /* SummaryXpBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryXpBarView.swift; sourceTree = "<group>"; };
 		2EF8AF3E2E2E9C490070CEE8 /* CapturedPokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedPokemonView.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 				D0D238A92DF4107B003662D1 /* PokedexHeader.swift */,
 				2E2AA7392E363FAB0057ED54 /* PokedexDetailViewController.swift */,
 				2ECB8EC22E647F29008ECB64 /* PokedexCollectionViewController.swift */,
+				2EDC8B752E8ACF1D00EE86AF /* PokedexPhotoViewController.swift */,
+				2EDC8B772E8ACFD000EE86AF /* PokedexModel.swift */,
 			);
 			path = Pokedex;
 			sourceTree = "<group>";
@@ -375,6 +381,7 @@
 				D0C4676F2DD8C2AF0011B152 /* MainTabBarView.swift in Sources */,
 				2E587F402E6D872E00568D3D /* TrainerViewController.swift in Sources */,
 				D022419C2DEF0610003F68D1 /* SettingViewController.swift in Sources */,
+				2EDC8B782E8ACFD000EE86AF /* PokedexModel.swift in Sources */,
 				2ECB8EC32E647F29008ECB64 /* PokedexCollectionViewController.swift in Sources */,
 				2EAE2C7F2E223526005E713D /* ResultViewController.swift in Sources */,
 				2EB242EE2E48E268008F89E7 /* GalleryCollectionViewController.swift in Sources */,
@@ -394,6 +401,7 @@
 				D0746C5F2E0456B000402D1C /* AlertModel.swift in Sources */,
 				2E1BF8942E6329FD0055C1B5 /* SamuelOakViewController.swift in Sources */,
 				D0D238B12DF44124003662D1 /* PokemonModel.swift in Sources */,
+				2EDC8B762E8ACF1D00EE86AF /* PokedexPhotoViewController.swift in Sources */,
 				2E6881FA2E6C0D7000094E84 /* GotchaModel.swift in Sources */,
 				2E1BF8962E6330F30055C1B5 /* SpeechBubbleView.swift in Sources */,
 				2EF8AF3F2E2E9C490070CEE8 /* CapturedPokemonView.swift in Sources */,
