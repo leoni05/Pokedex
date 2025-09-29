@@ -10,10 +10,15 @@ import UIKit
 import PinLayout
 import Photos
 
+protocol PokedexPhotoViewControllerDelegate: AnyObject {
+    func setBackButton()
+}
+
 class PokedexPhotoViewController: UIViewController {
     
     // MARK: - Properties
 
+    weak var delegate: PokedexPhotoViewControllerDelegate? = nil
     var photo: Photo?
     private var imageName: String?
     
@@ -134,17 +139,19 @@ class PokedexPhotoViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        delegate?.setBackButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        if self.isMovingFromParent {
+            delegate?.setBackButton()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        delegate?.setBackButton()
     }
     
 }

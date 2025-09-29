@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 protocol GalleryViewControllerDelegate: AnyObject {
-    func setBackButtonForGallery(hidden: Bool)
+    func setBackButtonForGallery()
 }
 
 class GalleryViewController: NavigationController {
@@ -43,7 +43,7 @@ class GalleryViewController: NavigationController {
 // MARK: - GalleryDetailViewControllerDelegate
 
 extension GalleryViewController: GalleryDetailViewControllerDelegate {
-    func setBackButton(hidden: Bool) {
-        vcDelegate?.setBackButtonForGallery(hidden: hidden)
+    func setBackButton() {
+        vcDelegate?.setBackButtonForGallery()
     }
 }

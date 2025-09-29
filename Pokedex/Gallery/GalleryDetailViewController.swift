@@ -11,7 +11,7 @@ import PinLayout
 import Photos
 
 protocol GalleryDetailViewControllerDelegate: AnyObject {
-    func setBackButton(hidden: Bool)
+    func setBackButton()
 }
 
 class GalleryDetailViewController: UIViewController {
@@ -140,19 +140,19 @@ class GalleryDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.setBackButton(hidden: false)
+        delegate?.setBackButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if self.isMovingFromParent {
-            delegate?.setBackButton(hidden: true)
+            delegate?.setBackButton()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        delegate?.setBackButton(hidden: true)
+        delegate?.setBackButton()
     }
     
 }

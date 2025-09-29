@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 protocol TrainerViewControllerDelegate: AnyObject {
-    func setBackButtonForTrainer(hidden: Bool)
+    func setBackButtonForTrainer()
 }
 
 class TrainerViewController: NavigationController {
@@ -43,7 +43,7 @@ class TrainerViewController: NavigationController {
 // MARK: - SelectPokemonViewControllerDelegate
 
 extension TrainerViewController: SelectPokemonViewControllerDelegate {
-    func setBackButton(hidden: Bool) {
-        vcDelegate?.setBackButtonForTrainer(hidden: hidden)
+    func setBackButton() {
+        vcDelegate?.setBackButtonForTrainer()
     }
 }

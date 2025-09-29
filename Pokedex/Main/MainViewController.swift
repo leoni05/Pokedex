@@ -111,6 +111,16 @@ private extension MainViewController {
         }
         mainTabBarView.setButtonStatus(tabType: presentingTab, activated: true)
     }
+    
+    func changeBackButtonHiddenIfNeeded() {
+        if let vc = tabVCDict[presentingTab] as? NavigationController {
+            if vc.viewControllers.count > 1 {
+                mainUpperView.setBackButton(hidden: false)
+                return
+            }
+        }
+        mainUpperView.setBackButton(hidden: true)
+    }
 }
 
 // MARK: - MainTabBarViewDelegate
@@ -155,24 +165,24 @@ extension MainViewController: SettingViewControllerDelegate {
 // MARK: - PokedexViewControllerDelegate
 
 extension MainViewController: PokedexViewControllerDelegate {
-    func setBackButtonForPokedex(hidden: Bool) {
-        mainUpperView.setBackButton(hidden: hidden)
+    func setBackButtonForPokedex() {
+        changeBackButtonHiddenIfNeeded()
     }
 }
 
 // MARK: - GalleryViewControllerDelegate
 
 extension MainViewController: GalleryViewControllerDelegate {
-    func setBackButtonForGallery(hidden: Bool) {
-        mainUpperView.setBackButton(hidden: hidden)
+    func setBackButtonForGallery() {
+        changeBackButtonHiddenIfNeeded()
     }
 }
 
 // MARK: - TrainerViewControllerDelegate
 
 extension MainViewController: TrainerViewControllerDelegate {
-    func setBackButtonForTrainer(hidden: Bool) {
-        mainUpperView.setBackButton(hidden: hidden)
+    func setBackButtonForTrainer() {
+        changeBackButtonHiddenIfNeeded()
     }
 }
 

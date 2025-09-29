@@ -10,7 +10,7 @@ import UIKit
 import PinLayout
 
 protocol PokedexDetailViewControllerDelegate: AnyObject {
-    func setBackButton(hidden: Bool)
+    func setBackButton()
 }
 
 class PokedexDetailViewController: UIViewController {
@@ -264,19 +264,19 @@ class PokedexDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.setBackButton(hidden: false)
+        delegate?.setBackButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if self.isMovingFromParent {
-            delegate?.setBackButton(hidden: true)
+            delegate?.setBackButton()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        delegate?.setBackButton(hidden: true)
+        delegate?.setBackButton()
     }
 
 }
@@ -308,6 +308,7 @@ private extension PokedexDetailViewController {
         if let idx = sender.view?.tag {
             if idx < photos.count {
                 let photoVC = PokedexPhotoViewController()
+                photoVC.delegate = navigationController as? PokedexPhotoViewControllerDelegate
                 photoVC.photo = photos[idx]
                 navigationController?.pushViewController(photoVC, animated: true)
             }
