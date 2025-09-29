@@ -52,6 +52,7 @@ class PokedexDetailViewController: UIViewController {
     private let photoImageViews: [UIImageView] = [
         UIImageView(), UIImageView(), UIImageView(), UIImageView()
     ]
+    private var photos: [Photo] = []
     
     // MARK: - Life Cycle
     
@@ -184,6 +185,12 @@ class PokedexDetailViewController: UIViewController {
             photoImageViews[idx].contentMode = .scaleAspectFill
             photoImageViews[idx].layer.borderColor = CGColor(red: 229.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1.0)
             photoImageViews[idx].layer.borderWidth = 1
+            photoImageViews[idx].tag = idx
+            photoImageViews[idx].isUserInteractionEnabled = true
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewPressed(_:)))
+            photoImageViews[idx].addGestureRecognizer(tapGesture)
+            
             photoImageViewContainer.addSubview(photoImageViews[idx])
         }
         
@@ -194,6 +201,7 @@ class PokedexDetailViewController: UIViewController {
                 if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
                    let photo = (self.pokemon?.photos?[photoCount-idx-1] as? Photo),
                    let imageName = photo.name {
+                    self.photos.append(photo)
                     let thumbnailFileUrl = documentsDirectory.appendingPathComponent(imageName + "_thumbnail", conformingTo: .jpeg)
                     if FileManager.default.fileExists(atPath: thumbnailFileUrl.path) {
                         self.photoImageViews[idx].alpha = 0.0
@@ -293,6 +301,16 @@ private extension PokedexDetailViewController {
             typeLabel2.text = pokemonType?.koreanText
             typeLabel2.backgroundColor = pokemonType?.color
             typeLabel2.isHidden = false
+        }
+    }
+    
+    @objc func imageViewPressed(_ sender: UITapGestureRecognizer) {
+        if let idx = sender.view?.tag {
+            if idx < photos.count {
+                let photoVC = PokedexPhotoViewController()
+                photoVC.photo = photos[idx]
+                navigationController?.pushViewController(photoVC, animated: true)
+            }
         }
     }
 }
