@@ -181,13 +181,13 @@ extension MainViewController: TrainerViewControllerDelegate {
 extension MainViewController: MainUpperViewDelegate {
     func backButtonPressed() {
         if presentingTab == .pokedex {
-            (tabVCDict[TabType.pokedex] as? PokedexViewController)?.popToRootViewController(animated: true)
+            (tabVCDict[TabType.pokedex] as? PokedexViewController)?.popViewController(animated: true)
         }
         if presentingTab == .gallery {
-            (tabVCDict[TabType.gallery] as? GalleryViewController)?.popToRootViewController(animated: true)
+            (tabVCDict[TabType.gallery] as? GalleryViewController)?.popViewController(animated: true)
         }
         if presentingTab == .card {
-            (tabVCDict[TabType.card] as? TrainerViewController)?.popToRootViewController(animated: true)
+            (tabVCDict[TabType.card] as? TrainerViewController)?.popViewController(animated: true)
         }
     }
 }
