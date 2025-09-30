@@ -208,7 +208,7 @@ class ResultViewController: UIViewController {
         }
         summaryPokemonsWrapper.pin.below(of: summaryCapturedPokemonsLabel).left(16).wrapContent().marginTop(12)
         summaryScrollView.contentSize = CGSize(width: summaryScrollView.bounds.width,
-                                               height: summaryPokemonsWrapper.frame.maxY + 16)
+                                               height: summaryPokemonsWrapper.frame.maxY + 84)
         
         okButton.pin.bottom(16).right(16).width(68).height(52)
     }
