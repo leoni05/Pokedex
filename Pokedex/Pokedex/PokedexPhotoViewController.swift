@@ -227,6 +227,7 @@ private extension PokedexPhotoViewController {
         }
         
         CoreDataManager.shared.deletePhoto(photo: photo) {
+            CoreDataManager.shared.needReloadGalleryVC = true
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
