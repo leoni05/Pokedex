@@ -29,14 +29,21 @@ class CardInfoEditViewController: UIViewController {
     
     private var initUserName: String? = nil
     private var initTrainerImageIdx: Int? = nil
+    private var keyboardIntersectionHeight: CGFloat = 0
     
     weak var delegate: CardInfoEditViewControllerDelegate? = nil
     
     // MARK: - Life Cycle
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.layer.masksToBounds = true
         
+        scrollView.layer.masksToBounds = false
         self.view.addSubview(scrollView)
         
         cardInfoLabel.text = "트레이너 정보 입력"
@@ -82,12 +89,14 @@ class CardInfoEditViewController: UIViewController {
         okButton.titleLabel?.font = UIFont(name: "Galmuri11-Bold", size: 24)
         okButton.addTarget(self, action: #selector(okButtonPressed(_:)), for: .touchUpInside)
         self.view.addSubview(okButton)
+        
+        setupObserver()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        scrollView.pin.all()
+        scrollView.pin.top().horizontally().bottom(keyboardIntersectionHeight)
         cardInfoLabel.pin.top(MainUpperView.topInset + 16).horizontally(16).sizeToFit(.width)
         nameTextField.pin.below(of: cardInfoLabel).horizontally(16).height(40).marginTop(12)
         imageLabel.pin.below(of: nameTextField).horizontally(16).marginTop(24).sizeToFit(.width)
@@ -104,7 +113,8 @@ class CardInfoEditViewController: UIViewController {
         imageCellsContainer.pin.below(of: imageLabel).left(16).wrapContent().marginTop(12)
         scrollView.contentSize = CGSize(width: scrollView.bounds.width, height: imageCellsContainer.frame.maxY + 84)
         
-        okButton.pin.bottom(16).right(16).width(68).height(52)
+        okButton.pin.bottom(16 + keyboardIntersectionHeight)
+            .right(16).width(68).height(52)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,6 +175,47 @@ private extension CardInfoEditViewController {
         selectedImageIdx = idx
     }
     
+    func setupObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if viewIfLoaded?.window == nil {
+            return
+        }
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        let keyboardFrameInView = view.convert(keyboardFrame, from: nil)
+        keyboardIntersectionHeight = view.bounds.intersection(keyboardFrameInView).height
+        
+        scrollView.pin.top().horizontally().bottom(keyboardIntersectionHeight)
+        okButton.pin.bottom(16 + keyboardIntersectionHeight)
+            .right(16).width(68).height(52)
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if viewIfLoaded?.window == nil {
+            return
+        }
+        keyboardIntersectionHeight = 0
+        
+        scrollView.pin.top().horizontally().bottom(keyboardIntersectionHeight)
+        okButton.pin.bottom(16 + keyboardIntersectionHeight)
+            .right(16).width(68).height(52)
+    }
 }
 
 // MARK: - Extensions
