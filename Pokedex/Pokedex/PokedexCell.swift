@@ -117,10 +117,17 @@ extension PokedexCell {
 
 private extension PokedexCell {
     func setPokemonImage(index: Int) {
-        let pokeballImageNameSuffix = ((Pokedex.shared.pokemons[index].captureDate != nil) ? ".fill" : "")
+        var pokeballImageNameSuffix = ""
+        if Pokedex.shared.selectedPokemonNumbers.contains(index+1) {
+            pokeballImageNameSuffix = ".fill"
+        }
         pokeballImageView.image = UIImage(named: pokeballImageName + pokeballImageNameSuffix)
         
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let documentsDirectory = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first
+        
         if let imageURL = documentsDirectory?.appendingPathComponent("\(index+1)", conformingTo: .png) {
             if FileManager.default.fileExists(atPath: imageURL.path) {
                 pokemonImageView.image = UIImage(contentsOfFile: imageURL.path)

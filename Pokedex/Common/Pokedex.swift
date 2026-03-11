@@ -100,6 +100,7 @@ extension Pokedex {
             newString += "\(selectedPokemonNumbers[idx])"
         }
         UserDefaults.standard.set(newString, forKey: UserDefaultsKeys.selectedPokemonNumbers)
+        CoreDataManager.shared.needReloadPokedexVC = true
     }
     
     func acquireScore(score: Int) {
