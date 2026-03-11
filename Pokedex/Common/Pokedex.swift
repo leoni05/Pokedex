@@ -13,7 +13,7 @@ class Pokedex {
     
     static let totalNumber = 1025
     static let shared = Pokedex()
-    private var todayPokemonNumbers: Set<Int> = []
+    
     var pokemons = [Pokemon]()
     var listedPokemons = [Pokemon]()
     var capturedCount = 0
@@ -26,17 +26,11 @@ class Pokedex {
     // MARK: - Life Cycle
     
     private init() {
-        guard let date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date()) else {
-            return
-        }
-        srand48(Int(date.timeIntervalSince1970))
-        for _ in 0..<10 {
-            let randomNumber = Int(drand48() * Double(Pokedex.totalNumber)) + 1
-            todayPokemonNumbers.insert(randomNumber)
-        }
-        
-        if let selectedPokemonNumbersString = UserDefaults.standard.string(forKey: UserDefaultsKeys.selectedPokemonNumbers) {
-            let numbers = selectedPokemonNumbersString.components(separatedBy: ",")
+        let selectedPokemons = UserDefaults.standard.string(
+            forKey: UserDefaultsKeys.selectedPokemonNumbers
+        )
+        if let selectedPokemons = selectedPokemons {
+            let numbers = selectedPokemons.components(separatedBy: ",")
             for idx in 0..<numbers.count {
                 if idx >= selectionCount {
                     break
@@ -65,9 +59,6 @@ extension Pokedex {
             if pokemon.captureDate != nil {
                 listedPokemons.append(pokemon)
                 capturedCount += 1
-            }
-            else if todayPokemonNumbers.contains(Int(pokemon.pokedexNumber)) {
-                listedPokemons.append(pokemon)
             }
         }
     }
