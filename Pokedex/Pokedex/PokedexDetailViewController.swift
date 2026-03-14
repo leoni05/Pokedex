@@ -58,9 +58,15 @@ class PokedexDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var pokeballImageSuffix = ""
         if let index = index {
             pokemon = Pokedex.shared.pokemons[index]
+            if Pokedex.shared.selectedPokemonNumbers.contains(index+1) {
+                pokeballImageSuffix = ".fill"
+            }
         }
+        
         self.view.backgroundColor = .white
         self.view.addSubview(scrollView)
         
@@ -74,10 +80,6 @@ class PokedexDetailViewController: UIViewController {
         nameLabel.text = pokemon?.name
         scrollView.addSubview(nameLabel)
         
-        var pokeballImageSuffix = ""
-        if pokemon?.captureDate != nil {
-            pokeballImageSuffix = ".fill"
-        }
         pokeballImageView.image = UIImage(named: "pokeball.big" + pokeballImageSuffix)
         pokeballImageView.contentMode = .scaleAspectFit
         scrollView.addSubview(pokeballImageView)
