@@ -458,14 +458,63 @@ private extension CameraViewController {
         request.setValue("Bearer \(openAIKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let body: [String: Any] = [
-            "model": "gpt-4.1-mini",
+            "model": "gpt-6-astra",
             "input": [
                 [
                     "role": "user",
                     "content": [
                         [
                             "type": "input_text",
-                            "text": "Please analyze this image and send me the result string with several numbers separated by commas. First number is the score of this image. The score ranges from 0 to 500. After that, the following are national pokedex numbers of the pokemons in this image without duplication."
+                            "text": """
+                                # 역할
+                                당신은 포켓몬 이미지 식별 AI입니다.
+
+                                사용자가 제공한 이미지를 분석하여 이미지에 실제로 표현된
+                                포켓몬을 식별하고, 결과를 지정된 숫자 문자열로 반환합니다.
+
+                                # 점수 규칙
+                                1. 첫 번째 숫자는 이미지 식별 결과의 전반적인 신뢰도 점수입니다.
+                                2. 점수는 0부터 500 사이의 정수입니다.
+                                3. 포켓몬의 식별 가능 여부, 이미지의 선명도, 가림 정도,
+                                   시각적 특징의 명확성을 종합적으로 고려합니다.
+                                4. 식별 근거가 충분하고 결과가 명확할수록 높은 점수를 부여합니다.
+                                5. 식별 가능한 포켓몬이 없으면 반드시 0을 반환합니다.
+                                6. 점수는 실제 측정값이 아닌 AI의 판단에 따른 점수입니다.
+
+                                # 포켓몬 식별 규칙
+                                1. 이미지에 등장하는 식별 가능한 모든 포켓몬을 식별합니다.
+                                2. 포켓몬의 외형, 색상, 신체 구조, 얼굴, 무늬 및 특징적인
+                                   부위를 종합적으로 분석합니다.
+                                3. 공식 포켓몬 전국도감 데이터를 기준으로 식별합니다.
+                                4. 도감 번호는 공식 전국도감 번호를 사용합니다.
+                                5. 메가진화, 리전폼, 다른 폼, 의상 및 색이 다른 포켓몬도
+                                   식별 가능한 경우 해당 포켓몬으로 식별합니다.
+                                6. 서로 다른 폼이 동일한 전국도감 번호를 사용한다면
+                                   해당 번호는 한 번만 반환합니다.
+                                7. 같은 포켓몬이 이미지에 여러 번 등장하더라도
+                                   전국도감 번호는 중복해서 반환하지 않습니다.
+                                8. 포켓몬이 아닌 물체, 팬아트, 장난감, 인형, 카드 및
+                                   게임 화면도 식별 대상이 될 수 있습니다.
+                                9. 포켓몬의 외형이 충분히 확인되지 않거나 식별 근거가
+                                   부족하면 해당 포켓몬을 결과에 포함하지 않습니다.
+                                10. 도감 번호를 확신할 수 없는 경우 임의로 추측하지 않습니다.
+                                11. 포켓몬 번호는 식별 신뢰도가 높은 순서대로 반환합니다.
+
+                                # 출력 형식
+                                1. 반드시 숫자와 콤마(,)로 구성된 문자열 하나만 반환합니다.
+                                2. 공백, 설명, JSON, Markdown 및 기타 문자는 출력하지 않습니다.
+                                3. 첫 번째 숫자는 0~500 사이의 이미지 식별 점수입니다.
+                                4. 두 번째 숫자부터는 식별된 포켓몬의 전국도감 번호입니다.
+                                5. 식별된 포켓몬 번호는 중복 없이 반환합니다.
+                                6. 식별 가능한 포켓몬이 없으면 정확히 "0"만 반환합니다.
+
+                                # 출력 예시
+                                4마리 식별:
+                                450,1,4,7,25
+
+                                포켓몬이 없는 이미지:
+                                0
+                                """
                         ],
                         [
                             "type": "input_image",
@@ -481,9 +530,11 @@ private extension CameraViewController {
         request.httpBody = jsonData
         guard let (data, _) = try? await URLSession.shared.data(for: request),
               let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let output = (result["output"] as? [Any])?.first as? [String : Any],
-              let content = (output["content"] as? [Any])?.first as? [String : Any],
-              let responseText = content["text"] as? String
+              let outputArray = result["output"] as? [[String: Any]],
+              let messageOutput = outputArray.first(where: { ($0["type"] as? String) == "message" }),
+              let contentArray = messageOutput["content"] as? [[String: Any]],
+              let textContent = contentArray.first(where: { ($0["type"] as? String) == "output_text" }),
+              let responseText = textContent["text"] as? String
         else {
             throw GotchaError.openAI
         }
